@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "*.dart": "dart",
+        "vector": "cpp",
+        "string": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "utility": "cpp",
+        "xhash": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "algorithm": "cpp",
+        "set": "cpp",
+        "xstring": "cpp",
+        "map": "cpp",
+        "xiosbase": "cpp",
+        "cmath": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
