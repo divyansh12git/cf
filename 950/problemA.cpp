@@ -67,25 +67,23 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    ll maxi=INT_MIN;
-    llfl(i,0,n-1){
-         maxi=max(maxi,min(a[i],a[i+1]));
+    int n,m;
+    cin>>n>>m;
+    string s;
+    cin>>s;
+    unordered_map<char,int>mp;
+    fl(i,0,7){
+        mp['A'+i]=0;
     }
-    //3pair
-    llfl(i,0,n-2){
-        vector<ll>x;
-        x.pb(a[i]);
-        x.pb(a[i+1]);
-        x.pb(a[i+2]);
-        vsort(x);
-        maxi=max(maxi,x[1]);
+    fl(i,0,n){
+        mp[s[i]]+=1;
     }
-    cout<<maxi<<endl;
-
+    int ans=0;
+    for(auto i:mp){
+        if(i.second<m)ans+=m-i.second;
+        // cout<<i.first<<" "<<i.second<<endl;
+    }
+    cout<<ans<<endl;
 }
 
 
@@ -95,7 +93,7 @@ int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
        freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
+        freopen("Error.txt", "w", stderr);
     #endif 
     ll t; cin>>t; while(t--)solve();
  

@@ -67,25 +67,38 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    ll maxi=INT_MIN;
-    llfl(i,0,n-1){
-         maxi=max(maxi,min(a[i],a[i+1]));
+    int n,f,k;
+    cin>>n>>f>>k;
+    vector<int>v(n);
+    
+    fl(i,0,n)cin>>v[i];
+    if(n==1 ){
+        cout<<"YES"<<endl;
+        return;
     }
-    //3pair
-    llfl(i,0,n-2){
-        vector<ll>x;
-        x.pb(a[i]);
-        x.pb(a[i+1]);
-        x.pb(a[i+2]);
-        vsort(x);
-        maxi=max(maxi,x[1]);
+    int d=v[f-1];
+    vsort(v);
+    vreverse(v);
+    int s,fi;
+    bool first=true;
+    fl(i,0,n){
+        if(v[i]==d && first){
+            first=false;
+            s=i+1;
+            fi=i+1;
+        }
+        if(v[i]==d && !first){
+            fi=i+1;
+        }
     }
-    cout<<maxi<<endl;
-
+    if(k<s){
+        cout<<"NO"<<endl;
+    }
+    else if(k>=s && k<fi)cout<<"MAYBE"<<endl;
+    else{
+        cout<<"YES"<<endl;
+    }
+    // cout<<s<<" "<<fi<<endl;
 }
 
 
@@ -95,7 +108,7 @@ int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
        freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
+        freopen("Error.txt", "w", stderr);
     #endif 
     ll t; cin>>t; while(t--)solve();
  

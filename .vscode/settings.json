@@ -15,7 +15,8 @@
         "xstring": "cpp",
         "map": "cpp",
         "xiosbase": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "ios": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

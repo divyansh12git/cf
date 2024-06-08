@@ -69,23 +69,70 @@ void solve(){
     //code here...    
     ll n;
     cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    ll maxi=INT_MIN;
-    llfl(i,0,n-1){
-         maxi=max(maxi,min(a[i],a[i+1]));
-    }
-    //3pair
-    llfl(i,0,n-2){
-        vector<ll>x;
-        x.pb(a[i]);
-        x.pb(a[i+1]);
-        x.pb(a[i+2]);
-        vsort(x);
-        maxi=max(maxi,x[1]);
-    }
-    cout<<maxi<<endl;
+    vector<ll>v(n);
+    llfl(i,0,n)cin>>v[i];
+    bool fir=true;
+    bool ans=true;
+    int g=1;
+    vector<ll>gc;
+    gc.pb(gcd(v[0],v[1]));
+    llfl(i,1,n-1){
+        ll x=gcd(v[i],v[i+1]);
+        // cout<<x<<endl;
+        if(x>=gc[i-1]){
+            g=x;
+            gc.pb(x);
+        }else{
 
+            if(!fir){
+                ans=false;break;
+            }
+            fir=false;
+            //remove itself:
+            if(i+2<n){
+                int z=gcd(v[i+1],v[i+2]);
+                if(i==0){
+                    gc.pb(z);
+                    i++;continue;}
+                else if(z>=gc[i-1]){
+                    gc.pb(z);i++;continue;
+                }
+            }
+            //remove next
+            if(i+2<n){
+
+                int z=gcd(v[i],v[i+2]);
+                if(i==0){
+                    gc.pb(z);
+                    i+=2;continue;}
+                else if(z>=gc[i-1]){
+                    gc.pb(z);i+=2;continue;
+                }
+            }
+            //remove prev
+            if(i-2>=0){
+                int z=gcd(v[i],v[i-2]);
+                if(i-2==0){
+
+                    gc[i-2]=z;
+                    gc[i-1]=z;
+                    i--;continue;
+                }
+                else if(z>=gc[i-3]){
+  
+                    gc[i-2]=z;
+
+                    gc[i-1]=z;
+
+                    i--;continue;
+                }
+            }
+            ans=false;
+            break;
+            
+        }
+    }
+    tres(ans);
 }
 
 
@@ -95,7 +142,7 @@ int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
        freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
+        freopen("Error.txt", "w", stderr);
     #endif 
     ll t; cin>>t; while(t--)solve();
  

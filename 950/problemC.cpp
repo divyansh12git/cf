@@ -71,20 +71,50 @@ void solve(){
     cin>>n;
     vector<ll>a(n);
     llfl(i,0,n)cin>>a[i];
-    ll maxi=INT_MIN;
-    llfl(i,0,n-1){
-         maxi=max(maxi,min(a[i],a[i+1]));
+    vector<ll>b(n);
+    llfl(i,0,n)cin>>b[i];
+    ll m;
+    cin>>m;
+    vector<ll>d(m);
+    llfl(i,0,m)cin>>d[i];
+    unordered_map<int,int>mp;
+    llfl(i,0,n){
+        // cout<<a[i]<<" "<<b[i]<<endl;
+        if(a[i]!=b[i]){
+            mp[b[i]]+=1;
+        }else{
+            if(!mp[b[i]])
+                mp[b[i]]=0;
+        }
     }
-    //3pair
-    llfl(i,0,n-2){
-        vector<ll>x;
-        x.pb(a[i]);
-        x.pb(a[i+1]);
-        x.pb(a[i+2]);
-        vsort(x);
-        maxi=max(maxi,x[1]);
+    // for(auto i:mp){
+    //     cout<<i.first<<" "<<i.second<<endl;
+    // }
+    bool ans=true;
+    llfl(i,0,m){
+        if(mp.find(d[i])==mp.end()){
+            // cout<<d[i]<<"not found"<<endl;
+            ans=false;
+        }
+        else{
+            if(mp[d[i]]!=0){
+                mp[d[i]]--;
+            }
+                ans=true;
+        }
+        
+
     }
-    cout<<maxi<<endl;
+    if(ans){
+
+    for(auto i:mp){
+        if(i.second!=0 ){
+            ans=false;
+            break;
+        }
+    }
+    }
+    ans?cout<<"YES":cout<<"NO";cout<<endl;
 
 }
 
@@ -95,7 +125,7 @@ int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
        freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
+        // freopen("Error.txt", "w", stderr);
     #endif 
     ll t; cin>>t; while(t--)solve();
  

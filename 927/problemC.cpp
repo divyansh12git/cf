@@ -1,7 +1,6 @@
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
-
+#pragma GCC optimize("Ofast") 
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma") 
+#pragma GCC optimize("unroll-loops") 
 #include<iostream>
 #include<vector>
 #include<unordered_map>
@@ -11,7 +10,7 @@
 #include<deque>
 #include<string.h>
 #include<cmath>
-#include<limits.h>
+#include<limits>
 #include<algorithm>
 #include<time.h>
 using namespace std;
@@ -67,25 +66,10 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    ll maxi=INT_MIN;
-    llfl(i,0,n-1){
-         maxi=max(maxi,min(a[i],a[i+1]));
-    }
-    //3pair
-    llfl(i,0,n-2){
-        vector<ll>x;
-        x.pb(a[i]);
-        x.pb(a[i+1]);
-        x.pb(a[i+2]);
-        vsort(x);
-        maxi=max(maxi,x[1]);
-    }
-    cout<<maxi<<endl;
-
+    ll x,y;
+    cin>>x>>y;
+    bool a=x>y;
+    tres(a);
 }
 
 
@@ -95,7 +79,7 @@ int main(){
     #ifndef ONLINE_JUDGE
         freopen("input.txt","r",stdin);
        freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
+        freopen("Error.txt", "w", stderr);
     #endif 
     ll t; cin>>t; while(t--)solve();
  
