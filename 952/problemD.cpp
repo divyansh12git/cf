@@ -67,72 +67,36 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>v(n);
-    llfl(i,0,n)cin>>v[i];
-    bool fir=true;
-    bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
-            }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
-                }
-            }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
-            
-        }
+    ll n,m;
+    cin>>n>>m;
+    vector<string>grid(n);
+    llfl(i,0,n){
+        cin>>grid[i];
     }
-    tres(ans);
+    pll up={1,1};
+    pll left={1,1};
+    bool ff=true;
+    bool isfind=false;
+    llfl(i,0,n){
+        llfl(j,0,m){
+            if(grid[i][j]=='#'){
+                if(ff){
+                    up={i,j};
+                    left={i,j};
+                    ff=false;
+                    continue;
+                }
+                if(left.second>j){
+                    left={i,j};
+                    continue;
+                }
+                
+            }
+        }
+        if(isfind)break;
+    }
+    cout<<left.first+1<<" "<<up.second+1<<endl;
+
 }
 
 

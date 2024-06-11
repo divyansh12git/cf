@@ -67,72 +67,34 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>v(n);
-    llfl(i,0,n)cin>>v[i];
-    bool fir=true;
-    bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
-            }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
+    ll x,y,z;
+    ll k;
+    cin>>x>>y>>z>>k;
+    
+    ll ans=0;
+    // ll m=1e18+7;
+    
+    // if(x*y*z==k){cout<<ans<<endl;return;}
+    bool isFind=false;
+    llfl(i,1,x+1){
+        llfl(j,1,y+1){
+                if(k%(i*j)==0){
+                // cout<<k<<endl;
+                    ll l=k/(i*j);
+                    if(i*j*l*1LL==k){
+                        ans=max(ans,(x-i+1)*(y-j+1)*(z-l+1)*1LL);
+                    }
                 }
             }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
-            
-        }
     }
-    tres(ans);
+    
+    // debug(a);
+    // debug(b);
+    // debug(c);
+
+ cout<<ans<<endl;
+    
+
 }
 
 

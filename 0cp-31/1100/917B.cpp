@@ -63,76 +63,57 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
+//thu dp:
+// void countword(string s, int n, unordered_map<string,bool>&dp){
+//     //check if word exist
+//     if(dp.find(s)!=dp.end() && s.length()>0){
+//         return;
+//     }
+//     dp[s]=true;
+//     string w1=s,w2=s;
+//     if(s.length()<=1)return;
 
+//     //remove first character
+
+//     w1.erase(0,1);
+//     countword(w1,n,dp);
+//     //second char
+//     w2.erase(1,1);
+//     countword(w2,n,dp);
+    
+// }
+
+// void solve(){
+//     //code here...   
+//     int n;
+//     cin>>n;
+//     string str;
+//     cin>>str; 
+//     // str.erase(1,1);
+//     unordered_map<string,bool>dp;//word,count
+//     countword(str,n,dp);
+//     int c=0;
+//     for(auto i:dp){
+//         // cout<<i.first<<" ";
+//         c++;
+//     }
+//     cout<<c<<endl;
+// }
 
 void solve(){
-    //code here...    
-    ll n;
+    int n;
     cin>>n;
-    vector<ll>v(n);
-    llfl(i,0,n)cin>>v[i];
-    bool fir=true;
-    bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
-            }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
-                }
-            }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
-            
+    string str;
+    cin>>str; 
+    vector<int>a(26,0);
+    ll ans=0;
+    for(int i=0;i<n;i++){
+        if(!(a[str[i]-'a'])){
+            a[str[i]-'a']=1;
+            ans+=n-i;
         }
     }
-    tres(ans);
+    cout<<ans<<endl;
 }
 
 

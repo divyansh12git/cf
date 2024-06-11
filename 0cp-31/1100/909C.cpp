@@ -69,70 +69,18 @@ void solve(){
     //code here...    
     ll n;
     cin>>n;
-    vector<ll>v(n);
-    llfl(i,0,n)cin>>v[i];
-    bool fir=true;
-    bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
-            }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
-                }
-            }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
-            
+    vector<int>a(n);
+    llfl(i,0,n)cin>>a[i];
+    ll sum=a[0];
+    ll ans=sum;
+    llfl(i,1,n){
+        if(sum<0 || (a[i-1]&1)==(a[i]&1)){
+            sum=0;
         }
+        sum+=a[i];
+        ans=max(sum,ans);
     }
-    tres(ans);
+    cout<<ans<<endl;
 }
 
 

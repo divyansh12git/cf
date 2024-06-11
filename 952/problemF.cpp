@@ -64,75 +64,50 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 
-
+bool fun(pii a,pii b) 
+{ 
+    return a.second < b.second; 
+} 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>v(n);
-    llfl(i,0,n)cin>>v[i];
-    bool fir=true;
-    bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
-            }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
-                }
-            }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
-            
+    ll h,n;
+    cin>>h>>n;
+    vector<ll>a(n);
+    vector<ll>c(n);
+    ll s=0;
+    llfl(i,0,n){cin>>a[i];s+=a[i];}
+    llfl(i,0,n)cin>>c[i];
+    vector<pii>v;
+    llfl(i,0,n)v.pb({a[i],c[i]});
+    sort(v.begin(),v.end(),fun);
+    if(h<=s){cout<<1<<endl;return;}
+    ll ans=0,turn=0;
+    h-=s;turn++;
+    ll i=0;
+    vector<ll>z(n);
+    while(i<n){
+        turn=v[i].second;
+        ll q=0;
+        llfl(i,0,n){
+            if(turn/v[i].second>0){
+                q+=v[i].first*turn/v[i].second;
+            }else{break;}
+        }
+        z[i]=q;
+        if(h-q<0){ans=turn;break;}
+    }
+    // for(auto i:v)cout<<i<<" ";cout<<endl;
+    if(ans!=0){cout<<ans<<endl;return;}
+    ll p=h/z[n-1];
+    h-=z[n-1]*p;
+    ll rem=h%z[n-1];
+    llfl(i,0,n){
+        if(z[i]>rem){
+            turn+=v[i].second;
         }
     }
-    tres(ans);
+    cout<<turn+1<<endl;
+
 }
 
 
