@@ -67,43 +67,21 @@
 
     void solve(){
         //code here...    
-        ll n,h;
-        cin>>h>>n;
-        vector<ll>a(n);
-        vector<ll>c(n);
-        llfl(i,0,n)cin>>a[i];
-        llfl(i,0,n)cin>>c[i];
-        ll sum=0;
-        llfl(i,0,n){
-            sum+=a[i];
+        ll n,a,b;
+        cin>>n>>a>>b;
+        ll k=b-a;
+        if(k<0 ){
+            k=0;
         }
-        ll turn=0;
-        if(h-sum<=0){
-            cout<<turn+1<<endl;
-            return;
+        else if( k>min(n,b)){
+            k=min(n,b);
         }
-        h-=sum;
-        ll r=1e18;
-        ll mod=10e9+7;
-        ll l=0;
-        // cout<<h<<endl;
-        while(l<=r){
-            // cout<<"HI"<<endl;
-            ll mid=l+(r-l)/2;
-            ll p=0;
-            llfl(j,0,n){
-                // p+=(mid/c[j])*(a[j]);
-                p+=mod_mul(mid/c[j],a[j],mod);
-            }
-            if(h-p<=0){
-                turn=mid;
-                r=mid-1;
-            }else{
-                l=mid+1;
-            }
-            // cout<<l<<"|"<<r<<endl;
-        }
-        cout<<turn+1<<endl;
+        ll p1=0;
+        if(k!=0) p1=k*b+k-(k*(k+1))/2;
+
+        
+        // cout<<p1<<"|"<<k<<endl;
+        cout<<p1+(n-k)*a<<endl;
     }
 
 
