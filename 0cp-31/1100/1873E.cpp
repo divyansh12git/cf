@@ -63,53 +63,60 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-int powerof2(ll x){
-    int po=0;
-    while(!(x&1)){
-        po++;
-        x=x>>1;
-    }
-    return po;
-}
 
+bool sortHeight(pll a, pll b){
+    return a.first<b.first;
+}
 void solve(){
     //code here...    
-    int n,q;
-    cin>>n>>q;
+    ll n,x;
+    cin>>n>>x;
     vector<ll>a(n);
-    vector<int>x(q);
     llfl(i,0,n)cin>>a[i];
-    llfl(i,0,q)cin>>x[i];
-    vector<vector<ll>>v(31);
+    map<ll,ll>count;
     llfl(i,0,n){
-        v[powerof2(a[i])].pb(i);
-    }
-    int pt=30;
-    fl(i,0,q){
-        for(int j=pt;j>=x[i];j--){
-            for(auto k:v[j]){
-                a[k]+=1LL<<(x[i]-1);
-                v[x[i]-1].pb(k);
-            }
-            v[j].clear();
-            
+        if(count.find(a[i])==count.end()){
+            count[a[i]]=1;
+        }else{
+            count[a[i]]++;
         }
-        // pt=x[i]-1;
     }
-    llfl(i,0,n){
-        cout<<a[i]<<" ";
-    }cout<<endl;
+    vector<pll>corals;
+    map<ll,ll>::iterator it=count.begin();
+    while(it!=count.end()){
+        corals.pb({it->first,it->second});
+        it++;
+    }
+    sort(corals.begin(),corals.end(),sortHeight);
+    ll ans=corals[0].first;
+        llfl(i,0,corals.size()-1){
+            ll addon=(corals[i+1].first-corals[i].first)*corals[i].second;
+            if(x>=addon){
+                ans=corals[i+1].first;
+                corals[i+1].second+=corals[i].second;
+                x-=addon;
+            }else{
+                ll add=x/corals[i].second;
+                x%=corals[i].second;
+                ans+=add;
+                break;
+            }
+        }
+    if(ans==corals[corals.size()-1].first){
+        ans+=x/a.size();
+    }
+    cout<<ans<<endl;
 }
 
 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    // #ifndef ONLINE_JUDGE
-    //     freopen("input.txt","r",stdin);
-   //     freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
-    // #endif 
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt","r",stdin);
+       freopen("output.txt","w",stdout);
+        freopen("Error.txt", "w", stderr);
+    #endif 
     ll t; cin>>t; while(t--)solve();
-    // cout<<powerof2(77);
+ 
 }

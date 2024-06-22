@@ -63,42 +63,37 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-int powerof2(ll x){
-    int po=0;
-    while(!(x&1)){
-        po++;
-        x=x>>1;
-    }
-    return po;
-}
+
 
 void solve(){
     //code here...    
-    int n,q;
-    cin>>n>>q;
+    ll n;
+    cin>>n;
     vector<ll>a(n);
-    vector<int>x(q);
     llfl(i,0,n)cin>>a[i];
-    llfl(i,0,q)cin>>x[i];
-    vector<vector<ll>>v(31);
-    llfl(i,0,n){
-        v[powerof2(a[i])].pb(i);
+    map<pll,vector<ll>>mp[3];
+    llfl(i,0,n-2){
+        mp[0][{a[i],a[i+1]}].pb(a[i+2]);
+        mp[1][{a[i+1],a[i+2]}].pb(a[i]);
+        mp[2][{a[i],a[i+2]}].pb(a[i+1]);
     }
-    int pt=30;
-    fl(i,0,q){
-        for(int j=pt;j>=x[i];j--){
-            for(auto k:v[j]){
-                a[k]+=1LL<<(x[i]-1);
-                v[x[i]-1].pb(k);
+    ll ans=0;
+    fl(i,0,3){
+        for(auto k:mp[i]){
+            vector<ll>val=k.second;
+            map<int,int>count;
+            llfl(i,0,val.size()){
+                count[val[i]]++;
             }
-            v[j].clear();
-            
+            ll com=0;
+            llfl(i,0,val.size()){
+                com+=val.size()-count[val[i]];
+            }
+            ans+=com/2;
         }
-        // pt=x[i]-1;
     }
-    llfl(i,0,n){
-        cout<<a[i]<<" ";
-    }cout<<endl;
+    cout<<ans<<endl;
+
 }
 
 
@@ -111,5 +106,5 @@ int main(){
     //     freopen("Error.txt", "w", stderr);
     // #endif 
     ll t; cin>>t; while(t--)solve();
-    // cout<<powerof2(77);
+ 
 }

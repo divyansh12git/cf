@@ -63,42 +63,48 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-int powerof2(ll x){
-    int po=0;
-    while(!(x&1)){
-        po++;
-        x=x>>1;
-    }
-    return po;
+bool para(pii a,pii b){
+    return a.first<b.first;
+}
+
+void findAns(vector<pii>sorA, vector<pii>sorB, vector<pii>sorC,int &x,vector<int>&ans){
+    
 }
 
 void solve(){
     //code here...    
-    int n,q;
-    cin>>n>>q;
-    vector<ll>a(n);
-    vector<int>x(q);
-    llfl(i,0,n)cin>>a[i];
-    llfl(i,0,q)cin>>x[i];
-    vector<vector<ll>>v(31);
-    llfl(i,0,n){
-        v[powerof2(a[i])].pb(i);
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    vector<int>b(n);
+    vector<int>c(n);
+    vector<pii>sorA;
+    vector<pii>sorB;
+    vector<pii>sorC;
+    fl(i,0,n){
+        int x;
+        cin>>x;
+        a[i]=x;
+        sorA.pb({x,i});
     }
-    int pt=30;
-    fl(i,0,q){
-        for(int j=pt;j>=x[i];j--){
-            for(auto k:v[j]){
-                a[k]+=1LL<<(x[i]-1);
-                v[x[i]-1].pb(k);
-            }
-            v[j].clear();
-            
-        }
-        // pt=x[i]-1;
+    fl(i,0,n){
+        int x;
+        cin>>x;
+        b[i]=x;
+        sorB.pb({x,i});
     }
-    llfl(i,0,n){
-        cout<<a[i]<<" ";
-    }cout<<endl;
+    fl(i,0,n){
+        int x;
+        cin>>x;
+        c[i]=x;
+        sorC.pb({x,i});
+    }
+    sort(sorA.begin(),sorA.end(),para);
+    sort(sorB.begin(),sorB.end(),para);
+    sort(sorC.begin(),sorC.end(),para);
+    vector<int>ans(3);
+    findAns(sorA,sorB,sorC,0,ans);
+    
 }
 
 
@@ -111,5 +117,5 @@ int main(){
     //     freopen("Error.txt", "w", stderr);
     // #endif 
     ll t; cin>>t; while(t--)solve();
-    // cout<<powerof2(77);
+ 
 }

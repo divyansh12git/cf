@@ -63,42 +63,33 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-int powerof2(ll x){
-    int po=0;
-    while(!(x&1)){
-        po++;
-        x=x>>1;
-    }
-    return po;
-}
+
 
 void solve(){
     //code here...    
-    int n,q;
-    cin>>n>>q;
-    vector<ll>a(n);
-    vector<int>x(q);
-    llfl(i,0,n)cin>>a[i];
-    llfl(i,0,q)cin>>x[i];
-    vector<vector<ll>>v(31);
-    llfl(i,0,n){
-        v[powerof2(a[i])].pb(i);
+    ll n;
+    cin>>n;
+    string s;
+    cin>>s;
+    if(n&1){
+        cout<<"NO"<<endl;
+        return;
     }
-    int pt=30;
-    fl(i,0,q){
-        for(int j=pt;j>=x[i];j--){
-            for(auto k:v[j]){
-                a[k]+=1LL<<(x[i]-1);
-                v[x[i]-1].pb(k);
-            }
-            v[j].clear();
-            
-        }
-        // pt=x[i]-1;
-    }
+    map<char,ll>count;
     llfl(i,0,n){
-        cout<<a[i]<<" ";
-    }cout<<endl;
+        count[s[i]]++;
+    }
+    bool frover=true;
+    bool fhel=true;
+    ll ns=abs(count['N']-count['S']);
+    ll ew=abs(count['E']-count['W']);
+    ll rNorth=0;
+    ll hNorth=0;
+    ll rEast=0;
+    ll hEast=0;
+    llfl(i,0,n){
+        if(frover){}
+    }
 }
 
 
@@ -111,5 +102,5 @@ int main(){
     //     freopen("Error.txt", "w", stderr);
     // #endif 
     ll t; cin>>t; while(t--)solve();
-    // cout<<powerof2(77);
+ 
 }
