@@ -67,42 +67,71 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll x;
-    cin>>x;
-    vector<int>v(32);
-    ll q=x;
-    fl(i,0,32){
-        v[i]=q%2;
-        q>>=1;
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>v(n);
+    vector<ll>moded(n);
+    llfl(i,0,n){
+        ll x;
+        cin>>x;
+        v[i]=x;
+        moded[i]=x%k;
     }
-    int p1=0,p2=0;
-    fl(i,0,31){
-        if(v[i]==0)continue;
-        if(v[i]==1)p1=i;
-        i++;
-        while(v[i]){
-            v[i]=0;
+    map<ll,vector<ll>>mp;
+    llfl(i,0,n){
+        mp[moded[i]].pb(v[i]/k);
+    }
+    ll odd=0;
+    for(auto i:mp){
+        if(i.second.size()&1)odd++;
+    }
+    if(!n&1 && odd>0){
+        cout<<"-1"<<endl;
+    }    
+    if(n&1 && odd>1)cout<<"-1"<<endl;
+    ll ans=0;
+    for(auto i:mp){
+        vector<ll>q=i.second;
+        vsort(q);
+        ll op=0;
+        if(!(q.size()&1)){
+            llfl(i,0,q.size()-1){
+                op+=q[i+1]-q[i];
+            }
+            ans+=op;
+            continue;
+        }
+        ll max=INT_MIN;
+        ll ind=0;
+        llfl(i,0,q.size()-1){
+            
+            if(q[i+1]-q[i]>max){
+                ind=i;
+                max=q[i+1]-q[i];
+            }
+          
+        }
+        
+        llfl(i,0,q.size()-1){
+            if(i==ind){
+                continue;
+            }
+            if(i+1==ind){
+                if(i+2==v.size())continue;
+                op+=q[i+2]-q[i];
+                i+=2;
+                continue;
+            }
+            op+=q[i+1]-q[i];
             i++;
+        }
+        
+        ans+=op;
+    }
+    cout<<ans<<endl;
 
-        }
-        p2=i;
-        if(p2>p1+1){
-            v[p1]=-1;
-            v[p2]=1;
-        }
-        i--;
-    }
-    int size=0;
-    for(int i=31;i>=0;i--){
-        if(v[i]!=0){
-            size=i+1;
-            break;
-        }
-    }
-    cout<<size<<endl;
-    fl(i,0,size){
-        cout<<v[i]<<" ";
-    }cout<<endl;
+
+
 }
 
 
@@ -115,5 +144,5 @@ int main(){
     //     freopen("Error.txt", "w", stderr);
     // #endif 
     ll t; cin>>t; while(t--)solve();
-
+ 
 }
