@@ -67,66 +67,35 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    vector<ll>b(n);
-    llfl(i,0,n)cin>>b[i];
-    ll m;
-    cin>>m;
-    vector<ll>d(m);
-    llfl(i,0,m)cin>>d[i];
-    map<int,int>mp;
-    llfl(i,0,n){
-        // cout<<a[i]<<" "<<b[i]<<endl;
-        if(a[i]!=b[i]){
-            mp[b[i]]+=1;
-        }else{
-            if(mp.find(b[i])==mp.end())
-                mp[b[i]]=0;
-        }
-    }
-    // for(auto i:mp){
-    //     cout<<i.first<<" "<<i.second<<endl;
-    // }
+    ll x1,y1,x2,y2;
+    cin>>x1>>y1;
+    cin>>x2>>y2;
     bool ans=true;
-    llfl(i,0,m){
-        if(mp.find(d[i])==mp.end()){
-            // cout<<d[i]<<"not found"<<endl;
+    if(x1>y1){
+        if(x2>y2){
+            ans=true;
+        }else{
             ans=false;
         }
-        else{
-            if(mp[d[i]]!=0){
-                mp[d[i]]--;
-            }
-                ans=true;
-        }
-        
-
-    }
-    
-    if(ans){
-    for(auto i:mp){
-        if(i.second!=0 ){
+    }else{
+        if(x2>y2){
             ans=false;
-            break;
+        }else{
+            ans=true;
         }
     }
-    }
-    ans?cout<<"YES":cout<<"NO";cout<<endl;
-
+    tres(ans);
 }
 
 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    // #ifndef ONLINE_JUDGE
-    //     freopen("input.txt","r",stdin);
-    //    freopen("output.txt","w",stdout);
-    //     // freopen("Error.txt", "w", stderr);
-    // #endif 
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt","r",stdin);
+       freopen("output.txt","w",stdout);
+        freopen("Error.txt", "w", stderr);
+    #endif 
     ll t; cin>>t; while(t--)solve();
  
 }

@@ -67,55 +67,43 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    vector<ll>b(n);
-    llfl(i,0,n)cin>>b[i];
-    ll m;
-    cin>>m;
-    vector<ll>d(m);
-    llfl(i,0,m)cin>>d[i];
-    map<int,int>mp;
-    llfl(i,0,n){
-        // cout<<a[i]<<" "<<b[i]<<endl;
-        if(a[i]!=b[i]){
-            mp[b[i]]+=1;
-        }else{
-            if(mp.find(b[i])==mp.end())
-                mp[b[i]]=0;
-        }
-    }
-    // for(auto i:mp){
-    //     cout<<i.first<<" "<<i.second<<endl;
-    // }
-    bool ans=true;
-    llfl(i,0,m){
-        if(mp.find(d[i])==mp.end()){
-            // cout<<d[i]<<"not found"<<endl;
-            ans=false;
-        }
-        else{
-            if(mp[d[i]]!=0){
-                mp[d[i]]--;
-            }
-                ans=true;
-        }
+    ll x,y,k;
+    cin>>x>>y>>k;
+    while(k){
         
+        
+            if(x<y && k>(y-x)){
+                k-=y-(x%y);
+                x=1;
+                k=k%(y-x);
+                
+            }
+            else if(x>y && x%y!=0){
+                // debug(33);
+                ll z=y-(x%y);
+                if(k>=z){
+                x+=z;
+                k-=z;}else{x++;k--;}
+                // cout<<x<<endl;
+            }
+            else if(x<y && k<y-x){
+                x+=k;k=0;
+            }else{
+                x++;k--;
+            }
 
-    }
-    
-    if(ans){
-    for(auto i:mp){
-        if(i.second!=0 ){
-            ans=false;
-            break;
+
+        while(x%y==0){
+            // long double a=x;
+            // long double b=y;
+            // ll q=floor(log(a)/log(b));
+            // x/=pow(y,q);
+            x/=y;
+            // cout<<x<<endl;
         }
     }
-    }
-    ans?cout<<"YES":cout<<"NO";cout<<endl;
-
+    // while(x%y==0)x/=y;
+    cout<<x<<endl;
 }
 
 
@@ -125,7 +113,7 @@ int main(){
     // #ifndef ONLINE_JUDGE
     //     freopen("input.txt","r",stdin);
     //    freopen("output.txt","w",stdout);
-    //     // freopen("Error.txt", "w", stderr);
+    //     freopen("Error.txt", "w", stderr);
     // #endif 
     ll t; cin>>t; while(t--)solve();
  

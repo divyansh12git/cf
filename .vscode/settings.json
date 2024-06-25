@@ -16,7 +16,8 @@
         "map": "cpp",
         "xiosbase": "cpp",
         "cmath": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "xtree": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

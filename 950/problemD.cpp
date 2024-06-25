@@ -63,7 +63,16 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-
+ll checkNonDec(vector<ll>v){
+    ll ind=-1;
+    llfl(i,0,v.size()-1){
+        if(v[i]>v[i+1]){
+            ind=i;
+            break;
+        }
+    }
+    return ind;
+}
 
 void solve(){
     //code here...    
@@ -71,64 +80,40 @@ void solve(){
     cin>>n;
     vector<ll>v(n);
     llfl(i,0,n)cin>>v[i];
-    bool fir=true;
+    vector<ll>g;
+    llfl(i,0,n-1){
+        g.pb(gcd(v[i],v[i+1]));
+    }
+    ll breaker=checkNonDec(g);
     bool ans=true;
-    int g=1;
-    vector<ll>gc;
-    gc.pb(gcd(v[0],v[1]));
-    llfl(i,1,n-1){
-        ll x=gcd(v[i],v[i+1]);
-        // cout<<x<<endl;
-        if(x>=gc[i-1]){
-            g=x;
-            gc.pb(x);
-        }else{
-
-            if(!fir){
-                ans=false;break;
+    if(breaker!=-1){
+        ans=false;
+        // cout<<breaker<<endl;
+        fl(i,-1,3){
+            if(breaker+i<0)continue;
+            if(breaker+i>=v.size())continue;
+            vector<ll>z=v;
+            z.erase(z.begin()+breaker+i);
+            vector<ll>g2=g;
+            if(breaker+i==0){
+                g2.erase(g2.begin());
+            }else if(breaker+i==z.size()){
+                g2.erase(g2.begin()+breaker+i-1);
+            }else{
+                g2[breaker+i-1]=gcd(z[breaker+i],z[breaker+i-1]);
+                g2.erase(g2.begin()+breaker+i);
             }
-            fir=false;
-            //remove itself:
-            if(i+2<n){
-                int z=gcd(v[i+1],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i++;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i++;continue;
-                }
+            ll b=checkNonDec(g2);
+            // for(auto i:z){
+            //     cout<<i<<" ";
+            // }cout<<endl;
+            // for(auto i:g2){
+            //     cout<<i<<" ";
+            // }cout<<endl;
+            if(b==-1){
+                ans=true;
+                break;
             }
-            //remove next
-            if(i+2<n){
-
-                int z=gcd(v[i],v[i+2]);
-                if(i==0){
-                    gc.pb(z);
-                    i+=2;continue;}
-                else if(z>=gc[i-1]){
-                    gc.pb(z);i+=2;continue;
-                }
-            }
-            //remove prev
-            if(i-2>=0){
-                int z=gcd(v[i],v[i-2]);
-                if(i-2==0){
-
-                    gc[i-2]=z;
-                    gc[i-1]=z;
-                    i--;continue;
-                }
-                else if(z>=gc[i-3]){
-  
-                    gc[i-2]=z;
-
-                    gc[i-1]=z;
-
-                    i--;continue;
-                }
-            }
-            ans=false;
-            break;
             
         }
     }
@@ -139,11 +124,11 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    #ifndef ONLINE_JUDGE
-        freopen("input.txt","r",stdin);
-       freopen("output.txt","w",stdout);
-        freopen("Error.txt", "w", stderr);
-    #endif 
+    // #ifndef ONLINE_JUDGE
+    //     freopen("input.txt","r",stdin);
+    //    freopen("output.txt","w",stdout);
+    //     freopen("Error.txt", "w", stderr);
+    // #endif 
     ll t; cin>>t; while(t--)solve();
  
 }
