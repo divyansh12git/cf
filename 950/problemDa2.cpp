@@ -67,44 +67,7 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,l,r;
-    cin>>n>>l>>r;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    ll win=0;
-    ll taken=0;
-    vector<ll>x;
-    llfl(i,0,n){
-        taken+=a[i];
-        x.pb(a[i]);
-        if(taken>=l){
-            if(taken<=r){
-                taken=0;
-                win++;
-                x.clear();
-            }
-            else{
-                if(a[i]>r){
-                    taken=0;
-                    x.clear();
-                }
-                else if(a[i]<=r && a[i]>=l ){
-                    taken=0;win++;x.clear();
-                }else if(a[i]<l){
-                    taken=0;
-                    for(ll i=x.size()-1;i>=0;i--){
-                        taken+=x[i];
-                        if(taken>=l && taken<=r){
-                            taken=0;win++;x.clear();break;
-                        }
-                    }
-                }
-            }
-                
-            }
-        }
     
-    cout<<win<<endl;
 }
 
 
