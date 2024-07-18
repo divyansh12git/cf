@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "*.dart": "dart",
+        "vector": "cpp"
+    }
+}

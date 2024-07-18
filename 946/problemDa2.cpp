@@ -9,6 +9,7 @@
 #include<set>
 #include<queue>
 #include<deque>
+#include<stack>
 #include<string.h>
 #include<cmath>
 #include<limits.h>
@@ -23,10 +24,10 @@ using namespace std;
 
 #define     INF                     1e18
 #define     PI                      3.141592653589793238462
+#define     MOD1                    1e9+7
+#define     MOD2                    1e9+9
+#define     MOD3                    998244353
 
-#define     ll                      long long
-#define     pii                     pair<int,int>
-#define     pll                     pair<ll,ll>
 #define     llfl(i,s,e)             for(long long i=s;i<e;i++)
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
 #define     fa(i,z)                 for(auto i:z)
@@ -40,9 +41,37 @@ using namespace std;
 #define     mapit(it,d1,d2,map)     unordered_map<d1,d2>::iterator it=map.begin()
 #define     vecit(it,dt,vec)        vector<dt>:: iterator it=vec.begin();
 
+typedef long long ll;
+typedef long double lld;
+typedef unsigned long long ull;
+typedef pair<int,int> pii;
+typedef pair<long, long> pll;
+
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-ll gcd(ll a, ll b){ if(a==b)return a;    if(a>b)a-=b;    if(b>a)b-=a;    return gcd(a,b);    }  //m
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(lld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ll t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+/*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
+
+ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
+bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
+bool isSorted(vector<ll> v) {llfl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
@@ -67,28 +96,110 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    string s;
-    cin>>s;
-    if(n&1){
-        cout<<"NO"<<endl;
+    ll n;cin>>n;
+    string s;cin>>s;
+    map<char,ll>count;
+    count['N']=0;count['S']=0;count['E']=0;count['W']=0;
+    for(auto i:s){
+        count[i]++;
+    }
+    ll ns=(abs(count['N']-count['S']));
+    ll ew=(abs(count['W']-count['E']));
+    // for(auto k:count){
+    //     cout<<k.first<<"->"<<k.second<<endl;
+    // }
+    if( n>2 && (ns%2!=0 || ew%2!=0)){
+        tres(false);
         return;
     }
-    map<char,ll>count;
-    llfl(i,0,n){
-        count[s[i]]++;
+    if(n<=2 && (ns==0 && ew==0)){
+        tres(false);return;
     }
-    bool frover=true;
-    bool fhel=true;
-    ll ns=abs(count['N']-count['S']);
-    ll ew=abs(count['E']-count['W']);
-    ll rNorth=0;
-    ll hNorth=0;
-    ll rEast=0;
-    ll hEast=0;
-    llfl(i,0,n){
-        if(frover){}
+    pll rov=make_pair(0,0),hel=make_pair(0,0);
+    ll p1=0;
+    string ans="";
+    ll len=s.length();
+    bool helip=false;
+    while(p1<s.length()){
+        if(p1==0 && s[p1]=='N'){
+            ans+='R';p1++;rov.second++;
+            if(p1<len && s[p1]=='S'){
+                ans+='R';p1++;rov.second--;
+            }
+            continue;
+        }
+        if(p1==0 && s[p1]=='S'){
+            ans+='R';p1++;rov.second--;
+            if(p1<len && s[p1]=='N'){
+                ans+='R';p1++;rov.second++;
+            }continue;
+        }
+        if(p1==0 && s[p1]=='E'){
+            ans+='R';p1++;rov.first++;
+            if(p1<len && s[p1]=='W'){
+                ans+='R';p1++;rov.first--;
+            }continue;
+        }
+        if(p1==0 && s[p1]=='W'){
+            ans+='R';p1++;rov.first--;
+            if(p1<len && s[p1]=='E'){
+                ans+='R';p1++;rov.first++;
+            }continue;
+        }
+        if(p1<len && !helip){
+            if(s[p1]=='N')hel.second++;
+            else if(s[p1]=='S')hel.second--;
+            else if(s[p1]=='W')hel.first--;
+            else hel.first++;
+            ans+='H';p1++;helip=true;
+            // cout<<"NOOOOOOOO"<<endl;
+            // cout<<hel.first<<"|"<<hel.second<<endl;
+            continue;
+        }
+        if(s[p1]=='N'){
+            ll ver=rov.second-hel.second;
+            if(ver>0){
+                ans+='H';hel.second++;
+            }else{
+                ans+='R';rov.second++;
+            }
+        }
+        else if(s[p1]=='S'){
+            ll ver=rov.second-hel.second;
+            if(ver<0){
+                ans+='H';hel.second--;
+            }else{
+                ans+='R';rov.second--;
+            }
+        }
+        else if(s[p1]=='E'){
+            ll hor=rov.first-hel.first;
+            if(hor>0){
+                ans+='H';hel.first++;
+            }else{
+                ans+='R';rov.first++;
+            }
+        }
+       else{
+            ll hor=rov.first-hel.first;
+            if(hor<0){
+                ans+='H';hel.first--;
+            }else{
+                ans+='R';rov.first--;
+            }
+       }
+       p1++;
+    //    cout<<rov.first<<"|"<<rov.second<<" ||| ";
+    //    cout<<hel.first<<"|"<<hel.second<<endl;
+
+
+
+    }
+    //   cout<<ans<<endl;
+    if(hel.first==rov.first && hel.second==rov.second){
+        cout<<ans<<endl;
+    }else{
+        cout<<"NO"<<endl;
     }
 }
 
@@ -96,11 +207,11 @@ void solve(){
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    // #ifndef ONLINE_JUDGE
-    //     freopen("input.txt","r",stdin);
-   //     freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
-    // #endif 
+     #ifndef ONLINE_JUDGE
+         freopen("input.txt","r",stdin);
+         freopen("output.txt","w",stdout);
+         freopen("Error.txt", "w", stderr);
+     #endif 
     ll t; cin>>t; while(t--)solve();
  
 }
