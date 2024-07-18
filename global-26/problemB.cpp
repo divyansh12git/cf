@@ -96,82 +96,11 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<int>m1(n);
-    vector<int>m2(n);
-    llfl(i,0,n)cin>>m1[i];
-    llfl(i,0,n)cin>>m2[i];
-    ll r1=0,r2=0,pos=0,neg=0;
-    llfl(i,0,n){
-        if(m1[i]==-1 && m2[i]==-1){
-            neg++;
-        }
-        else if(m1[i]==1 && m2[i]==1){
-           pos++;
-        }
-       else{
-        if(m1[i]>=m2[i]){
-            r1+=m1[i];
-        }else{
-            r2+=m2[i];
-        }
-       }
-    }
-    // cout<<r1<<"|"<<r2<<endl;
-    // cout<<extra<<endl;
-    if(pos>0){
-        if(r1>r2){
-            if(pos>=(r1-r2)){
-                pos-=(r1-r2);
-                r2=r1;
-            }else{
-                r2+=pos;
-                pos=0;
-            }
-        }else if(r2>r1){
-            if(pos>=(r2-r1)){
-                pos-=(r2-r1);
-                r1=r2;
-            }else{
-                r1+=pos;
-                pos=0;
-            }
-        }
-        if(r1==r2){
-            ll x=pos/2;
-            pos=pos-x;
-            r1+=x;r2+=pos;
-            pos=0;
-        }
-    }
-    if(neg>0){
-        if(r1>r2){
-            if(neg>=(r1-r2)){
-                neg-=(r1-r2);
-                r1=r2;
-            }else{
-                r1-=neg;
-                neg=0;
-            }
-        }else if(r2>r1){
-            if(neg>=(r2-r1)){
-                neg-=(r2-r1);
-                r2=r1;
-            }else{
-                r2-=neg;
-                neg=0;
-            }
-        }
-        if(r1==r2){
-            ll x=neg/2;
-            neg=neg-x;
-            r1-=x;r2-=neg;
-            neg=0;
-        }
-    }
-   cout<<min(r1,r2)<<endl;
-
+    ll x;
+    cin>>x;
+    bool ans=true;
+    ll half=ans/2;
+    
 }
 
 

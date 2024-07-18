@@ -96,7 +96,24 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here... 
-    
+    ll n,m;
+    cin>>n>>m;
+    ll l=0;
+    ll r=n+m;
+    if(n-m>0){
+        l=n-m;
+    }
+    ll ans=0;
+    fl(i,0,31){
+        ll lb=(l/(1<<i));
+        ll rb=(r/(1<<i));
+        bool set=true;
+        if(lb==rb && !(lb&1))set=false;
+        if(set){
+            ans=ans|(1<<i);
+        }
+    }
+    cout<<ans<<endl;
     
 }
 

@@ -96,82 +96,47 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    vector<int>m1(n);
-    vector<int>m2(n);
-    llfl(i,0,n)cin>>m1[i];
-    llfl(i,0,n)cin>>m2[i];
-    ll r1=0,r2=0,pos=0,neg=0;
-    llfl(i,0,n){
-        if(m1[i]==-1 && m2[i]==-1){
-            neg++;
-        }
-        else if(m1[i]==1 && m2[i]==1){
-           pos++;
-        }
-       else{
-        if(m1[i]>=m2[i]){
-            r1+=m1[i];
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>d(n);
+    llfl(i,0,n)cin>>d[i];
+    ll p1=0,p2=d.size()-1;
+    while(k>0 && p2>=p1){
+        // cout<<p1<<" | "<<p2<<endl;
+        if(p2==p1){
+            if(k>=d[p1]){
+                // cout<<"YUp"<<endl;
+                p1++;
+            }else{
+                break;
+            }
         }else{
-            r2+=m2[i];
-        }
-       }
-    }
-    // cout<<r1<<"|"<<r2<<endl;
-    // cout<<extra<<endl;
-    if(pos>0){
-        if(r1>r2){
-            if(pos>=(r1-r2)){
-                pos-=(r1-r2);
-                r2=r1;
-            }else{
-                r2+=pos;
-                pos=0;
+            ll comp=min(d[p1],d[p2]);
+            if(k>=2*comp){
+                k-=2*comp;
+                d[p1]-=comp;
+                d[p2]-=comp;
+                if(d[p1]==0)p1++;
+                if(d[p2]==0)p2--;
             }
-        }else if(r2>r1){
-            if(pos>=(r2-r1)){
-                pos-=(r2-r1);
-                r1=r2;
-            }else{
-                r1+=pos;
-                pos=0;
+            else if(k<comp){
+                break;
             }
-        }
-        if(r1==r2){
-            ll x=pos/2;
-            pos=pos-x;
-            r1+=x;r2+=pos;
-            pos=0;
+            else{
+                ll hl=k/2;
+                ll hi=k-hl;
+                d[p1]-=hi;
+                d[p2]-=hl;
+                if(d[p1]==0)p1++;
+                if(d[p2]==0)p2--;
+                k=0;
+            }
         }
     }
-    if(neg>0){
-        if(r1>r2){
-            if(neg>=(r1-r2)){
-                neg-=(r1-r2);
-                r1=r2;
-            }else{
-                r1-=neg;
-                neg=0;
-            }
-        }else if(r2>r1){
-            if(neg>=(r2-r1)){
-                neg-=(r2-r1);
-                r2=r1;
-            }else{
-                r2-=neg;
-                neg=0;
-            }
-        }
-        if(r1==r2){
-            ll x=neg/2;
-            neg=neg-x;
-            r1-=x;r2-=neg;
-            neg=0;
-        }
-    }
-   cout<<min(r1,r2)<<endl;
-
+    // cout<<p1<<" | "<<p2<<endl;
+    ll rem=0;
+    if(p2-p1>=0)rem=p2-p1+1;
+    cout<<n-(rem)<<endl;
 }
 
 
