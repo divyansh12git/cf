@@ -95,23 +95,10 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 
 void solve(){
-    //code here...    
-    ll n;
+    //code here...
+    int n;   
     cin>>n;
-    vector<ll>a(n);
-    llfl(i,0,n)cin>>a[i];
-    vector<ll>pr(n);
-    vector<ll>su(n);
-    pr[0]=a[0];
-    su[n-1]=a[n-1];
-    fl(i,1,n)pr[i]=pr[i-1]+a[i];
-    for(int i=n-2;i>=0;i--)su[i]=su[i+1]+a[i];
-    ll ans=abs(pr[n-1]);
-    fl(i,0,n-1){
-        ll c=abs(pr[i])+su[i+1];
-        ans=max(c,ans);
-    }
-    cout<<ans<<endl;
+    fl(i,0,n)cout<<i+1<<" ";cout<<endl;
 }
 
 
