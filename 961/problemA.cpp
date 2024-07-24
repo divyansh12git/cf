@@ -49,7 +49,6 @@ typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
 
-
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void _print(int t) {cerr << t;}
@@ -95,44 +94,37 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool poss(vector<ll>&a,int len,ll ball){
-    // _print(len);
-    for(int i=0;i<a.size()-len+1;i++){
-        ll orr=0;
-        // _print(i+len);
-        for(int j=i;j<i+len;j++){orr=orr|a[j];}
-        // cout<<"ORR->"<<orr<<endl;
-        if(orr!=ball)return false;
-    }
-    return true;
-}
+
+
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    ll ball=0;
-    fl(i,0,n){
-        ll x;
-        cin>>x;a[i]=x;
-        ball=ball|x;
+    int n,k;
+    cin>>n>>k;
+    int ans=0;
+    int maxd=n;
+    if(k==0){
+        cout<<"0"<<endl;return;
     }
-    // cout<<ball<<endl;
-    int lo=1,hi=n;
-    int ans=n;
-    while(lo<=hi){
-        int mid=(lo+hi)>>1;
-        // cout<<mid<<endl;
-        if(poss(a,mid,ball)){
-            hi=mid-1;
-            ans=mid;
+    ans++;
+    if(k<=n){
+        cout<<ans<<endl;return;
+    }
+    k-=n;
+    maxd--;
+    while(maxd>0){
+        if(k<=maxd){
+            ans++;
+            break;
+        }else if(k>maxd && k<=2*maxd){
+            ans+=2;
+            k=0;break;
         }else{
-            lo=mid+1;
+            ans+=2;
+            k-=2*maxd;
         }
+        maxd--;
     }
     cout<<ans<<endl;
-    
-
 }
 
 

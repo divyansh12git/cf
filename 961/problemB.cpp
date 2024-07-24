@@ -49,7 +49,6 @@ typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
 
-
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void _print(int t) {cerr << t;}
@@ -95,44 +94,84 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool poss(vector<ll>&a,int len,ll ball){
-    // _print(len);
-    for(int i=0;i<a.size()-len+1;i++){
-        ll orr=0;
-        // _print(i+len);
-        for(int j=i;j<i+len;j++){orr=orr|a[j];}
-        // cout<<"ORR->"<<orr<<endl;
-        if(orr!=ball)return false;
-    }
-    return true;
+
+bool fun(pll a,pll b){
+    return a.first<b.first;
 }
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
+    ll n,m;
+    cin>>n>>m;
     vector<ll>a(n);
-    ll ball=0;
-    fl(i,0,n){
-        ll x;
-        cin>>x;a[i]=x;
-        ball=ball|x;
+    map<ll,ll>mp;//petal,count
+    llfl(i,0,n){
+        cin>>a[i];
+        mp[a[i]]++;
     }
-    // cout<<ball<<endl;
-    int lo=1,hi=n;
-    int ans=n;
-    while(lo<=hi){
-        int mid=(lo+hi)>>1;
-        // cout<<mid<<endl;
-        if(poss(a,mid,ball)){
-            hi=mid-1;
-            ans=mid;
+    vector<pll>count;
+    for(auto i:mp){
+        count.pb({i.first,i.second});
+    }
+    sort(count.begin(),count.end(),fun);
+    // for(auto i:count){
+    //     cout<<i.first<<" | "<<i.second<<endl;
+    // }
+    ll ans=0;
+    llfl(i,0,count.size()){
+        if(i<count.size()-1 && count[i+1].first-count[i].first==1){
+            //second first
+            ll fl=m/count[i+1].first;
+            ll rem=m;
+            ll petals=0;
+           
+            ll q=count[i+1].second;
+            q=min(q,fl);
+            petals=count[i+1].first*q;
+            
+            rem-=petals;
+            //check cond
+            
+            ll p2=(rem+count[i].first-1)/count[i].first;
+            p2=p2*count[i].first-rem;
+            ll secfl=rem/count[i].first;
+            // cout<<petals<<endl;
+            // cout<<secfl<<"||"<<rem;
+            ll pe=petals;
+            q=count[i].second;
+            petals+=count[i].first*min(q,secfl);
+            
+            ans=max(ans,petals);
+            //edge case
+            if(p2<=count[i+1].second){
+                pe-=count[i+1].first*p2;
+                rem+=count[i+1].first*p2;
+                    
+            }
+            secfl=rem/count[i].first;
+            // cout<<petals<<endl;
+            // cout<<secfl<<"||"<<rem;
+            q=count[i].second;
+            pe+=count[i].first*min(q,secfl);
+            ans=max(ans,pe);
+            //first then second
+            
+
         }else{
-            lo=mid+1;
+            ll fl=m/count[i].first;
+            if(fl>=count[i].second){
+                ll petals=count[i].first*count[i].second;
+                ans=max(ans,petals);
+            }else{
+                ll petals=count[i].first*fl;
+                ans=max(ans,petals);
+            }
+            // cout<<i<<endl;
+
+            // cout<<ans<<endl;
         }
+        
     }
     cout<<ans<<endl;
-    
-
 }
 
 

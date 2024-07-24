@@ -49,7 +49,6 @@ typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
 
-
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void _print(int t) {cerr << t;}
@@ -95,43 +94,100 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool poss(vector<ll>&a,int len,ll ball){
-    // _print(len);
-    for(int i=0;i<a.size()-len+1;i++){
-        ll orr=0;
-        // _print(i+len);
-        for(int j=i;j<i+len;j++){orr=orr|a[j];}
-        // cout<<"ORR->"<<orr<<endl;
-        if(orr!=ball)return false;
+vector<ll>prefix(vector<ll>pre,ll n){
+    vector<ll>ans;
+    ans.pb(pre[0]);
+    llfl(i,1,n){
+        ans.pb(pre[i-1]+pre[i]);
     }
-    return true;
+    return ans;
 }
-void solve(){
-    //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    ll ball=0;
-    fl(i,0,n){
-        ll x;
-        cin>>x;a[i]=x;
-        ball=ball|x;
+vector<ll>suffix(vector<ll>suff,ll n){
+    vector<ll>ans(n);
+    ans[n-1]=(suff[n-1]);
+    for(int i=n-2;i>=0;i--){
+        ans[i]=suff[i]+ans[i+1];
     }
-    // cout<<ball<<endl;
-    int lo=1,hi=n;
-    int ans=n;
-    while(lo<=hi){
-        int mid=(lo+hi)>>1;
-        // cout<<mid<<endl;
-        if(poss(a,mid,ball)){
-            hi=mid-1;
-            ans=mid;
-        }else{
-            lo=mid+1;
+    return ans;
+}
+pair<int,int>findcuts(ll target,vector<ll>&a,vector<ll>&b,vector<ll>&c,vector<ll>&ap,vector<ll>&as,vector<ll>&bp,vector<ll>&bs,vector<ll>&cp,vector<ll>&cs){
+    int p1=1,p2=1;
+    int n=a.size();
+    bool found=false;
+    while(p2<n-1){
+        int s1=ap[p1-1];
+        int s2=bp[p2]-bp[p2-1];
+        int s3=cs[p2+1];
+        if(s1<target){
+            if(p1==p2){p1++;p2++;}
+            else p1++;
+        }else if(s2<target){
+            p2++;
+        }else if(s3<target){
+            break;
+        }
+        if(s1>=target && s2>=target && s3>=target ){
+            found=true;break;
         }
     }
-    cout<<ans<<endl;
-    
+    if(found)return {p1,p2}; 
+    return {-1,-1};
+
+}
+
+void solve(){
+    //code here...    
+    ll n;
+    cin>>n;
+    vector<ll>a(n);
+    vector<ll>b(n);
+    vector<ll>c(n);
+    llfl(i,0,n)cin>>a[i];
+    llfl(i,0,n)cin>>b[i];
+    llfl(i,0,n)cin>>c[i];
+    vector<ll>ap=prefix(a,n);
+    vector<ll>as=suffix(a,n);
+    vector<ll>bp=prefix(b,n);
+    vector<ll>bs=suffix(b,n);
+    vector<ll>cp=prefix(c,n);
+    vector<ll>cs=suffix(c,n);
+    ll target=(ap[n-1]+3-1)/3;
+    //A , B , C
+    pair<int,int>p=findcuts(target,a,b,c,ap,as,bp,bs,cp,cs);
+    if(p.first!=-1){
+        cout<<"1 "<<p.first<<" "<<p.first+1<<" "<<p.second+1<<" "<<p.second+2<<" "<<n<<endl;
+        return;
+    }
+    p=findcuts(target,a,c,b,ap,as,cp,cs,bp,bs);
+    if(p.first!=-1){
+        cout<<"1 "<<p.first<<" "<<p.second+2<<" "<<n<<" "<<p.first+1<<" "<<p.second+1<<endl;
+        return;
+    }
+    // B A C
+    p=findcuts(target,b,a,c,bp,bs,ap,as,cp,cs);
+    if(p.first!=-1){
+        cout<<p.first+1<<" "<<p.second+1<<" "<<"1 "<<p.first<<" "<<p.second+2<<" "<<n<<endl;
+        return;
+    }
+    //B C A
+    p=findcuts(target,b,c,a,bp,bs,cp,cs,ap,as);
+    if(p.first!=-1){
+        cout<<p.second+2<<" "<<n<<"1 "<<p.first<<" "<<p.first+1<<" "<<p.second+1<<endl;
+        return;
+    }
+    // C A B
+    p=findcuts(target,c,a,b,cp,cs,ap,as,bp,bs);
+    if(p.first!=-1){
+        cout<<p.first+1<<" "<<p.second+1<<" "<<p.second+2<<" "<<n<<" "<<"1 "<<p.first<<endl;
+        return;
+    }
+    //C B A;
+    p=findcuts(target,c,b,a,cp,cs,bp,bs,ap,as);
+    if(p.first!=-1){
+        cout<<p.second+2<<" "<<n<<p.first+1<<" "<<p.second+1<<"1 "<<p.first<<endl;
+        return;
+    }
+    cout<<-1<<endl;
 
 }
 
