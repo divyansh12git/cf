@@ -95,32 +95,39 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 
-
+ll sum(int n){
+    return (mod_mul(n,n+1,1e18))/2 +1;
+}
+bool poss(ll n,ll k,ll mid){
+    ll s=sum(k)-sum(k-mid)+1;
+    // cout<<mid<<" | "<<s <<endl;
+    if(s>=n)return true;
+    else return false;
+}
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);fl(i,0,n)cin>>a[i];
-    vector<ll>b(n);fl(i,0,n)cin>>b[i];
-    vector<ll>c(n);fl(i,0,n)cin>>c[i];
-    multiset<pair<ll,int>>y;
-    multiset<pair<ll,int>>z;
-    fl(i,0,n){
-        y.insert({b[i],i});
-        z.insert({c[i],i});
+    ll n,k;
+    cin>>n>>k;
+    if(n>sum(k-1)){
+        cout<<"-1"<<endl;return;
     }
-    ll ans=-1e9;
-    fl(i,0,n){
-        y.erase({b[i],i});
-        z.erase({c[i],i});
-        if(((--y.end())->S)==(--z.end())->S){
-            ans=max({ans,a[i]+(--y.end())->F+(--(--z.end()))->F,
-                    a[i]+(--(--y.end()))->F+(--z.end())->F });
-        }else{
-            ans=max(ans,a[i]+(--y.end())->F+(--z.end())->F);
+    if(n==1){
+        cout<<"0"<<endl;
+        return;
+    }
+    // cout<<sum(4)-sum(2)<<endl;
+    ll lo=1,hi=k-1;
+    // cout<<hi<<endl;
+    ll ans=k-1;
+    while(lo<=hi){
+        ll mid=(hi+lo)>>1;
+        if(poss(n,k-1,mid)){
+            hi=mid-1;
+            ans=mid;
+            // cout<<"Amns"<<ans<<endl;/
+        }else {
+            lo=mid+1;
         }
-        y.insert({b[i],i});
-        z.insert({c[i],i});
     }
     cout<<ans<<endl;
 }
@@ -134,6 +141,6 @@ int main(){
          freopen("output.txt","w",stdout);
          freopen("Error.txt", "w", stderr);
      #endif 
-    ll t; cin>>t; while(t--)solve();
+    ll t=1; while(t--)solve();
  
 }

@@ -98,31 +98,35 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);fl(i,0,n)cin>>a[i];
-    vector<ll>b(n);fl(i,0,n)cin>>b[i];
-    vector<ll>c(n);fl(i,0,n)cin>>c[i];
-    multiset<pair<ll,int>>y;
-    multiset<pair<ll,int>>z;
-    fl(i,0,n){
-        y.insert({b[i],i});
-        z.insert({c[i],i});
+    ll n,k;
+    cin>>n>>k;
+    
+    if((n==1 && k>0)|| k&1){
+        cout<<"NO"<<endl;return;
     }
-    ll ans=-1e9;
-    fl(i,0,n){
-        y.erase({b[i],i});
-        z.erase({c[i],i});
-        if(((--y.end())->S)==(--z.end())->S){
-            ans=max({ans,a[i]+(--y.end())->F+(--(--z.end()))->F,
-                    a[i]+(--(--y.end()))->F+(--z.end())->F });
+    vector<int>ans(n);
+
+    ll req=k;
+    int p1=1,p2=n;
+    while(p1<=p2){
+        ll get=2*(p2-p1);
+        if(get>req){
+            ans[p2-1]=p2;
+            p2--;
         }else{
-            ans=max(ans,a[i]+(--y.end())->F+(--z.end())->F);
+            ans[p1-1]=p2;ans[p2-1]=p1;
+            req-=get;
+            p1++;p2--;
         }
-        y.insert({b[i],i});
-        z.insert({c[i],i});
     }
-    cout<<ans<<endl;
+    if(req!=0){
+        cout<<"NO"<<endl;
+    }else{
+        cout<<"YES"<<endl;
+        for(auto i:ans)cout<<i<<" ";cout<<endl;
+    }
+
+
 }
 
 

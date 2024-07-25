@@ -100,29 +100,21 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vector<ll>a(n);fl(i,0,n)cin>>a[i];
-    vector<ll>b(n);fl(i,0,n)cin>>b[i];
-    vector<ll>c(n);fl(i,0,n)cin>>c[i];
-    multiset<pair<ll,int>>y;
-    multiset<pair<ll,int>>z;
-    fl(i,0,n){
-        y.insert({b[i],i});
-        z.insert({c[i],i});
-    }
-    ll ans=-1e9;
-    fl(i,0,n){
-        y.erase({b[i],i});
-        z.erase({c[i],i});
-        if(((--y.end())->S)==(--z.end())->S){
-            ans=max({ans,a[i]+(--y.end())->F+(--(--z.end()))->F,
-                    a[i]+(--(--y.end()))->F+(--z.end())->F });
-        }else{
-            ans=max(ans,a[i]+(--y.end())->F+(--z.end())->F);
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    ull k=1;
+    fl(i,0,62){
+        bool found1=false;
+        bool found0=false;
+        fl(j,0,n){
+            if((a[j]>>i)&1)found1=true;
+            else found0=true;
         }
-        y.insert({b[i],i});
-        z.insert({c[i],i});
+        if(found1 && found0){
+            k=k<<(i+1);break;
+        }
     }
-    cout<<ans<<endl;
+    cout<<k<<endl;
 }
 
 

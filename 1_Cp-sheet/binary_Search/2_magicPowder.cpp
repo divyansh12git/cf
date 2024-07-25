@@ -93,11 +93,11 @@ void debug(int t=1) {cout << "Case #" << t << ": ";}
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-const ull MOD5=1e18+9;
+const ll MOD5=1e18+9;
 bool poss(ll cookie,ll k,const vector<int>&a,const vector<int>&b){
-    ull rem=0;
+    ll rem=0;
     fl(i,0,a.size()){
-        ll x=a[i]*(cookie*1LL)-b[i];
+        ll x=(mod_mul(cookie,a[i],MOD5)-b[i])%MOD5;
         if(x>0)rem=(rem+x)%MOD5;
     }
     // cout<<cookie<<"|"<<rem<<endl;
