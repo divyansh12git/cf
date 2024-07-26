@@ -44,6 +44,8 @@ using namespace std;
 typedef long long ll;
 typedef long double lld;
 typedef unsigned long long ull;
+typedef vector<int> vi;
+typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
 
@@ -96,35 +98,17 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll x;
-    cin>>x;
-    bool ans=true;
-    ll q=x;
-    int c=0;
-    while(q>0){
-        c++;
-        q/=10;
-    }
-    ll y=x;
-    int h=0;
-    while(y>0){
-        h++;
-        int rem=y%10;
-        y/=10;
-        if(h==1){
-            if(rem>8)ans=false;            
+    int x,y;
+    cin>>x>>y;
+    int b=0;
+    int ans=0;
+    while(x>0 || y>0){
+        if((x&1) !=(y&1)){
+            ans=b;break;
         }
-        else if(h==c){
-            if(rem!=1)ans=false;
-        }else{
-            if(rem==0)ans=false;
-        }
-        
+        x>>=1;y>>=1;b++;
     }
-    tres(ans);
-
-
-    
+    cout<<(1<<b)<<endl;
 }
 
 

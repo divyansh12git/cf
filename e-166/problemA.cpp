@@ -44,6 +44,8 @@ using namespace std;
 typedef long long ll;
 typedef long double lld;
 typedef unsigned long long ull;
+typedef vector<int> vi;
+typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
 
@@ -92,39 +94,38 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-
+bool isValid(char a){
+    if((a>='0' && a<='9')|| (a>='a' && a<='z' ))return true;
+    return false;
+}
 
 void solve(){
     //code here...    
-    ll x;
-    cin>>x;
+    int n;cin>>n;
+    string s;cin>>s;
+    bool letter=false;
+    char le='a';
+    char num='0';
     bool ans=true;
-    ll q=x;
-    int c=0;
-    while(q>0){
-        c++;
-        q/=10;
-    }
-    ll y=x;
-    int h=0;
-    while(y>0){
-        h++;
-        int rem=y%10;
-        y/=10;
-        if(h==1){
-            if(rem>8)ans=false;            
+    fl(i,0,n){
+        if(!isValid(s[i])){
+            ans=false;break;
         }
-        else if(h==c){
-            if(rem!=1)ans=false;
-        }else{
-            if(rem==0)ans=false;
+        if(s[i]>='0' && s[i]<='9' ){
+            if(letter){ans=false;break;}
+            if(s[i]<num){ans=false;break;}
+            num=s[i];
         }
-        
+        else{
+            letter=true;
+            if(s[i]<le){
+                ans=false;break;
+            }
+            le=s[i];
+        }
     }
     tres(ans);
 
-
-    
 }
 
 

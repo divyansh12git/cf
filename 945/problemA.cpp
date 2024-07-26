@@ -97,20 +97,16 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 
 void solve(){
-    //code here... 
-    int n;
-    cin>>n;   
-    multiset<int>mul;
-    fl(i,0,n){
-        int a;
-        cin>>a;
-        mul.insert(a);
+    //code here...    
+    vector<int>v(3);
+    cin>>v[0]>>v[1]>>v[2];
+    int odd=0;
+    fl(i,0,3)if(v[i]&1){odd++;}
+    if(odd&1){
+        cout<<"-1"<<endl;return;
     }
-    int ans=0;
-    ans=*mul.begin();
-    *(mul.end())-=ans;
-
-
+    cout<<min(v[0]+v[1],(v[0]+v[1]+v[2])/2)<<endl;
+    
 
 }
 
