@@ -98,24 +98,36 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n+1);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n+1)cin>>b[i];
-    ll x=b.back();
-    ll op=0;
-    ll diff=1e9+7;
-    fl(i,0,n){
-        op+=abs(a[i]-b[i]);
-        diff=min({diff,abs(a[i]-x),abs(b[i]-x)});
-        if(x>=min(a[i],b[i]) && x<=max(a[i],b[i]) ){
-            diff=0;
-        }
+    ll n,q;
+    cin>>n>>q;
+    string a,b;
+    cin>>a>>b;
+    vector<vector<int>>prea(n+1,vector<int>(26,0));
+    vector<vector<int>>preb(n+1,vector<int>(26,0));
+    vector<int>temp_a(26,0);
+    vector<int>temp_b(26,0);
+    fl(i,1,n+1){
+        prea[i]=prea[i-1];
+        prea[i][a[i-1]-'a']++;
+        preb[i]=preb[i-1];
+        preb[i][b[i-1]-'a']++;
     }
-    op+=diff+1;
-    cout<<op<<endl;
+    while(q--){
+        ll l,r;
+        cin>>l>>r;
+        vector<int>veca;
+        vector<int>vecb;
+        fl(i,0,26){
+            veca.pb(prea[r][i]-prea[l-1][i]);
+            vecb.pb(preb[r][i]-preb[l-1][i]);
+        }
+        int op=0;
+        fl(i,0,26){
+            op+=abs(veca[i]-vecb[i]);
+        }
+        cout<<op/2<<endl;
+    }
+
 }
 
 

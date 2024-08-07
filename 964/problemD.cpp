@@ -98,24 +98,41 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n+1);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n+1)cin>>b[i];
-    ll x=b.back();
-    ll op=0;
-    ll diff=1e9+7;
-    fl(i,0,n){
-        op+=abs(a[i]-b[i]);
-        diff=min({diff,abs(a[i]-x),abs(b[i]-x)});
-        if(x>=min(a[i],b[i]) && x<=max(a[i],b[i]) ){
-            diff=0;
+    string s;
+    cin>>s;
+    string q;
+    cin>>q;
+    string ans="";
+    bool poss=true;
+    ll n=s.length(),m=q.length();
+    ll p1=0,p2=0;
+    while(p1<n && p2<m){
+        if(s[p1]==q[p2]){
+            p2++;ans+=s[p1];
         }
+        else if(s[p1]=='?'){
+            ans+=q[p2];p2++;
+        }
+        else{
+            ans+=s[p1];
+        }
+
+        p1++;
     }
-    op+=diff+1;
-    cout<<op<<endl;
+    if(p2==m){
+        while(p1<n){
+            if(s[p1]!='?'){
+                ans+=s[p1];
+            }else{
+                ans+='a';
+            }
+            p1++;
+        }
+        cout<<"YES"<<endl;
+        cout<<ans<<endl;
+    }else{
+        cout<<"NO"<<endl;
+    }
 }
 
 

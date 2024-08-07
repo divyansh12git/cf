@@ -98,25 +98,42 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n+1);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n+1)cin>>b[i];
-    ll x=b.back();
-    ll op=0;
-    ll diff=1e9+7;
-    fl(i,0,n){
-        op+=abs(a[i]-b[i]);
-        diff=min({diff,abs(a[i]-x),abs(b[i]-x)});
-        if(x>=min(a[i],b[i]) && x<=max(a[i],b[i]) ){
-            diff=0;
-        }
+    ll l,r;
+    cin>>l>>r;
+    ll ans=0;
+    ll x=1;
+    ll op=1;
+    while(x<=l){
+        x*=3;op++;
     }
-    op+=diff+1;
-    cout<<op<<endl;
-}
+    // cout<<op<<endl;
+    if(l!=x || x>r)ans+=(op-1);
+    else ans+=(op);
+    if(x<=r){
+
+        ans+=(x-l)*(op-1);
+    }else if(x>r){
+        ans+=(r-l+1)*(op-1);
+        cout<<ans<<endl;return;
+    }
+    
+    // cout<<op<<endl;
+    // cout<<ans<<x<<endl;
+    cerr<<ans<<endl;
+    ll w=x;
+    
+    x*=3;
+    while(x<r){
+        ans+=(x-w)*op;
+        op++;w=x;x*=3;
+    }
+    cerr<<ans<<endl;
+    if(w<=r){
+        ans+=(r-w+1)*op;
+    }
+    cout<<ans<<endl;
+
+}   
 
 
 int main(){

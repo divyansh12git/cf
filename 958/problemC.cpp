@@ -98,24 +98,36 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n+1);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n+1)cin>>b[i];
-    ll x=b.back();
-    ll op=0;
-    ll diff=1e9+7;
-    fl(i,0,n){
-        op+=abs(a[i]-b[i]);
-        diff=min({diff,abs(a[i]-x),abs(b[i]-x)});
-        if(x>=min(a[i],b[i]) && x<=max(a[i],b[i]) ){
-            diff=0;
+    vector<ll>ans;
+    ll i=0;
+    ll x=n;
+    int bits=0;
+    while(x>0){
+        bits++;x>>=1;
+    }
+
+    for(int j=bits-1;j>=0;j--){
+        ll q=n;
+        if(q&(1LL<<j)){
+            q^=(1LL<<j);
+            ll c=0;
+            for(ll i=j-1;i>=0;i--){
+                if((q>>i)&1 ){
+                    if(c&1){
+                        q^=(1LL<<i);
+                    }
+                    c++;
+                }
+            }
+            if(q>0)ans.pb(q);
         }
     }
-    op+=diff+1;
-    cout<<op<<endl;
+    ans.pb(n);
+
+    cout<<ans.size()<<endl;
+    fl(i,0,ans.size())cout<<ans[i]<<" ";cout<<endl;
 }
 
 

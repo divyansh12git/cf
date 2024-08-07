@@ -94,28 +94,52 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
+ll traverse(int node,int lv,map<int,vector<int>>&tree,vector<ll>&a){
+    // cout<<lv<<"||"<<node<<endl;
+    if(tree[node].size()==0){
+        // cout<<a[node]<<endl;
+        return a[node];}
 
+    ll mini=1e9;
+    // bool ltlv=false;
+    for(auto i:tree[node]){
+        ll child=traverse(i,lv+1,tree,a);
+        // if(child<lv+1){
+        //     ltlv=true;
+        // }
+        mini=min(mini,child);
+    }
+    // cout<<mini<<endl;
+    
+    if(a[node]<mini && node!=1){
+
+        return (mini+a[node])/2;
+    }  else{
+        return mini;
+    }  
+
+}
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n+1);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n+1)cin>>b[i];
-    ll x=b.back();
-    ll op=0;
-    ll diff=1e9+7;
-    fl(i,0,n){
-        op+=abs(a[i]-b[i]);
-        diff=min({diff,abs(a[i]-x),abs(b[i]-x)});
-        if(x>=min(a[i],b[i]) && x<=max(a[i],b[i]) ){
-            diff=0;
-        }
+    int n;cin>>n;
+    vector<ll>a(n+1);
+    llfl(i,1,n+1)cin>>a[i];
+    map<int,vector<int>>tree;
+    fl(i,0,n-1){
+        int x;
+        cin>>x;
+        tree[x].pb(i+2);
     }
-    op+=diff+1;
-    cout<<op<<endl;
+    // for(auto i:tree){
+    //     cout<<i.F<<"->";
+    //     for(auto j:i.S){
+    //         cout<<j<<" ";
+    //     }cout<<endl;
+    // }
+    ll ans=traverse(1,0,tree,a);
+
+    cout<<a[1]+ans<<endl;
 }
 
 
