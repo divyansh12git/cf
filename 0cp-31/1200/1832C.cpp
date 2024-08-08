@@ -95,28 +95,44 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 
-
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
-    int el2=(n*(n-1))/2;
-    vector<int>b(el2);
-    llfl(i,0,el2)cin>>b[i];
-    vsort(b);
-    vector<int>ans(n);
-    int x=0;int count=0;
-    int p=0;
-    while(p<n && x<el2){
-        ans[p]=b[x];
+    vector<ll>a(n);
+    llfl(i,0,n){
+        ll x;
+        cin>>x;
+        a[i]=x;
+        if(i==0)continue;
+    }
+    ll ans=1;
+    if(n==1){
+        cout<<ans<<endl;return;
+    }
+    int p=1;
+    while(p<n && a[p]==a[p-1]){
         p++;
-        x+=(n-p);
     }
-    int q=ans[p-1];
-    while(p<n){
-        ans[p]=q;p++;
+    if(p==n){ 
+        cout<<ans<<endl;return;
     }
-    for(auto i:ans)cout<<i<<" ";cout<<endl;
+    // if(p!=1)ans++;
+    bool inc;
+    if(a[p]>=a[p-1])inc=true;
+    else inc=false;
+    llfl(i,p+1,n){
+        if(inc){
+            if(a[i]<a[i-1]){
+                inc=false;ans++;
+            }
+        }else{
+            if(a[i]>a[i-1]){
+                inc=true;ans++;
+            }
+        }
+    }
+    cout<<ans+1<<endl;
 }
 
 

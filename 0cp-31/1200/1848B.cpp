@@ -98,25 +98,33 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    int el2=(n*(n-1))/2;
-    vector<int>b(el2);
-    llfl(i,0,el2)cin>>b[i];
-    vsort(b);
-    vector<int>ans(n);
-    int x=0;int count=0;
-    int p=0;
-    while(p<n && x<el2){
-        ans[p]=b[x];
-        p++;
-        x+=(n-p);
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>c(n);
+    map<ll,vector<ll>>mp;
+    llfl(i,0,n){
+        ll a;cin>>a;
+        c[i]=a;
+        mp[a].pb(i+1);
     }
-    int q=ans[p-1];
-    while(p<n){
-        ans[p]=q;p++;
+    ll ans=n;
+    for(auto k:mp){
+        vector<ll>x=k.second;
+        x.pb(n+1);x.insert(x.begin(),0);
+        vector<ll>diff;
+        llfl(i,0,x.size()-1){
+            diff.pb(x[i+1]-x[i]-1);
+        }
+        vsort(diff);
+        ans=min(max(diff.back()/2,diff[diff.size()-2]),ans);
+        // if(diff.back()/2<=diff[diff.size()-2]){
+        //     ans=min((diff[diff.size()-2]),ans);
+        // }else{
+        //     ans=min(diff.back(),ans);
+        // }
     }
-    for(auto i:ans)cout<<i<<" ";cout<<endl;
+    cout<<ans<<endl;
+    
 }
 
 
