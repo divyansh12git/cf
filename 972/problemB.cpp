@@ -97,17 +97,26 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 
 void solve(){
-    //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
-        }
+    //code here... 
+    // cout<<"hi"<<endl;  
+    ll n,m,q;
+    cin>>n>>m>>q;
+    vector<ll>b(m);
+    fl(i,0,m)cin>>b[i];
+    sort(b.begin(),b.end());
+    int a;
+    cin>>a;
+    int ans=0;
+    if(a>b[0] && a<b[1]){
+        ans=((b[0]+b[1])>>1)-b[0];
+    }
+    else if(a<b[0]){
+        ans=b[0]-1;
+    }
+    else if(a>b[1]){
+        ans=n-b[1];
     }
     cout<<ans<<endl;
-
 }
 
 
@@ -119,6 +128,6 @@ int main(){
          freopen("output.txt","w",stdout);
          freopen("Error.txt", "w", stderr);
      #endif 
-    ll t; cin>>t; while(t--)solve();
+    ll t; cin>>t; while(t--){solve();}
  
 }

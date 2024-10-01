@@ -98,12 +98,26 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
+    int n;
+    cin>>n;
+    map<char,int>mp;
+    int x=n/5;
+    n-=x*5;
+    mp['a']+=x;
+    if(n>0){mp['a']++;n--;}
+    mp['e']+=x;
+    if(n>0){mp['e']++;n--;}
+    mp['i']+=x;
+    if(n>0){mp['i']++;n--;}
+    mp['o']+=x;
+    if(n>0){mp['o']++;n--;}
+    mp['u']+=x;
+    if(n>0){mp['u']++;n--;}
+    string ans="";
+    for(auto it:mp){
+        while(it.second>0){
+            ans+=it.first;
+            it.second--;
         }
     }
     cout<<ans<<endl;

@@ -94,20 +94,43 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-
+char traverse(int node,vector<int>adj[],int lv,vector<int>&vis){
+    vis[node]=1;
+    char ans=lv&1?'h':'r';
+    for(auto nei:adj[node]){
+        if(!vis[nei]){
+            int q=traverse(nei,adj,lv+1,vis);
+            if(lv&1){
+                if(q=='r')ans='r';
+            }else{
+                if(q=='h')ans='h';
+            }
+        }
+    }
+    // cerr<<lv<<" "<<ans<<endl;
+    return ans;
+}
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
-        }
+    int n,t;
+    cin>>n>>t;
+    vector<int>adj[n+1];
+    fl(i,0,n-1){
+        int a,b;
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
     }
-    cout<<ans<<endl;
-
+    int active;
+    cin>>active;
+    vector<int>vis(n+1,0);
+    char ans=traverse(active,adj,1,vis);
+    if(ans=='h'){
+        cout<<"Hermione"<<endl;
+    }else{
+        cout<<"Ron"<<endl;
+    }
 }
 
 
@@ -119,6 +142,6 @@ int main(){
          freopen("output.txt","w",stdout);
          freopen("Error.txt", "w", stderr);
      #endif 
-    ll t; cin>>t; while(t--)solve();
+    ll t; solve();
  
 }

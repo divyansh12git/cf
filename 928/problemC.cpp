@@ -98,16 +98,20 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
+    ll n;
+    cin>>n;
     ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
-        }
+    int prev=0;
+    ll itr=1;
+    ll k=n;
+    while(n>0){
+        ll y=n%10;
+        n/=10;
+        prev=k%itr;
+        ans+=n*(45)+((y*(y-1))/2)*itr+y*(prev+itr);
+        itr*=10;
     }
     cout<<ans<<endl;
-
 }
 
 

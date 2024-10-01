@@ -98,16 +98,31 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    fl(i,0,n)cin>>a[i];
+    string s;
+    cin>>s;
+    vector<ll>pre(n+1,0);
+    fl(i,1,n+1)pre[i]=pre[i-1]+a[i-1];
+    // _print(pre);
+    vector<pair<int,int>>cp;
+    int l=0,r=n-1;
+    while(l<r){
+        while(l<r && s[l]!='L')l++;
+        while(l<r && s[r]!='R')r--;
+        if(l>=r)break;
+        cp.push_back({l,r});
+        l++;r--;
+        // cerr<<l<<" "<<r<<endl;
+    }
     ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
-        }
+    // _print(cp);
+    for(auto i:cp){
+        ans+=pre[i.second+1]-pre[i.first];
     }
     cout<<ans<<endl;
-
 }
 
 

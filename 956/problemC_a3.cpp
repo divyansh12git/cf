@@ -98,15 +98,70 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
+    int n;
+    cin>>n;
+    vector<ll>a(n);
+    vector<ll>b(n);
+    vector<ll>c(n);
+    fl(i,0,n)cin>>a[i]; 
+    fl(i,0,n)cin>>b[i]; 
+    fl(i,0,n)cin>>c[i];
+    ll total=0;
+    fl(i,0,n)total+=a[i];
+    ll target=(total+2)/3;
+
+    auto solve=[&](vector<ll>&a,vector<ll>&b,vector<ll>&c){
+        ll A=0,B=0,C=0;
+        vector<int>ans;
+        for(int i=0;i<n;i++){
+            A+=a[i];B+=b[i];C+=c[i];
+            if(ans.size()==0 && A>=target){
+                ans.pb(i+1);A=0;B=0;C=0;
+            } else if(ans.size()==1 && B>=target){
+                ans.pb(i+1);A=0;B=0;C=0;
+            }else if(ans.size()==2 && B>=target){
+                ans.pb(i+1);A=0;B=0;C=0;
+            }
         }
+        return ans;
+    };
+    if(solve(a,b,c).size()==3){
+        vector<int>ans=solve(a,b,c);
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<endl;
+    }else if(solve(a,c,b).size()==3){
+        vector<int>ans=solve(a,c,b);
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<endl;
+    }else if(solve(b,a,c).size()==3){
+        vector<int>ans=solve(b,a,c);
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<endl;
+    }else if(solve(b,c,a).size()==3){
+        vector<int>ans=solve(b,c,a);
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<endl;
+    }else if(solve(c,a,b).size()==3){
+        vector<int>ans=solve(c,a,b);
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<endl;
+    }else if(solve(c,b,a).size()==3){
+        vector<int>ans=solve(c,b,a);
+        cout<<ans[1]+1<<" "<<n<<" ";
+        cout<<ans[0]+1<<" "<<ans[1]<<" ";
+        cout<<"1"<<" "<<ans[0]<<" ";
+        cout<<endl;
     }
-    cout<<ans<<endl;
 
 }
 

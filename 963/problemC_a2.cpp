@@ -98,16 +98,48 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
+    int n,k;
+    cin>>n>>k;
+    vector<ll>a(n);
+    fl(i,0,n)cin>>a[i];
+    vsort(a);
+    
+   int mini=a.back()+k-1,maxi=a.back();
+   for(int i=0;i<n-1;i++){
+      int l=a.back(),r=a.back()+k,ans;
+      int check=((a.back()-a[i])/k)&1;
+      if(check){
+        while(l<=r){
+            //minimize
+            int mid=(l+r)/2;
+            if(((mid-a[i])/k)&1){
+                l=mid+1;
+            }else{
+                ans=mid;
+                r=mid-1;
+            }
         }
-    }
-    cout<<ans<<endl;
-
+        maxi=max(maxi,ans);
+      } else{
+        while(l<=r){
+            //maximize
+            int mid=(l+r)/2;
+            if(((mid-a[i])/k)&1){
+                r=mid-1;
+            }else{
+                ans=mid;
+                l=mid+1;
+            }
+        }
+        mini=min(mini,ans);
+      }
+   }
+//    cerr<<maxi<<" "<<mini<<endl;
+   if(maxi<=mini){
+    cout<<maxi<<endl;
+    return;
+   }
+   cout<<"-1"<<endl;
 }
 
 

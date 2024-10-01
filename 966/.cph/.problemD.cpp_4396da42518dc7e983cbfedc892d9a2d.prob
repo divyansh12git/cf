@@ -1,0 +1,1 @@
+{"name":"Local: problemD","url":"d:\\vs code\\codeforces\\966\\problemD.cpp","tests":[{"id":1727250111652,"input":"4\n6\n3 5 1 4 3 2\nLRLLLR\n2\n2 8\nLR\n2\n3 9\nRL\n5\n1 2 3 4 5\nLRLRR\n","output":"18\n10\n0\n22\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\966\\problemD.cpp","group":"local","local":true}

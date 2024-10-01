@@ -1,0 +1,1 @@
+{"name":"Local: problemA","url":"d:\\vs code\\codeforces\\968\\problemA.cpp","tests":[{"id":1724596373767,"input":"4\n2\naa\n3\naba\n4\nabcb\n12\nabcabcabcabc\n","output":"No\nnO\nYes\nYES\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\968\\problemA.cpp","group":"local","local":true}

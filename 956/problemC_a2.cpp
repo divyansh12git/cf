@@ -94,20 +94,82 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
+bool check(ll &target,vector<ll>&A,vector<ll>&B,vector<ll>&C,int a,int b,int c,vector<int>&ans){
+    ll f=A.size()-1,l=0;
+    fl(i,1,A.size()){
+        if(A[i]>=target){
+            f=i;
+            break;
+        }
+    }
+    for(int i=C.size()-1;i>=0;i--){
+        if(C.back()-C[i]>=target){
+            l=i+1;break;
+        }
+    }
+    _print(A);
+    _print(B);
+    _print(C);_print("\n");_print(f);cerr<<" "<<l<<" - "<<a<<"|"<<b<<"|"<<c<<endl;
+    if(f>=l){
+        return false;
+    }
+    ll sumb=B[l-1]-B[f];
+    if(sumb>=target){
+        ans[a]=1;ans[a+1]=f;
+        ans[b]=f+1,ans[b+1]=l-1;
+        ans[c]=l;ans[c+1]=A.size()-1;
+        return true;
+    }
+    return false;
 
+}
 
 void solve(){
     //code here...    
-    ll n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int i=1;i<min(n,x);i++){
-        for(int j=1;j*i<n && j+i<x;j++){
-            ans+=min(x-i-j,(n-i*j)/(i+j));
-        }
+    int n;
+    cin>>n;
+    vector<ll>a(n);
+    vector<ll>b(n);
+    vector<ll>c(n);
+    fl(i,0,n)cin>>a[i]; 
+    fl(i,0,n)cin>>b[i]; 
+    fl(i,0,n)cin>>c[i];
+    vector<ll>preA(n+1);preA[0]=0;
+    vector<ll>preB(n+1);preB[0]=0;
+    vector<ll>preC(n+1);preC[0]=0;
+    ll tot=0;
+    fl(i,1,n+1){
+        tot+=a[i-1];
+        preA[i]=preA[i-1]+a[i-1];
+        preB[i]=preB[i-1]+b[i-1];
+        preC[i]=preC[i-1]+c[i-1];
     }
-    cout<<ans<<endl;
-
+    vector<int>ans(6);
+    ll target=(tot+2)/3;
+    cerr<<target<<endl;
+    bool q=false;
+    q=check(target,preA,preB,preC,0,2,4,ans);
+    if(!q){
+        q=check(target,preA,preC,preB,0,4,2,ans);
+    }
+    if(!q){
+        q=check(target,preB,preA,preC,2,0,4,ans);
+    }
+    if(!q){
+        q=check(target,preB,preC,preA,2,4,0,ans);
+    }
+    if(!q){
+        q=check(target,preC,preA,preB,4,0,2,ans);
+    }
+    if(!q){
+        q=check(target,preC,preB,preA,4,2,0,ans);
+    }
+    if(q){
+        for(auto i:ans)cout<<i<<" ";cout<<endl;
+    }else{
+        cout<<-1<<endl;
+    }
+    
 }
 
 
