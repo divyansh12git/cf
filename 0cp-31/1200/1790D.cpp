@@ -97,43 +97,32 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 
 void solve(){
-    //code here...
+    //code here...    
     int n;
-    cin>>n;    
+    cin>>n;
     vector<int>a(n);
-    vector<int>b(n);
     fl(i,0,n)cin>>a[i];
-    fl(i,0,n)cin>>b[i];
-    int k;
-    cin>>k;
-    vector<int>pre1(n+1);
-    pre1[0]=0;
+    vsort(a);
+    multimap<int, int> mm;
     fl(i,0,n){
-        pre1[i+1]=pre1[i]+a[i];
+        bool found=0;
+        auto range=mm.equal_range(a[i]-1);
+        for(auto it=range.first;it!=range.second;it++){
+            if(it->second==1){
+                mm.erase(it);
+                break;
+            }
+        }
+        mm.insert(pair<int,int>(a[i],1));
+         
+        
     }
-    // _print(pre1);
-    vector<int>pre2(n+1);
-    pre2[0]=0;
-    fl(i,0,n)pre2[i+1]=pre2[i]+a[i]*b[i];
-    // _print(pre2);
-    int ans=-1e9;
-
-    int p=k-1;
-    // cout<<p<<endl;
-    while(p<n){
-        // cout<<p<<endl;
-        int a=p-(k/2);
-        int b=p;
-        int x=pre2[n]-pre2[b+1];
-        int y=pre1[p+1]-pre1[a+1];
-        int z=pre2[p-k+1]-pre2[0];
-        ans=max(ans,x+y+z);
-        p++;
+    int count=0;
+    for(auto it:mm){
+        // cout<<it.first<<" "<<it.second<<endl;
+        if(it.second==1)count++;
     }
-    cout<<ans<<endl;
-
-
-
+    cout<<count<<endl;
 }
 
 
@@ -145,6 +134,6 @@ int main(){
          freopen("output.txt","w",stdout);
          freopen("Error.txt", "w", stderr);
      #endif 
-    ll t;solve();
+    ll t; cin>>t; while(t--)solve();
  
 }

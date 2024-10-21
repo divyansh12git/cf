@@ -98,48 +98,31 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 void solve(){
     //code here...    
-    int n,k;
-    cin>>n>>k;
-    vector<ll>a(n);
+    int n;
+    cin>>n;
+    vector<int>a(n);
     fl(i,0,n)cin>>a[i];
-    vsort(a);
-    
-   int mini=a.back()+k-1,maxi=a.back();
-   for(int i=0;i<n-1;i++){
-      int l=a.back(),r=a.back()+k,ans;
-      int check=((a.back()-a[i])/k)&1;
-      if(check){
-        while(l<=r){
-            //minimize
-            int mid=(l+r)/2;
-            if(((mid-a[i])/k)&1){
-                l=mid+1;
-            }else{
-                ans=mid;
-                r=mid-1;
-            }
-        }
-        maxi=max(maxi,ans);
-      } else{
-        while(l<=r){
-            //maximize
-            int mid=(l+r)/2;
-            if(((mid-a[i])/k)&1){
-                r=mid-1;
-            }else{
-                ans=mid;
-                l=mid+1;
-            }
-        }
-        mini=min(mini,ans);
-      }
-   }
-//    cerr<<maxi<<" "<<mini<<endl;
-   if(maxi<=mini){
-    cout<<maxi<<endl;
+    int mini=1,maxi=n;
+    int p1=0,p2=n-1;
+    set<int>st;
+    while(p1<p2){
+        while(mini<=n  && st.find(mini)!=st.end())mini++;
+        while(maxi<=n  && st.find(maxi)!=st.end())maxi--;
+
+        if(a[p1]==mini || a[p1]==maxi){
+            st.insert(a[p1]);
+            p1++;
+        }else if(a[p2]==mini || a[p2]==maxi){
+            st.insert(a[p2]);
+            p2--;
+        }else{
+            cout<<p1+1<<" "<<p2+1<<endl;
+            return;
+        } 
+    }
+    cout<<-1<<endl;
     return;
-   }
-   cout<<"-1"<<endl;
+
 }
 
 
