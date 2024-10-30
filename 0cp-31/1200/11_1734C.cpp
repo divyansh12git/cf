@@ -107,26 +107,31 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vll a(n);
-    fl(i,0,n)cin>>a[i];
-    vsort(a);
-    map<ll,ll>mp;
+    vi el;
+    string s;
+    cin>>s;
+    el.pb(0);
     fl(i,0,n){
-        for(ll j=2;j*j<=a[i];j++){
-            while(a[i]%j==0){
-                mp[j]++;
-                a[i]/=j;
+        el.pb(s[i]-'0');
+    }
+    ll ans=0;
+    _print(el);
+    cerr<<el[n]<<endl;
+    for(int i=1;i<=n;i++){
+        int x=1;
+        for(int k=i;k<=n;x++,k=i*x){
+            // cerr<<x<<endl;
+            
+            cerr<<i<<" "<<k<<" "<<ans<<endl;
+            if(el[k]==0){
+                el[k]=1;
+                ans+=i;
             }
         }
-        if(a[i]>1)mp[a[i]]++;
+        // _print(el);
+        
     }
-    for(auto it:mp){
-        if(it.second%n!=0){
-            tres(0);return;
-        }
-    }
-    tres(1);
-
+    cout<<ans<<endl;
 
 }
 
@@ -141,7 +146,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-
     ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }

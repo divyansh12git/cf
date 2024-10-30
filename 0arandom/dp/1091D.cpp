@@ -105,29 +105,7 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vll a(n);
-    fl(i,0,n)cin>>a[i];
-    vsort(a);
-    map<ll,ll>mp;
-    fl(i,0,n){
-        for(ll j=2;j*j<=a[i];j++){
-            while(a[i]%j==0){
-                mp[j]++;
-                a[i]/=j;
-            }
-        }
-        if(a[i]>1)mp[a[i]]++;
-    }
-    for(auto it:mp){
-        if(it.second%n!=0){
-            tres(0);return;
-        }
-    }
-    tres(1);
-
-
+    
 }
 
 
@@ -141,7 +119,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-
     ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }

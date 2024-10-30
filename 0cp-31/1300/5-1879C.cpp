@@ -102,10 +102,32 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 bool istc=1;
 bool judge=1;
 
-
+int const MOD5=998244353;
 void solve(){
     //code here...    
+    string s;
+    cin>>s;
+    ll count=0,seq=1;
+    int x=0;
+    ll m=1;
+    int check=0;
     
+    fl(i,0,s.length()-1){
+        if(s[i]==s[i+1]){
+            count++;
+            x++;
+            m=mod_mul(m,count,MOD5);
+        }else{
+            if(x>0){
+                seq=mod_mul(seq,x+1,MOD5);
+                x=0;
+            }
+        }
+    }
+    // cerr<<check<<endl;
+    seq=mod_mul(seq,x+1,MOD5);
+    seq=mod_mul(seq,m,MOD5);
+    cout<<count<<" "<<seq<<endl;
 }
 
 
