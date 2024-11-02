@@ -99,45 +99,30 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=0;
+bool istc=1;
 bool judge=1;
 
-void traverse(vi v,vll &vec,vector<bool>&vis,int x, ll sum,ll count,ll &ans){
-    _print(x);cerr<<endl;
-    if(x>vec.size()){
-        return;
-    }
-    if(count==3 && (count*1LL*(count+1))>>1==sum){cerr<<"hey"<<endl;ans++;}
-    _print(v);
-    cerr<<sum<<" "<<count<<endl;
-    fl(i,0,vec.size()){
-        if(!vis[i]){
-            vis[i]=1;
-            v.pb(vec[i]);
-            if(count<3){
-                traverse(v,vec,vis,x+1,sum+vec[i],count+1,ans);
-            }
-            traverse(v,vec,vis,x+1,0,0,ans);
-            v.ppb();
-            vis[i]=0;
-        }
-    }
-}
+
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vll vec;
-    vector<bool>vis(n,0);
-    fl(i,1,n+1){
-        vec.pb(i);
+    int n,k;
+    cin>>n>>k;
+    if(n==1 && k==1){
+        cout<<1<<endl;
+        cout<<1<<endl;
+        return;
     }
-    ll sum=0;
-    ll count=0;
-    ll ans=0;
-    traverse({},vec,vis,0,sum,count,ans);
-    cout<<ans<<endl;
+    if(k==1 || n==k){
+        cout<<-1<<endl;
+        return;
+    }
+    cout<<3<<endl;
+    if(k&1){
+        cout<<1<<" "<<k-1<<" "<<k+2<<endl;
+    }else{  
+        cout<<1<<" "<<k<<" "<<k+1<<endl;
+    }
 }
 
 
@@ -151,6 +136,7 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
+    // vll primes=sieve(1e5);
     ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }

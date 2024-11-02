@@ -99,45 +99,33 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=0;
+bool istc=1;
 bool judge=1;
 
-void traverse(vi v,vll &vec,vector<bool>&vis,int x, ll sum,ll count,ll &ans){
-    _print(x);cerr<<endl;
-    if(x>vec.size()){
-        return;
-    }
-    if(count==3 && (count*1LL*(count+1))>>1==sum){cerr<<"hey"<<endl;ans++;}
-    _print(v);
-    cerr<<sum<<" "<<count<<endl;
-    fl(i,0,vec.size()){
-        if(!vis[i]){
-            vis[i]=1;
-            v.pb(vec[i]);
-            if(count<3){
-                traverse(v,vec,vis,x+1,sum+vec[i],count+1,ans);
-            }
-            traverse(v,vec,vis,x+1,0,0,ans);
-            v.ppb();
-            vis[i]=0;
-        }
-    }
-}
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vll vec;
-    vector<bool>vis(n,0);
-    fl(i,1,n+1){
-        vec.pb(i);
+    vll x(n),y(n);
+    fl(i,0,n)cin>>x[i];
+    fl(i,0,n)cin>>y[i];
+    vll diff;
+    fl(i,0,n){
+        diff.pb(y[i]-x[i]);
     }
-    ll sum=0;
-    ll count=0;
-    ll ans=0;
-    traverse({},vec,vis,0,sum,count,ans);
-    cout<<ans<<endl;
+    vsort(diff);
+    int days=0;
+    int p1=0,p2=n-1;
+    while(p1<p2){
+        if(diff[p1]+diff[p2]>=0){
+            p2--;
+            days++;
+        }
+        p1++;
+    }
+    cout<<days<<endl;
+
 }
 
 

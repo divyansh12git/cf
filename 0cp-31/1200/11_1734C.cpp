@@ -115,21 +115,20 @@ void solve(){
         el.pb(s[i]-'0');
     }
     ll ans=0;
-    _print(el);
-    cerr<<el[n]<<endl;
     for(int i=1;i<=n;i++){
         int x=1;
-        for(int k=i;k<=n;x++,k=i*x){
-            // cerr<<x<<endl;
-            
-            cerr<<i<<" "<<k<<" "<<ans<<endl;
-            if(el[k]==0){
-                el[k]=1;
-                ans+=i;
-            }
+        if(s[i-1]=='0'){
+            // cerr<<i<<endl;
+            while(x*i<=n){
+                if(el[x*i]==0){
+                    // cerr<<"hi "<<i<<" "<<x*i<<endl;
+                    el[x*i]=1;
+                    ans+=i;
+                }
+                else if(s[x*i-1]=='1') break;
+                x++;
+            }   
         }
-        // _print(el);
-        
     }
     cout<<ans<<endl;
 
