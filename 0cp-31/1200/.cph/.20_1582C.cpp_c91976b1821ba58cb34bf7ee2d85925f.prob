@@ -1,0 +1,1 @@
+{"name":"Local: 20_1582C","url":"d:\\vs code\\codeforces\\0cp-31\\1200\\20_1582C.cpp","tests":[{"id":1730825025862,"input":"5\n8\nabcaacab\n6\nxyzxyz\n4\nabba\n8\nrprarlap\n10\nkhyyhhyhky\n","output":"2\n-1\n0\n3\n2\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cp-31\\1200\\20_1582C.cpp","group":"local","local":true}
