@@ -105,27 +105,27 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
-    vi a(n);
-    fl(i,0,n)cin>>a[i];
-    vi bits(31,0);
-    fl(i,0,n){
-        fl(j,0,31){
-            if(a[i]&(1<<j)){
-                bits[j]++;
-            }
+    map<int,int>mp;
+    ll x=n;
+    for(int i=2;i*i<=x;i++){
+        while(x%i==0){
+            mp[i]++;
+            x/=i;
         }
     }
-    fl(i,1,n+1){
-        bool div=1;
-        fa(j,bits){
-            if(j%i!=0){
-                div=0;break;
-            }
+    if(x>1)mp[x]++;
+    ll ans=1;
+    for(auto i:mp){
+        if((i.second/2)>0){
+            ans*=(i.second/2)*i.F;
         }
-        if(div)cout<<i<<" ";
-    }cout<<endl;
+    }
+    // if(ans==n){
+    //     cout<<
+    // }
+    cout<<ans<<" "<<n-ans<<endl;
 }
 
 

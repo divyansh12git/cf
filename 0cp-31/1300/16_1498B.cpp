@@ -105,27 +105,10 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vi a(n);
-    fl(i,0,n)cin>>a[i];
-    vi bits(31,0);
-    fl(i,0,n){
-        fl(j,0,31){
-            if(a[i]&(1<<j)){
-                bits[j]++;
-            }
-        }
-    }
-    fl(i,1,n+1){
-        bool div=1;
-        fa(j,bits){
-            if(j%i!=0){
-                div=0;break;
-            }
-        }
-        if(div)cout<<i<<" ";
-    }cout<<endl;
+    ll n,w;
+    cin>>n>>w;
+    vi len(n);
+    fl(i,0,n)cin>>len[i];
 }
 
 

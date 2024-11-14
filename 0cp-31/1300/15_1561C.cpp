@@ -107,25 +107,33 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
-    fl(i,0,n)cin>>a[i];
-    vi bits(31,0);
+    ll ans=-1e9-7;
+    vector<pii> req(n);
     fl(i,0,n){
-        fl(j,0,31){
-            if(a[i]&(1<<j)){
-                bits[j]++;
-            }
+        int k;
+        cin>>k;
+        ll maxi=-1e9-7;
+        int ind=-1;
+        fl(i,0,k){
+            ll q;
+            cin>>q;
+            maxi=max(maxi,q-i);
         }
+        req[i]={maxi+1,k};
     }
-    fl(i,1,n+1){
-        bool div=1;
-        fa(j,bits){
-            if(j%i!=0){
-                div=0;break;
-            }
+    vsort(req);
+    _print(req);
+
+    ll init=req[0].F;
+    ll pu=0;
+    fl(i,0,req.size()){
+        if(init+pu<req[i].F){
+            ll diff=req[i].F-init-pu;
+            init+=diff;
         }
-        if(div)cout<<i<<" ";
-    }cout<<endl;
+        pu+=req[i].S;
+    }
+    cout<<init<<endl;
 }
 
 

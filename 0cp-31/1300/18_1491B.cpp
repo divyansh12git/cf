@@ -99,33 +99,26 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
+
+//1->E
+//2->W;
+//3->N;
+//4->S
+
 
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
-    fl(i,0,n)cin>>a[i];
-    vi bits(31,0);
-    fl(i,0,n){
-        fl(j,0,31){
-            if(a[i]&(1<<j)){
-                bits[j]++;
-            }
-        }
+    if(n&1){
+        cout<<2*(n/2+1)*(n/2+2)<<endl;
+    }else{
+        cout<<(n/2+1)*(n/2+1)<<endl;
     }
-    fl(i,1,n+1){
-        bool div=1;
-        fa(j,bits){
-            if(j%i!=0){
-                div=0;break;
-            }
-        }
-        if(div)cout<<i<<" ";
-    }cout<<endl;
+
 }
 
 
