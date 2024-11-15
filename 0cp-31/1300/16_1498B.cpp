@@ -109,6 +109,21 @@ void solve(){
     cin>>n>>w;
     vi len(n);
     fl(i,0,n)cin>>len[i];
+    multiset<int>ms;
+    int ans=0;
+    sort(all(len),revsort);
+    fl(i,0,n){
+        if(ms.lower_bound(len[i])==ms.end()){
+            ms.insert(w);
+            ans++;
+        }
+        auto it=ms.lower_bound(len[i]);
+        ms.insert(*it-len[i]);  
+        ms.erase(ms.find(*it));
+            // cerr<<len[i]<<"->";for(auto it:ms)cerr<<it<<" ";cerr<<endl;
+    }
+    cout<<ans<<endl;
+
 }
 
 

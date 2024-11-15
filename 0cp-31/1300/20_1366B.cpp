@@ -105,20 +105,28 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    ll x=n;
-    ll p=1;
-   for(int i=2;i*i<=x;i++){
-        if(x%i==0){
-            p=i;break;
+    ll n,x,m;
+    cin>>n>>x>>m;
+    ll p=-1,q=-1;
+    while(m--){
+        ll l,r;
+        cin>>l>>r;
+        if(p==-1 && q==-1){
+            if(x>=l && x<=r){
+                p=l;q=r;
+            }
+        }else{
+            if(r<p || l>q)continue;
+            else{
+                p=min(l,p);
+                q=max(r,q);
+            }
         }
     }
-    ll q=n/p;
-    if(q!=n)cout<<q<<" "<<n-q<<endl;
-    else cout<<p<<" "<<n-p<<endl;
-
+    cout<<q-p+1<<endl;
 }
+
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
