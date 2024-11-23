@@ -102,27 +102,56 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 bool istc=1;
 bool judge=1;
 
-
+void dfs1(int node,int p,vector<int>adj[],vector<int>&parents){
+    parents[node]=p;
+    for(auto child:adj[node]){
+        if(child==p)continue;
+        dfs1(child,node,adj,parents);
+    }
+    return;
+}
+int dfs2(int node,int p,vector<int>adj[],vector<int>&parents,map<pii,int>&wt){
+    int sm=0;
+    for(auto child:adj[node]){
+        if(child==p)continue;
+        sm=max(sm,dfs2(child,node,adj,parents,wt));
+    }
+    return sm+wt[{node,p}];
+}
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    ll ans;
-    if(n&1){
-        if(k<(n/2)){
-            ans=k;
-        }else{
-
-            ll x=((k-1)/(n/2))+k;
-            // cerr<<n<<" "<<k<<" "<<x<<endl;
-            if(x%n==0)ans=n;
-            else ans=x%n;
-        }
-    }else{
-        if(k%n==0)ans=n;
-        else ans=k%n;
+    int n;
+    cin>>n;
+    vector<int>adj[n+1];
+    map<pii,int>order;
+    fl(i,0,n-1){
+        int a,b;
+        cin>>a>>b;
+        order[{a,b}]=i;
+        order[{b,a}]=i;
+        adj[a].pb(b);
+        adj[b].pb(a);
     }
-    cout<<ans<<endl;
+
+    vector<int>parents(n+1,-1);
+    dfs1(1,-1,adj,parents);
+    // _print(parents);
+    map<pii,int>wt;
+    fl(i,1,n+1){
+        if(parents[i]==1){
+            wt[{i,parents[i]}]=wt[{parents[i],i}]=1;
+        }else{
+            int u=i;
+            int v=parents[i];
+            int w=parents[v];
+            if(order[{u,v}]>order[{v,w}]){
+                wt[{u,v}]=wt[{v,u}]=0;
+            }else{
+                wt[{u,v}]=wt[{v,u}]=1;
+            }
+        }
+    }
+    cout<<dfs2(1,-1,adj,parents,wt)-1<<endl;
 }
 
 

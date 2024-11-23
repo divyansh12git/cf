@@ -105,24 +105,46 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    ll ans;
-    if(n&1){
-        if(k<(n/2)){
-            ans=k;
-        }else{
-
-            ll x=((k-1)/(n/2))+k;
-            // cerr<<n<<" "<<k<<" "<<x<<endl;
-            if(x%n==0)ans=n;
-            else ans=x%n;
+    int n;
+    cin>>n;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    int q;
+    cin>>q;
+    vector<vector<int>>pre(n+1,vector<int>(31,0));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<31;j++){
+            if(a[i]&(1<<j)){
+                pre[i+1][j]=pre[i][j];
+            }else{
+                pre[i+1][j]=pre[i][j]+1;
+            }
+            
         }
-    }else{
-        if(k%n==0)ans=n;
-        else ans=k%n;
     }
-    cout<<ans<<endl;
+    // _print(pre);
+    while(q--){
+        ll l,k;cin>>l>>k;
+        int s=l-1,e=n-1;
+        int ans=-1;
+        while(s<=e){
+            int mid=(s+e)>>1;
+            int x=0;
+            for(int i=0;i<31;i++){
+                if(pre[mid+1][i]-pre[l-1][i]==0){
+                    //1
+                    x^=(1<<i);
+                }
+            }
+            if(x>=k){
+                ans=mid;
+                s=mid+1;
+            }else{
+                e=mid-1;
+            }
+        }
+        cout<<(ans==-1?-1:ans+1)<<" ";
+    }cout<<endl;
 }
 
 

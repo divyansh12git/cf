@@ -102,27 +102,89 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 bool istc=1;
 bool judge=1;
 
+bool checkForReverse(string s){
+    //  cerr<<"yoyo"<<endl;
+    int l=0,r=s.length()-1;
+    while(l<=r){
+        char c=s[l];
+        s[l]=s[r];
+        s[r]=c;
+        l++;r--;
+    }
+    // cerr<<s<<endl;
+    stack<char>st;
+    for(auto it:s){
+        if(!st.empty()){
+            if(st.top()=='(' && it==')')st.pop();
+            else st.push(it);
+        }else st.push(it);
+    }
+    if(st.empty())return 1;
+    return 0;
+}
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    ll ans;
-    if(n&1){
-        if(k<(n/2)){
-            ans=k;
-        }else{
-
-            ll x=((k-1)/(n/2))+k;
-            // cerr<<n<<" "<<k<<" "<<x<<endl;
-            if(x%n==0)ans=n;
-            else ans=x%n;
-        }
-    }else{
-        if(k%n==0)ans=n;
-        else ans=k%n;
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    stack<pair<char,int>>st;
+    vi ans(n,0);
+    int color=0;
+    bool che=0;
+    if(checkForReverse(s)){
+       
+        cout<<1<<endl;
+        fl(i,0,n)cout<<1<<" ";cout<<endl;
+        return;
     }
-    cout<<ans<<endl;
+    for(int i=0;i<s.length();i++){
+        if(st.empty()){
+            st.push({s[i],i});
+        }else{
+            if((st.top().F=='(') && (s[i]==')')){
+                auto x=st.top();
+                st.pop();
+                if(!che){
+                    che=1;
+                    color++;
+                }
+                ans[x.S]=color;
+                ans[i]=color;
+            }else{
+                st.push({s[i],i});
+            }
+        }
+    }
+
+    queue<int>q;
+    
+    while((!st.empty()) && (st.top().F=='(')){
+        
+        q.push(st.top().S);
+        st.pop();
+    }
+    che=0;
+    while((!st.empty()) && !q.empty() && (st.top().F==')')){
+        int f=q.front();
+        q.pop();
+        int p=st.top().S;
+        st.pop();
+        if(!che){
+            color++;
+            che=1;
+        }
+        ans[f]=color;
+        ans[p]=color;
+        
+    }
+    if((!q.empty()) || (!st.empty())){
+        cout<<-1<<endl;
+    }else{
+        cout<<color<<endl;
+        fl(i,0,n)cout<<ans[i]<<" ";cout<<endl;
+    }
 }
 
 

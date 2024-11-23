@@ -105,24 +105,38 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    ll ans;
-    if(n&1){
-        if(k<(n/2)){
-            ans=k;
-        }else{
-
-            ll x=((k-1)/(n/2))+k;
-            // cerr<<n<<" "<<k<<" "<<x<<endl;
-            if(x%n==0)ans=n;
-            else ans=x%n;
-        }
-    }else{
-        if(k%n==0)ans=n;
-        else ans=k%n;
+    int n;
+    cin>>n;
+    vi h(n);
+    fl(i,0,n){
+        cin>>h[i];
     }
-    cout<<ans<<endl;
+    vi ans(n,0);
+    vsort(h);
+    // _print(h);
+    int p1=-1,p2=-1;
+    int diff=1e9+7;
+    fl(i,0,n-1){
+        if(abs(h[i]-h[i+1])<diff){
+            diff=abs(h[i]-h[i+1]);
+            p1=i;p2=i+1;
+        }
+    }
+    // cerr<<p1<< " "<<p2<<endl;
+    ans[0]=h[p1];ans[n-1]=h[p2];
+    int q=1;
+    fl(i,p2+1,n){
+        ans[q]=h[i];
+        q++;
+    }
+    fl(i,0,p1){
+        ans[q]=h[i];
+        q++;
+    }
+    
+    fl(i,0,n)cout<<ans[i]<<" ";cout<<endl;
+
+
 }
 
 

@@ -105,24 +105,42 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    ll ans;
-    if(n&1){
-        if(k<(n/2)){
-            ans=k;
-        }else{
-
-            ll x=((k-1)/(n/2))+k;
-            // cerr<<n<<" "<<k<<" "<<x<<endl;
-            if(x%n==0)ans=n;
-            else ans=x%n;
+    ll n,m;
+    cin>>n>>m;
+    ll x=n;
+    int two=0,five=0;
+    while(x>0 && x%2==0){
+        two++;
+        x/=2;
+    }
+    while(x>0 && x%5==0){
+        five++;
+        x/=5;
+    }
+    ll ans=1;
+    // cerr<<two<<" "<<five<<endl;
+    if(two>five){
+        while(five<two && ans*5<=m){
+            five++;
+            // cerr<<" hi "<<five<<" "<<two<<endl;
+            ans*=5;
         }
     }else{
-        if(k%n==0)ans=n;
-        else ans=k%n;
+        while(two<five && ans*2<=m){
+            two++;
+            ans*=2;
+        }
+        
     }
-    cout<<ans<<endl;
+    
+    while(ans*10<=m){
+        ans*=10;
+    }
+    // cerr<<ans<<endl;
+    ans*=(m/ans);
+    cout<<n*ans<<endl;
+
+    
 }
 
 
