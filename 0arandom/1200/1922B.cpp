@@ -9,7 +9,7 @@
 #include<string.h>
 #include<cmath>
 #include<limits.h>
-#include <algorithm>
+#include<algorithm>
 #include<time.h>
 using namespace std;
 
@@ -20,9 +20,9 @@ using namespace std;
 
 #define     INF                     1e18
 #define     PI                      3.141592653589793238462
-#define     MOD1                    1e9+7
-#define     MOD2                    1e9+9
-#define     MOD3                    998244353
+#define     MOD11                    1e9+7
+#define     MOD12                    1e9+9
+#define     MOD13                    998244353
 
 #define     llfl(i,s,e)             for(long long i=s;i<e;i++)
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
@@ -79,17 +79,17 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
 bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
 bool isSorted(vector<ll> v) {llfl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
-ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+ll expo(ll a, ll b, ll MOD1) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % MOD1; a = (a * a) % MOD1; b = b >> 1;} return res;}
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
 ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
 bool revsort(ll a, ll b) {return a > b;}
 ll combination(ll n, ll r, ll m, ll *fact, ll *ifact) {ll val1 = fact[n]; ll val2 = ifact[n - r]; ll val3 = ifact[r]; return (((val1 * val2) % m) * val3) % m;}
 vector<ll> sieve(int n) {int*arr = new int[n + 1](); vector<ll> vect; for (int i = 2; i <= n; i++)if (arr[i] == 0) {vect.push_back(i); for (int j = 2 * i; j <= n; j += i)arr[j] = 1;} return vect;}
-ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
-ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
-ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
-ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
+ll MOD1_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
+ll MOD1_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
+ll MOD1_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
+ll MOD1_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (MOD1_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
@@ -99,50 +99,92 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=0;
+bool istc=1;
 bool judge=1;
 
+const ll N=3*(1e5);
+const int MOD1=1e18+7;
+ll power(ll base,ll x){
+    if(x<0)return 0;
+    ll ans=1;
+    while(x){
+        if(x&1){
+            //power odd;
+            ans=(ans*base)%MOD1;//as power odd multiply by base and reduced to even
+        }
+        base=(base*base)%MOD1;// now it's even make it square
+        x>>=1;// divide it by 2;odd doesn't matter now;
+    }
+    return ans;
+}
+ll MOD1inverse(ll a,ll M){
+    return power(a,M-2);
+    //MOD1ular multiplicative theorem theorem:
+    //      a^(-1)%MOD1=(a^(MOD1-2))%MOD1
+    //  MOD1 id prime;
+}
+
+ll fact[N+1];
+ll MOD1inv[N+1];
+void precomp(){
+    fact[0]=1;
+    for(int i=1;i<=N;i++){
+        fact[i]=(fact[i-1]*i)%MOD1;
+        MOD1inv[i]=power(fact[i],MOD1-2);
+        // cout<<MOD1inv[i]<<" ";
+    }
+}
+
+ll ncr(ll n,ll r){
+    if(r>n)return 0;
+    if(n==r)return 1;
+    ll numo=fact[n];
+    ll invdeno=(MOD1inv[r]*MOD1inv[n-r])%MOD1;
+    ll ans=(numo*invdeno)%MOD1;
+    return ans;
+}
+ll ncr2(ll n,ll r){
+    if(r>n)return 0;
+    ll ans=1;
+    for(int i=n;i>max(r,n-r);i--){
+        ans*=i;
+        ans/=(n-i+1);
+    }
+    return ans;
+}
 
 void solve(){
     //code here...    
-    string a,b;
-    cin>>a>>b;
-    vector<int>prez(a.length()+1,0);
-    vector<int>preo(a.length()+1,0);
-    prez[0]=0;preo[0]=0;
-    fl(i,1,a.length()+1){
-            preo[i]=preo[i-1];
-            prez[i]=prez[i-1];
-            if(a[i-1]=='1'){
-                preo[i]++;
-            }else prez[i]++;
-        
-    }
-    // _print(prez);
-    // _print(preo);
-    int win=b.length()-a.length();
-    // cerr<<win<<endl;
-    int m=a.length();
-    int n=b.length();
-    ll ans=0;
+    int n;
+    cin>>n;
+    vi a(n);
+    map<int,int>mp;
+    ll tot=n;
     fl(i,0,n){
-        int p1,p2;
-        int left=n-i-1;
-        if(i<m){
-            p2=i+1;
-            p1=max(1,p2-n+m);
-        }else{
-            p2=m;
-            p1=max(p2-left,1);
+        cin>>a[i];
+        mp[a[i]]++;
+    }
+    map<int,int>::iterator it=mp.end();
+    it--;
+    ll ans=0;
+    while(it!=mp.begin()){
+        if(it->S>=3){
+            ans+=ncr2(it->S,3);
         }
-        // cerr<<p1<<" "<<p2<<" "<<left<<endl;
-        if(b[i]=='0'){
-            ans+=preo[p2]-preo[p1-1];
-        }else{
-            ans+=prez[p2]-prez[p1-1];
+        tot-=it->S;
+        if(it->S>=2){
+            // cerr<<ncr(4,4)<<" ";
+            ans+=(ncr2(it->S,2)*ncr2(tot,1));
         }
+        it--;
+        // cerr<<ans<<endl;
+    }
+    if(it->S>=3){
+        ans+=ncr2(it->S,3);
     }
     cout<<ans<<endl;
+
+    
 }
 
 
@@ -156,6 +198,7 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
+    precomp();
     ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }

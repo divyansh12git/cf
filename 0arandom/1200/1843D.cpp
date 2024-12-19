@@ -9,7 +9,7 @@
 #include<string.h>
 #include<cmath>
 #include<limits.h>
-#include <algorithm>
+#include<algorithm>
 #include<time.h>
 using namespace std;
 
@@ -99,50 +99,48 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=0;
+bool istc=1;
 bool judge=1;
 
 
+int dfs(int node,int par,vll adj[],vll &ways){
+    if(adj[node].size()==1 && adj[node][0]==par){
+        ways[node]=1;
+        return 1;
+    }
+    ll w=0;
+    for(auto nei:adj[node]){
+        if(nei==par)continue;
+        w+=dfs(nei,node,adj,ways);
+    }
+    return ways[node]=w;
+
+}
+
 void solve(){
     //code here...    
-    string a,b;
-    cin>>a>>b;
-    vector<int>prez(a.length()+1,0);
-    vector<int>preo(a.length()+1,0);
-    prez[0]=0;preo[0]=0;
-    fl(i,1,a.length()+1){
-            preo[i]=preo[i-1];
-            prez[i]=prez[i-1];
-            if(a[i-1]=='1'){
-                preo[i]++;
-            }else prez[i]++;
-        
+    int n;
+    cin>>n;
+    vector<ll>adj[n+1];
+    fl(i,0,n-1){
+        // cerr<<"YO";
+        int a,b;
+        cin>>a>>b;
+        // cout<<a<<" "<<b<<endl;
+        adj[a].pb(b);
+        adj[b].pb(a);
     }
-    // _print(prez);
-    // _print(preo);
-    int win=b.length()-a.length();
-    // cerr<<win<<endl;
-    int m=a.length();
-    int n=b.length();
-    ll ans=0;
-    fl(i,0,n){
-        int p1,p2;
-        int left=n-i-1;
-        if(i<m){
-            p2=i+1;
-            p1=max(1,p2-n+m);
-        }else{
-            p2=m;
-            p1=max(p2-left,1);
-        }
-        // cerr<<p1<<" "<<p2<<" "<<left<<endl;
-        if(b[i]=='0'){
-            ans+=preo[p2]-preo[p1-1];
-        }else{
-            ans+=prez[p2]-prez[p1-1];
-        }
+    vll ways(n+1,-1);
+    dfs(1,-1,adj,ways);
+    // for(auto it:ways)cerr<<it<<" ";cout<<endl;
+    int q;
+    cin>>q;
+
+    while(q--){
+        int x,y;
+        cin>>x>>y;
+        cout<<ways[x]*ways[y]<<endl;
     }
-    cout<<ans<<endl;
 }
 
 

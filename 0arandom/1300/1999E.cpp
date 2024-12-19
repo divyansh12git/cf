@@ -1,7 +1,3 @@
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
-
 #include<iostream>
 #include<vector>
 #include<unordered_map>
@@ -9,6 +5,7 @@
 #include<set>
 #include<queue>
 #include<deque>
+#include<stack>
 #include<string.h>
 #include<cmath>
 #include<limits.h>
@@ -23,16 +20,21 @@ using namespace std;
 
 #define     INF                     1e18
 #define     PI                      3.141592653589793238462
+#define     MOD1                    1e9+7
+#define     MOD2                    1e9+9
+#define     MOD3                    998244353
 
-#define     ll                      long long
-#define     pii                     pair<int,int>
-#define     pll                     pair<ll,ll>
 #define     llfl(i,s,e)             for(long long i=s;i<e;i++)
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
 #define     fa(i,z)                 for(auto i:z)
 
+#define     frl(i,s,e)              for(int i=s;i>=e;i--)
+
 #define     pb                      push_back
 #define     pf                      push_front
+#define     ppb                     pop_back
+
+#define     all(x)                  (x).begin(), (x).end()
 
 #define     vsort(v)                sort(v.begin(),v.end())
 #define     vreverse(v)             reverse(v.begin(),v.end())
@@ -40,9 +42,43 @@ using namespace std;
 #define     mapit(it,d1,d2,map)     unordered_map<d1,d2>::iterator it=map.begin()
 #define     vecit(it,dt,vec)        vector<dt>:: iterator it=vec.begin();
 
+typedef long long ll;
+typedef long double lld;
+typedef unsigned long long ull;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef pair<int,int> pii;
+typedef pair<long, long> pll;
+typedef priority_queue<int> pqmax;
+typedef priority_queue<ll> pqmaxll;
+typedef priority_queue<int,vector<int>,greater<int>> pqmin;
+ typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
+
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-ll gcd(ll a, ll b){ if(a==b)return a;    if(a>b)a-=b;    if(b>a)b-=a;    return gcd(a,b);    }  //m
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(lld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ll t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+/*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
+
+ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
+bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
+bool isSorted(vector<ll> v) {llfl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
@@ -59,71 +95,56 @@ ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void debug(int t=1) {cout << "Case #" << t << ": ";}
-void tres(bool t){ t?cout<<"Yes":cout<<"No";cout<<endl; }
+void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
+bool istc=1;
+bool judge=1;
 
 
 void solve(){
     //code here...    
-    int n,m,k;
-    cin>>n>>m>>k;
-    string a;
-    cin>>a;
-    int p=0;
-    bool ans=1;
-    int swim=0;
-    while(p<n+1){
-        bool croc=0;
-        bool foundlog=0;
-        if(p>n)break;
-        int x=p+1;
-        while(x<=p+m){
-            
-            if((x>0 && a[x-1]=='L') ){
-                p=x;
-                foundlog=1;
-                break;
+    ll l,r;
+    cin>>l>>r;
+    auto bs=[&](int x){
+        ll s=1,e=1e4;
+        while(s<=e){
+            ll mid=(s+e)>>1;
+            if(x/expo(3,mid,1e9+7)==0){
+                e=mid-1;
+            }else{
+                s=mid+1;
             }
-            cerr<<x<<endl;
-            x++;
-        }
-        if(foundlog)continue;
-        if(p>n)break;
-        p+=m;
-        
-        foundlog=0;
-        while(swim<k+1){
-            if(p>n){
-                cout<<"Yes"<<endl;return;
-            }
-            if(a[p-1]=='C'){
-                cout<<"No"<<endl;return;
-            }
-            if(a[p-1]=='L'){
-                foundlog=1;
-                break;
-            }
-            swim++;
-            p++;
-        }
-        if(foundlog)continue;
-        ans=0;
-        break;
+        }  
+        return s;
+    };
+
+    ll ans=0;
+    ll val=bs(l);
+    ll ex=expo(3,val,1e9+7);
+    ans+=2*val;
+    int p=l+1;
+    while(p<=r){
+        ans+=(min(ex,r+1)-p)*val;
+        val++;
+        p=ex;
+        ex*=3;
     }
-    tres(ans);
+    cout<<ans<<endl;
 }
 
 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    // #ifndef ONLINE_JUDGE
-    //     freopen("input.txt","r",stdin);
-   //     freopen("output.txt","w",stdout);
-    //     freopen("Error.txt", "w", stderr);
-    // #endif 
-    ll t; cin>>t; while(t--)solve();
+    if(judge){
+        #ifndef ONLINE_JUDGE
+            freopen("input.txt","r",stdin);
+            freopen("output.txt","w",stdout);
+            freopen("Error.txt", "w", stderr);
+        #endif
+    }
+    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }
