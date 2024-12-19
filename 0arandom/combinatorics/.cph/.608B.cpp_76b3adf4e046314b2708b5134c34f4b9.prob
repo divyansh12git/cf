@@ -1,0 +1,1 @@
+{"name":"Local: 608B","url":"d:\\vs code\\codeforces\\0arandom\\combinatorics\\608B.cpp","tests":[{"id":1732698966718,"input":"0011\n0110\n","output":"2\n"},{"id":1732699759759,"input":"01\n00111\n","output":"3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0arandom\\combinatorics\\608B.cpp","group":"local","local":true}
