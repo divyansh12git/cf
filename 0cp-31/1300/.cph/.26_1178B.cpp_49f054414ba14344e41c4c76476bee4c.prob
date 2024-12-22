@@ -1,0 +1,1 @@
+{"name":"Local: 26_1178B","url":"d:\\vs code\\codeforces\\0cp-31\\1300\\26_1178B.cpp","tests":[{"id":1734718815515,"input":"vvvovvv\n","output":"4\n"},{"id":1734718930394,"input":"vvovooovovvovoovoovvvvovovvvov\n","output":"100\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cp-31\\1300\\26_1178B.cpp","group":"local","local":true}
