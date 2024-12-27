@@ -106,38 +106,53 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
+
+ll dfs(ll user,map<ll,vll>&group,map<ll,vll>&userstogroup,vector<ll>&dp,vector<ll>&vis){
+    if(dp[user]!=-1)return dp[user];
+    ll tot=0;
+    vis[user]=1;
+    cerr<<user<<"-->"<<endl;
+    for(auto grp:userstogroup[user]){
+        _print(grp);cerr<<":";
+        for(auto oth:group[grp]){
+            if(vis[oth])continue;
+            _print(oth);cerr<<endl;
+            tot+=dfs(oth,group,userstogroup,dp,vis);
+        }
+    }
+    return dp[user]=tot+userstogroup[user].size();
+}
 
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    map<ll,ll>mp;
-    fl(i,0,n){
-        ll x;
-        cin>>x;
-        if(mp.find(x)==mp.end())mp[x]=1;
-        else mp[x]+=1;
-    }   
-    // _print(mp);
-    vll count;
-    for(auto it:mp)count.pb(it.S);
-    vsort(count);
-    reverse(all(count));
-    ll ans=0;
-    ll p=count[0];
-    // _print(count);
-    fl(i,0,count.size()){
-        while(p>count[i] && p>0)p--;
-        if(p<=0)break;
-        // _print(p);cerr<<endl;
-        ans+=p;
-        p--;
+    ll n,m;
+    cin>>n>>m;
+    map<ll,vll>group;
+    map<ll,vll>userstogroup;
+    fl(i,0,m){
+        int k;
+        cin>>k;
+        fl(j,0,k){
+            ll q;
+            cin>>q;
+            group[i].pb(q);
+            userstogroup[q].pb(i);
+        }
     }
-    // _print("yo\n");
-    cout<<ans<<endl;
+    // _print(group);_print(userstogroup);
+    vector<ll>dp(n+1,-1);
+    vector<ll>vis(n+1,0);
+    fl(i,0,n){
+        ll user=i;
+        if(vis[i]==0){
+            dfs(user,group,userstogroup,dp,vis);
+        }
+    }
+    fl(i,1,n+1)cout<<dp[i]<<" ";
+
 }
 
 

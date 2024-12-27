@@ -106,38 +106,50 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
+int dfs(int node,int par,int root,vector<int>adj[],vector<int>&res,vector<int>&ans){
+    // _print(node);
+    int check=1;
+    for(auto nei:adj[node]){
+        if(nei==par)continue;
+        check&=dfs(nei,node,root,adj,res,ans);
+    }
+    check&=res[node];
+    if(check && node!=root){
+        ans.pb(node);
+    }
+    return res[node];
+}
 
 void solve(){
     //code here...    
     ll n;
     cin>>n;
-    map<ll,ll>mp;
-    fl(i,0,n){
-        ll x;
-        cin>>x;
-        if(mp.find(x)==mp.end())mp[x]=1;
-        else mp[x]+=1;
-    }   
-    // _print(mp);
-    vll count;
-    for(auto it:mp)count.pb(it.S);
-    vsort(count);
-    reverse(all(count));
-    ll ans=0;
-    ll p=count[0];
-    // _print(count);
-    fl(i,0,count.size()){
-        while(p>count[i] && p>0)p--;
-        if(p<=0)break;
-        // _print(p);cerr<<endl;
-        ans+=p;
-        p--;
+    vector<int>adj[n+1];
+    vector<int>res(n+1);
+    int root=-1;
+    fl(i,1,n+1){
+        int p,c;
+        cin>>p>>c;
+        if(p==-1){
+            root=i;continue;
+        }
+        adj[p].pb(i);
+        res[i]=c;
     }
-    // _print("yo\n");
-    cout<<ans<<endl;
+    // fl(i,0,n+1){
+    //     cout<<i<<" ->" ;
+    //     for(auto it:adj[i])cout<<it<<" ";cout<<endl;
+    // }
+    // _print(res);
+    vi ans;
+    dfs(root,-1,root,adj,res,ans);
+    vsort(ans);
+    if(ans.size()){
+        for(auto it:ans)cout<<it<<" ";cout<<endl;
+    }else cout<<-1<<endl;
 }
 
 

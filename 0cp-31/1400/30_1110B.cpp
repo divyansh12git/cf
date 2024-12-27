@@ -106,38 +106,17 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    map<ll,ll>mp;
-    fl(i,0,n){
-        ll x;
-        cin>>x;
-        if(mp.find(x)==mp.end())mp[x]=1;
-        else mp[x]+=1;
-    }   
-    // _print(mp);
-    vll count;
-    for(auto it:mp)count.pb(it.S);
-    vsort(count);
-    reverse(all(count));
-    ll ans=0;
-    ll p=count[0];
-    // _print(count);
-    fl(i,0,count.size()){
-        while(p>count[i] && p>0)p--;
-        if(p<=0)break;
-        // _print(p);cerr<<endl;
-        ans+=p;
-        p--;
-    }
-    // _print("yo\n");
-    cout<<ans<<endl;
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vll b(m);
+    fl(i,0,m)cin>>b[i];
+    
 }
 
 

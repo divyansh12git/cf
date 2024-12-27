@@ -106,37 +106,34 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
-
+const int MOD=MOD1;
 void solve(){
-    //code here...    
-    ll n;
-    cin>>n;
-    map<ll,ll>mp;
-    fl(i,0,n){
-        ll x;
-        cin>>x;
-        if(mp.find(x)==mp.end())mp[x]=1;
-        else mp[x]+=1;
-    }   
-    // _print(mp);
-    vll count;
-    for(auto it:mp)count.pb(it.S);
-    vsort(count);
-    reverse(all(count));
-    ll ans=0;
-    ll p=count[0];
-    // _print(count);
-    fl(i,0,count.size()){
-        while(p>count[i] && p>0)p--;
-        if(p<=0)break;
-        // _print(p);cerr<<endl;
-        ans+=p;
-        p--;
+    //code here... 
+    ll n,k;
+    cin>>n>>k;   
+    vector<vector<ll>>dp(k,vector<ll>(n+1,0));
+    //at any dp[i][j] the no. of ways to put j at the index i of k 
+    for(int i=k-1;i>=0;i--){
+        for(int j=1;j<=n;j++){
+            if(i==k-1){
+                dp[i][j]=1;
+            }else{
+                ll tot=0;
+                for(int q=j;q<=n;q+=j){
+                    tot=mod_add(tot,(dp[i+1][q]),MOD);
+                }
+                dp[i][j]=tot;
+            }
+        }
     }
-    // _print("yo\n");
+    ll ans=0;
+    fl(i,1,n+1){
+        ans=mod_add(dp[0][i],ans,MOD);
+    }
+    ans=ans%MOD;
     cout<<ans<<endl;
 }
 

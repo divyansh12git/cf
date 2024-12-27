@@ -106,7 +106,7 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
@@ -114,29 +114,24 @@ void solve(){
     //code here...    
     ll n;
     cin>>n;
-    map<ll,ll>mp;
-    fl(i,0,n){
-        ll x;
-        cin>>x;
-        if(mp.find(x)==mp.end())mp[x]=1;
-        else mp[x]+=1;
-    }   
-    // _print(mp);
-    vll count;
-    for(auto it:mp)count.pb(it.S);
-    vsort(count);
-    reverse(all(count));
+    vector<vector<ll>>h(2,vector<ll>(n));
+    fl(i,0,n)cin>>h[0][i];
+    fl(i,0,n)cin>>h[1][i];
+    vector<vector<ll>>dp(2,vector<ll>(n));
     ll ans=0;
-    ll p=count[0];
-    // _print(count);
-    fl(i,0,count.size()){
-        while(p>count[i] && p>0)p--;
-        if(p<=0)break;
-        // _print(p);cerr<<endl;
-        ans+=p;
-        p--;
+    frl(i,n-1,0){
+        fl(j,0,2){
+            if(i==n-1){
+                dp[j][i]=h[j][i];
+            }else if(i==n-2){
+                dp[j][i]=h[j][i]+dp[(j+1)%2][i+1];
+            }else{
+                dp[j][i]=h[j][i]+max(dp[(j+1)%2][i+1],dp[(j+1)%2][i+2]);
+            }
+            ans=max(ans,dp[j][i]);
+        }
     }
-    // _print("yo\n");
+    // _print(dp);
     cout<<ans<<endl;
 }
 
