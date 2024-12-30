@@ -102,28 +102,56 @@ void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 bool istc=0;
 bool judge=1;
 
-//hei,extaedges
-pii dfs(int node,int par, vector<int>adj[]){
-    int ed=0;
-    int hei=0;
-    for(auto nei:adj[node]){
-        if(nei==par)continue;
-        pii d=dfs(nei,node,adj);
-        hei=max(d,)
-    }
-}
+
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vector<int>adj[n];
+    vector<int>adj[n+1];
     fl(i,0,n-1){
         int a,b;
         cin>>a>>b;
         adj[a].pb(b);
         adj[b].pb(a);
     }
+    queue<int>q;
+    q.push(1);
+    vi vis(n+1,0);
+    vll lvsize;
+    vll childs(n+1,0);
+    // childs[1]++;
+    while(!q.empty()){
+        int s=q.size();
+        lvsize.pb(s);
+        fl(i,0,s){
+            int node=q.front();
+            q.pop();
+            vis[node]=1;
+            int c=0;
+            for(auto it:adj[node]){
+                if(vis[it])continue;
+                q.push(it);
+                c++;
+            }
+            childs[node]=c;
+
+        }
+    }
+    // _print(childs);
+    vi dp(lvsize.size(),0);
+    dp[lvsize.size()-1]=lvsize.back();
+    ll ans=0;
+    for(int i=lvsize.size()-2;i>=0;i--){
+        ans+=(lvsize[i]-1)*(lvsize[i+1]);
+        if(i==lvsize.size()-2){
+            dp[i]=lvsize[i];
+            continue;
+        }
+        dp[i]=lvsize[i]+dp[i+2];
+        if(i<lvsize.size()-3)ans+=lvsize[i]*dp[i+3];
+    }
+    cout<<ans<<endl;
 
 }
 

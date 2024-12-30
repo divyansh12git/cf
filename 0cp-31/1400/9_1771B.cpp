@@ -115,46 +115,24 @@ void solve(){
     ll n,m;
     cin>>n>>m;
     map<ll,ll>mp;
-    fl(i,0,m){
+    while(m--){
         ll a,b;
-        cin >> a>>b;
+        cin>>a>>b;
         if(a>b){
-            //b-->a
-            if(mp.find(b)!=mp.end()){
-                mp[b]=min(mp[b],a);
-            }else mp[b]=a;
-        }else{
-            //a-->b
-            if(mp.find(a)!=mp.end()){
-                mp[a]=min(mp[a],b);
-            }else mp[a]=b;
+            swap(a,b);
         }
+        if(mp.find(b)!=mp.end()){
+            mp[b]=max(mp[b],a);
+        }else mp[b]=a;
     }
-    int p1=1,p2=1;
-    ll lim=n+1;
     ll ans=0;
-    while(p2<=n){
-        if(mp.find(p2)!=mp.end()){
-            lim=min(lim,mp[p2]);
+    ll maxi=0;
+    fl(i,1,n+1){
+        if(mp.find(i)!=mp.end()){
+            maxi=max(maxi,mp[i]);
         }
-        if(p2==lim){
-            ll diff=(p2-p1);
-            cerr<<p1<<" "<<p2<<endl;
-            // cerr<<(1<<diff)<<endl;
-            ans+=(1LL<<diff)-1;
-            p1=p2;
-            if(mp.find(p2)!=mp.end()){
-                lim=mp[p2];
-            }else lim=n+1;
-        }
-        // cerr<<lim<<endl;
-        p2++;
+        ans+=i-maxi;
     }
-    cerr<<ans<<endl;
-    cerr<<p1<<" "<<p2<<endl;
-    ll diff=(p2-p1);
-    cerr<<diff<<endl;
-    ans+=(1LL<<diff)-1;
     cout<<ans<<endl;
 
 }

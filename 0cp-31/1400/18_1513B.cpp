@@ -120,17 +120,31 @@ void solve(){
     int n;
     cin>>n;
     vll a(n);
-    map<ll,ll>mp;
     fl(i,0,n){
         cin>>a[i];
-        mp[a[i]]++;
+       
     }
+    ll mini=*min_element(all(a));
+
+    ll cnt=0;
+    for(auto it:a){
+        if(it==mini){
+            cnt++;
+        }
+        if((it&mini)!=mini){
+            cout<<0<<endl;return;
+        }
+    }
+    // cerr<<cnt<<endl;
     ll ans=0;
-    for(auto it:mp){
-        ll q=(((it.S)*(it.S-1)));
-        ll mul=mod_mul(q,(n-2<1?1:fact[n-2]),mod);
-        ans=mod_add(ans,mul,mod);
+    if(cnt>1){
+        ll q=(cnt*(cnt-1));
+        ll rem=n-2;
+        if(rem<0)rem=1;
+        // cerr<<fact[rem]<<endl;
+        ans=mod_mul(q,fact[rem],mod);
     }
+    
     cout<<ans%mod<<endl;
 }
 

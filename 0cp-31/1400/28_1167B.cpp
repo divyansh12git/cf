@@ -49,10 +49,12 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
+typedef vector<pii> vpii;
+typedef vector<pll> vpll;
 typedef priority_queue<int> pqmax;
 typedef priority_queue<ll> pqmaxll;
 typedef priority_queue<int,vector<int>,greater<int>> pqmin;
- typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
+typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
@@ -90,46 +92,76 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
+ll mod_inverse(ll a,ll M){return expo(a,M-2,M);}
+// void precomp(){fact[0]=1;for(int i=1;i<=N;i++){fact[i]=(fact[i-1]*i)%mod;modinv[i]=power(fact[i],mod-2);}}
+// ll ncr(ll n,ll r){if(r>n)return 0;ll numo=fact[n];ll invdeno=(modinv[r]*modinv[n-r])%mod;ll ans=(numo*invdeno)%mod;return ans;}
+ll ncr2(ll n,ll r){if(n<r)return 0;ll ans=1;fl(i,0,r){ans=(ans*(n-i))/(i+1);}return ans;}
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void debug(int t=1) {cout << "Case #" << t << ": ";}
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
+void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
+int query(int i,int j)
+{
+    cout<<"? "<<i+1<<" "<<j+1<<endl;
+    int sum;
+    cin>>sum;
+    return sum;
+}
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    vll a(n),b(n);
-    fl(i,0,n)cin>>a[i];
-    fl(i,0,n)cin>>b[i];
-    vector<pll>p(n);
-    fl(i,0,n){
-        p[i]={b[i],a[i]};
-    }
-    vsort(a);
-    ll upto=a[min(n-1,k-1)];
-    ll ans=0;
-    int l=1,r=upto;
-    while(l<=r){
-        int mid=(l+r)>>1;
-        if(1){
-            
-        }else{
-
+    vi nums={4,8,15,16,23,42};
+    set<int>st(nums.begin(),nums.end());
+    int p=0;
+    vi ans(6);
+    fl(i,0,2){
+        int prod1,prod2;
+        prod1=query(p,p+1);
+        p++;
+        prod2=query(p,p+1);
+        int a,b,c,d;
+        for(auto it:nums){
+            if(prod1%it==0 && st.find(prod1/it)!=st.end()){
+                a=it;b=prod1/it;
+            }
         }
+        for(auto it:nums){
+            if(prod2%it==0 && st.find(prod2/it)!=st.end()){
+                c=it;d=prod2/it;
+            }
+        }
+        // cout<<a<<" "<<b<<" "<<c<<" "<<d<<endl; 
+        if(a==c){
+            ans[p]=a;
+            ans[p-1]=b;
+            ans[p+1]=d;
+        }else if(a==d){
+            ans[p]=d;
+            ans[p-1]=b;
+            ans[p+1]=c;
+        }else if(b==c){
+            ans[p]=c;
+            ans[p-1]=a;
+            ans[p+1]=d;
+        }else{//b==d
+            ans[p]=d;
+            ans[p-1]=a;
+            ans[p+1]=c;
+        }
+        // cout<<ans[p-1]<<" "<<ans[p]<<" "<<ans[p+1]<<endl;
+        p+=2;
     }
-
-    
-
-    
+    cout<<"!";
+    for(auto it:ans)cout<<" "<<it;cout<<endl;
 }
 
 

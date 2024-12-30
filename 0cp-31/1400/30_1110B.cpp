@@ -114,9 +114,23 @@ void solve(){
     //code here...    
     ll n,m,k;
     cin>>n>>m>>k;
-    vll b(m);
-    fl(i,0,m)cin>>b[i];
-    
+    vll b(n);
+    fl(i,0,n)cin>>b[i];
+    vpll diff;
+    if(n==1){
+        cout<<1<<endl;return;
+    }
+    fl(i,1,n){
+        diff.pb({b[i]-b[i-1],i});
+    }
+    vsort(diff);
+    ll ans=n;
+    ll cov=n-k;
+    for(int i=0;i<n-k;i++){
+        int loc=diff[i].S;
+        ans+=b[loc]-b[loc-1]-1;
+    }
+    cout<<ans<<endl;
 }
 
 

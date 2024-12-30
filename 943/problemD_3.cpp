@@ -1,3 +1,5 @@
+// Author: *   Divyansh Gupta ( divyansh_8 )   *
+
 #include<iostream>
 #include<vector>
 #include<unordered_map>
@@ -11,7 +13,12 @@
 #include<limits.h>
 #include<algorithm>
 #include<time.h>
+
+#include <ext/pb_ds/assoc_container.hpp> // Common file
+#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
+
 using namespace std;
+using namespace __gnu_pbds;
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
@@ -47,12 +54,19 @@ typedef long double lld;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vll;
+typedef vector<vector<int>> vvi;
+typedef vector<vector<ll>>vvll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
+typedef vector<pii> vpii;
+typedef vector<pll> vpll;
+typedef vector<vector<pii>>vvpii;
+typedef vector<vector<pll>>vvpll;
 typedef priority_queue<int> pqmax;
 typedef priority_queue<ll> pqmaxll;
 typedef priority_queue<int,vector<int>,greater<int>> pqmin;
- typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
+typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key//ordered set
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
@@ -90,46 +104,50 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
+ll mod_inverse(ll a,ll M){return expo(a,M-2,M);}
+// void precomp(){fact[0]=1;for(int i=1;i<=N;i++){fact[i]=(fact[i-1]*i)%mod;modinv[i]=power(fact[i],mod-2);}}
+// ll ncr(ll n,ll r){if(r>n)return 0;ll numo=fact[n];ll invdeno=(modinv[r]*modinv[n-r])%mod;ll ans=(numo*invdeno)%mod;return ans;}
+ll ncr2(ll n,ll r){if(n<r)return 0;ll ans=1;fl(i,0,r){ans=(ans*(n-i))/(i+1);}return ans;}
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void debug(int t=1) {cout << "Case #" << t << ": ";}
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
+void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 bool istc=1;
 bool judge=1;
 
+pll moves( int s,vpll cl,ll maxi,vi& dp){
+    if(dp[s]!=-1)return dp[s];
+    
+    
+}
 
 void solve(){
     //code here...    
-    ll n,k;
-    cin>>n>>k;
-    vll a(n),b(n);
+    ll n,k,Pb,Ps;
+    cin>>n>>k>>Pb>>Ps;
+    vi p(n);
+    fl(i,0,n)cin>>p[i];
+    vll a(n);
     fl(i,0,n)cin>>a[i];
-    fl(i,0,n)cin>>b[i];
-    vector<pll>p(n);
+    vpll cl(n);
     fl(i,0,n){
-        p[i]={b[i],a[i]};
+        cl[i]={a[i],p[i]};
     }
-    vsort(a);
-    ll upto=a[min(n-1,k-1)];
-    ll ans=0;
-    int l=1,r=upto;
-    while(l<=r){
-        int mid=(l+r)>>1;
-        if(1){
-            
-        }else{
+    vi dp(n,-1);
+    vi vis(n,0);
+    fl(i,0,n){
+        if(!vis[i]){
 
         }
     }
 
-    
 
-    
 }
 
 

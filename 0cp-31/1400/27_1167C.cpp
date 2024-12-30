@@ -109,22 +109,19 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=0;
 bool judge=1;
 
-ll dfs(ll user,map<ll,vll>&group,map<ll,vll>&userstogroup,vector<ll>&dp,vector<ll>&vis){
-    if(dp[user]!=-1)return dp[user];
-    ll tot=0;
-    vis[user]=1;
-    cerr<<user<<"-->"<<endl;
-    for(auto grp:userstogroup[user]){
-        _print(grp);cerr<<":";
-        for(auto oth:group[grp]){
-            if(vis[oth])continue;
-            _print(oth);cerr<<endl;
-            tot+=dfs(oth,group,userstogroup,dp,vis);
+
+int dfs(int node,vector<bool>&vis,map<ll,vll>&group,map<ll,vll>&userstogroup,vi& loop){
+    vis[node]=1;
+    ll cnt=1;
+    for(auto grp:userstogroup[node]){
+        for(auto nei:group[grp]){
+            if(vis[nei])continue;
+            cnt+=dfs(nei,vis,group,userstogroup,loop);
         }
     }
-    return dp[user]=tot+userstogroup[user].size();
+    loop.pb(node);
+    return cnt;
 }
-
 
 void solve(){
     //code here...    
@@ -142,16 +139,20 @@ void solve(){
             userstogroup[q].pb(i);
         }
     }
-    // _print(group);_print(userstogroup);
-    vector<ll>dp(n+1,-1);
-    vector<ll>vis(n+1,0);
-    fl(i,0,n){
-        ll user=i;
-        if(vis[i]==0){
-            dfs(user,group,userstogroup,dp,vis);
+    vector<bool>vis(n+1,0);
+    vll ans(n+1);
+    fl(i,1,n+1){
+        if(!vis[i]){
+            vi loop;
+            int len=dfs(i,vis,group,userstogroup,loop);
+            for(auto it:loop){
+                ans[it]=len;
+            }
         }
     }
-    fl(i,1,n+1)cout<<dp[i]<<" ";
+    fl(i,1,n+1)cout<<ans[i]<<" ";cout<<endl;
+
+   
 
 }
 
