@@ -124,44 +124,9 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
-    vll a(n);
-    fl(i,0,n)cin>>a[i];
-    string s;
-    cin>>s;
-    int q;
-    cin>>q;
-    vpll pre(n+1,{0,0});//{zero,one};
-    ll x=0,y=0;//x--->zero all xor, y---->one all xor :)
-    fl(i,1,n+1){
-        if(s[i-1]=='0'){
-            x^=a[i-1];
-        }else{
-            y^=a[i-1];
-        }
-        pre[i]={x,y};
-    }
-    while(q--){
-        int tp;
-        cin>>tp;
-        if(tp==1){
-            ll l,r;
-            cin>>l>>r;
-            ll zer=pre[r].F^pre[l-1].F;
-            ll on=pre[r].S^pre[l-1].S;
-            x^=zer^on;
-            y^=on^zer;
-        }else{
-            int g;
-            cin>>g;
-            if(g==0){
-                cout<<x<<" ";
-            }else{
-                cout<<y<<" ";
-            }
-        }
-    }cout<<endl;
+    
 }
 
 

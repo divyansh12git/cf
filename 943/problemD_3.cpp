@@ -121,12 +121,18 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
-pll moves( int s,vpll cl,ll maxi,vi& dp){
-    if(dp[s]!=-1)return dp[s];
-    
-    
+ll dfs(int node,ll chances,vpll &graph,ll sm,vi &vis){
+    vis[node]=1;
+    int nei=graph[node].S;
+    // cerr<<node<<" "<<nei<<" "<<sm<<endl;
+    ll score=chances*graph[node].F+sm;
+    sm+=graph[node].F;
+    chances--;
+    if(!vis[nei] && chances>0){
+        score=max(score,dfs(nei,chances,graph,sm,vis));
+    }
+    return score;
 }
-
 void solve(){
     //code here...    
     ll n,k,Pb,Ps;
@@ -137,16 +143,22 @@ void solve(){
     fl(i,0,n)cin>>a[i];
     vpll cl(n);
     fl(i,0,n){
-        cl[i]={a[i],p[i]};
+        cl[i]={a[i],p[i]-1};
     }
+    // fl(i,0,n)cout<<cl[i].F<<" "<<cl[i].S<<endl;
     vi dp(n,-1);
     vi vis(n,0);
-    fl(i,0,n){
-        if(!vis[i]){
-
-        }
+    ll bodya=dfs(Pb-1,k,cl,0,vis);
+    fl(i,0,n)vis[i]=0;
+    ll sasha=dfs(Ps-1,k,cl,0,vis);
+    // cout<<bodya<<" "<<sasha<<endl;
+    if(bodya>sasha){
+        cout<<"Bodya"<<endl;
+    }else if(bodya<sasha){
+        cout<<"Sasha"<<endl;
+    }else {
+        cout<<"Draw"<<endl;
     }
-
 
 }
 
