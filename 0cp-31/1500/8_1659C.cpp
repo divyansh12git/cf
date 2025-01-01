@@ -121,45 +121,32 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
-bool beautiful(ll q){
-    string s=to_string(q);
-    fl(i,0,s.length()/2){
-        if(s[i]!=s[s.length()-i-1])return 0;
-    }
-    return 1;
-}
 
-vll beauty;
-const int MOD=MOD1;
-void solve(vvll &dp,ll s){
+void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    cout<<dp[s][n]<<endl;
+    ll n,a,b;
+    cin>>n>>a>>b;
+    vll x(n);
+    fl(i,0,n)cin>>x[i];
+    vll suff(n+1,0);
+    frl(i,n-1,0){
+        suff[i]=suff[i+1]+x[i];
+    }
+    ll sm=0;
+    ll ans=suff[0]*b;
+    fl(i,0,n){
+        if(i==0)sm+=x[i]*b;
+        else sm+=(x[i]-x[i-1])*b;
+        ll ch=sm+x[i]*a+(suff[i+1]-(n-i-1)*x[i])*b;
+        ans=min(ans,ch);
+    }
+    cout<<ans<<endl;
+
+
 }
 
 
 int main(){
-    // beauty.pb(0);
-    ll n=40004;
-    fl(i,1,n+1){
-        if(beautiful(i))beauty.pb(i);
-    }
-    ll s=beauty.size();
-    vvll dp(s+1,vll(n+1));
-    fl(i,1,n+1)dp[0][i]=0;
-    fl(i,0,s+1)dp[i][0]=1;
-    //dp[i][j] determines the no of ways of getting j==0 such that index i to 1 used;;;
-
-    fl(i,1,s+1){
-        fl(j,1,n+1){
-            if(j-beauty[i-1]>=0){
-                dp[i][j]=(dp[i-1][j]+dp[i][j-beauty[i-1]])%MOD;
-            }else{
-                dp[i][j]=dp[i-1][j];
-            }
-        }
-    }
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
     if(judge){
@@ -169,6 +156,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve(dp,s);
+    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }
