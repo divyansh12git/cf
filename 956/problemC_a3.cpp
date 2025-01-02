@@ -1,6 +1,4 @@
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#pragma GCC optimize("unroll-loops")
+// Author: *   Divyansh Gupta ( divyansh_8 )   *
 
 #include<iostream>
 #include<vector>
@@ -15,7 +13,12 @@
 #include<limits.h>
 #include<algorithm>
 #include<time.h>
+
+#include <ext/pb_ds/assoc_container.hpp> // Common file
+#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
+
 using namespace std;
+using namespace __gnu_pbds;
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
@@ -32,8 +35,13 @@ using namespace std;
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
 #define     fa(i,z)                 for(auto i:z)
 
+#define     frl(i,s,e)              for(int i=s;i>=e;i--)
+
 #define     pb                      push_back
 #define     pf                      push_front
+#define     ppb                     pop_back
+
+#define     all(x)                  (x).begin(), (x).end()
 
 #define     vsort(v)                sort(v.begin(),v.end())
 #define     vreverse(v)             reverse(v.begin(),v.end())
@@ -46,8 +54,19 @@ typedef long double lld;
 typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vll;
+typedef vector<vector<int>> vvi;
+typedef vector<vector<ll>>vvll;
 typedef pair<int,int> pii;
 typedef pair<long, long> pll;
+typedef vector<pii> vpii;
+typedef vector<pll> vpll;
+typedef vector<vector<pii>>vvpii;
+typedef vector<vector<pll>>vvpll;
+typedef priority_queue<int> pqmax;
+typedef priority_queue<ll> pqmaxll;
+typedef priority_queue<int,vector<int>,greater<int>> pqmin;
+typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key//ordered set
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
@@ -85,95 +104,114 @@ ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) %
 ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
 ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
 ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
+ll mod_inverse(ll a,ll M){return expo(a,M-2,M);}
+// void precomp(){fact[0]=1;for(int i=1;i<=N;i++){fact[i]=(fact[i-1]*i)%mod;modinv[i]=power(fact[i],mod-2);}}
+// ll ncr(ll n,ll r){if(r>n)return 0;ll numo=fact[n];ll invdeno=(modinv[r]*modinv[n-r])%mod;ll ans=(numo*invdeno)%mod;return ans;}
+ll ncr2(ll n,ll r){if(n<r)return 0;ll ans=1;fl(i,0,r){ans=(ans*(n-i))/(i+1);}return ans;}
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 void debug(int t=1) {cout << "Case #" << t << ": ";}
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
+void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
+bool istc=1;
+bool judge=1;
+
+pll traverse(ll tar,int n,vll a,vll b,vll c){
+    ll p=n;
+    fl(i,0,n){
+        if(tar<=a[i+1]){
+            p=i;
+            break;
+        }
+    }
+    ll q=n;
+    fl(i,p+1,n){
+        if(b[i+1]-b[p+1]>=tar){
+            q=i;break;
+        }
+    }
+    if(c[n+1]-c[q+1]>=tar){
+        return {p+1,q+1}; 
+    }
+    return {-1,-1};
+}
 
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vector<ll>a(n);
-    vector<ll>b(n);
-    vector<ll>c(n);
-    fl(i,0,n)cin>>a[i]; 
-    fl(i,0,n)cin>>b[i]; 
-    fl(i,0,n)cin>>c[i];
-    ll total=0;
-    fl(i,0,n)total+=a[i];
-    ll target=(total+2)/3;
-
-    auto solve=[&](vector<ll>&a,vector<ll>&b,vector<ll>&c){
-        ll A=0,B=0,C=0;
-        vector<int>ans;
-        for(int i=0;i<n;i++){
-            A+=a[i];B+=b[i];C+=c[i];
-            if(ans.size()==0 && A>=target){
-                ans.pb(i+1);A=0;B=0;C=0;
-            } else if(ans.size()==1 && B>=target){
-                ans.pb(i+1);A=0;B=0;C=0;
-            }else if(ans.size()==2 && B>=target){
-                ans.pb(i+1);A=0;B=0;C=0;
-            }
-        }
-        return ans;
-    };
-    if(solve(a,b,c).size()==3){
-        vector<int>ans=solve(a,b,c);
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<endl;
-    }else if(solve(a,c,b).size()==3){
-        vector<int>ans=solve(a,c,b);
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<endl;
-    }else if(solve(b,a,c).size()==3){
-        vector<int>ans=solve(b,a,c);
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<endl;
-    }else if(solve(b,c,a).size()==3){
-        vector<int>ans=solve(b,c,a);
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<endl;
-    }else if(solve(c,a,b).size()==3){
-        vector<int>ans=solve(c,a,b);
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<endl;
-    }else if(solve(c,b,a).size()==3){
-        vector<int>ans=solve(c,b,a);
-        cout<<ans[1]+1<<" "<<n<<" ";
-        cout<<ans[0]+1<<" "<<ans[1]<<" ";
-        cout<<"1"<<" "<<ans[0]<<" ";
-        cout<<endl;
+    vector<vector<ll>>vec;
+    ll tar=0;
+    fl(i,0,3){
+        vll temp(n);
+        fl(i,0,n)cin>>temp[i];
+        vec.pb(temp);
     }
-
+    vvll pre(3,vll(n+1,0));
+    fl(i,0,3){
+        fl(j,0,n){
+            pre[i][j+1]=pre[i][j]+vec[i][j];
+        }
+    }
+    // _print(pre);
+    fl(i,0,n)tar+=vec[0][i];
+    tar=(tar+2)/3;
+    //A,B,C:
+    pll x=traverse(tar,n,pre[0],pre[1],pre[2]);
+    if(x.F!=-1 && x.S!=-1){
+        cout<<1<<" "<<x.F<<" "<<x.F+1<<" "<<x.S<<" "<<x.S+1<<" "<<n<<endl;
+        return;
+    }
+    //A,C,B
+     x=traverse(tar,n,pre[0],pre[2],pre[1]);
+     if(x.F!=-1 && x.S!=-1){
+        cout<<1<<" "<<x.F<<" "<<x.S+1<<" "<<n<<" "<<x.F+1<<" "<<x.S<<endl;
+        return;
+    }
+    //B,A,C
+     x=traverse(tar,n,pre[1],pre[0],pre[2]);
+     if(x.F!=-1 && x.S!=-1){
+        cout<<x.F+1<<" "<<x.S<<" "<<1<<" "<<x.F<<" "<<x.S+1<<" "<<n<<endl;
+        return;
+    }
+    //B,C,A
+     x=traverse(tar,n,pre[1],pre[2],pre[0]);
+     if(x.F!=-1 && x.S!=-1){
+        cout<<x.S+1<<" "<<n<<" "<<1<<" "<<x.F<<" "<<x.F+1<<" "<<x.S<<endl;
+        return;
+    }
+    //C,A,B
+     x=traverse(tar,n,pre[2],pre[0],pre[1]);
+      if(x.F!=-1 && x.S!=-1){
+        cout<<x.F+1<<" "<<x.S<<" "<<x.S+1<<" "<<n<<" "<<1<<" "<<x.F<<endl;
+        return;
+    }
+    //C,B,A
+     x=traverse(tar,n,pre[2],pre[1],pre[0]);
+      if(x.F!=-1 && x.S!=-1){
+        cout<<x.S+1<<" "<<n<<" "<<x.F+1<<" "<<x.S<<" "<<1<<" "<<x.F<<endl;
+        return;
+    }
+    cout<<-1<<endl;
 }
 
 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-     #ifndef ONLINE_JUDGE
-         freopen("input.txt","r",stdin);
-         freopen("output.txt","w",stdout);
-         freopen("Error.txt", "w", stderr);
-     #endif 
-    ll t; cin>>t; while(t--)solve();
+    if(judge){
+        #ifndef ONLINE_JUDGE
+            freopen("input.txt","r",stdin);
+            freopen("output.txt","w",stdout);
+            freopen("Error.txt", "w", stderr);
+        #endif
+    }
+    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }
