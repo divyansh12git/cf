@@ -118,37 +118,31 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
-    fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
-    }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
+    int n,x;
+    cin>>n>>x;
+    vll c(n);
+    fl(i,0,n)cin>>c[i];
+    ll dp[x+1];
+    dp[0]=0;
+    fl(i,1,x+1){
+        dp[i]=1e9;
         fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
-        }
-        dis.pb(temp);
-    }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
-            
+            if(i-c[j]>=0){
+                dp[i]=min(dp[i],1+dp[i-c[j]]);
+            }
         }
     }
-
+    if(dp[x]==1e9){
+        cout<<-1<<endl;
+        return;
+    }
+    cout<<dp[x]<<endl;
 }
 
 

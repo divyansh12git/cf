@@ -118,7 +118,7 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
@@ -126,29 +126,41 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
+    string s;
+    cin>>s;
+    int q;
+    cin>>q;
+    int inc=0,dec=0;
     fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
-    }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
-        fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
-        }
-        dis.pb(temp);
-    }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
-            
-        }
+        if(s[i]=='+')inc++;
+        else dec++;
     }
 
+    while(q--){
+        ll a,b;
+        cin>>a>>b;
+        if(a==b){
+            if(inc!=dec){
+                tres(0);
+            }else tres(1);
+            continue;
+        }
+        // if(a<b)swap(a,b);
+        //a--->greater, b--->smaller
+        int ch=(b*1LL*(inc-dec))%(b-a);
+        if(ch!=0){
+            tres(0);
+        }else{
+            ll q=(b*1LL*(inc-dec))/(b-a);
+            // cerr<<q<<endl;
+            if(q<(dec)*-1 || q>inc){
+                tres(0);
+            }else{
+                tres(1);
+            }
+        }
+        
+    }
 }
 
 

@@ -124,31 +124,22 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
-    fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
+    ll n,m;
+    cin>>n>>m;
+    vll a(n),b(n);
+    fl(i,0,n)cin>>a[i];
+    fl(j,0,n)cin>>b[j];
+    ll ob=0;
+    fl(i,m,n){
+        ob+=min(a[i],b[i]);
     }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
-        fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
-        }
-        dis.pb(temp);
+    ll ans=a[m-1];
+    ll temp=b[m-1];
+    frl(i,m-2,0){
+        ans=min(ans,a[i]+temp);
+        temp+=b[i];
     }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
-            
-        }
-    }
-
+    cout<<ans+ob<<endl;
 }
 
 

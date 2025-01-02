@@ -124,31 +124,45 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
-    fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
-    }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
-        fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
+    ll n,x,y;
+    cin>>n>>x>>y;
+    vll ver(x);
+    fl(i,0,x)cin>>ver[i];
+    vsort(ver);
+    // _print(ver);
+    ll ans=0;
+    ll temp=1;
+    vll grp;
+    fl(i,0,x-1){
+        // cerr<<temp<<endl;
+        if(ver[i]+1==ver[i+1]){
+            temp++;
+        }else{
+            if(abs(ver[i]-ver[i+1])==2)ans++;
+            grp.pb(temp);
+            temp=1;
         }
-        dis.pb(temp);
     }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
+    ll q=n-ver.back() + *ver.begin();
+    if(q==2){
+        ans++;
+    }
+    else if(q==1){
+        if(grp.size()>0){
+            grp[0]+=temp;
+            temp=0;
+        }
+    }
+    if(temp>0)grp.pb(temp);
+    vsort(grp);
+        fl(i,0,grp.size()){
+            ans+=(max(grp[i]-2,0*1LL));
+            if(grp[i]==1 && (i+2<grp.size() || grp.back()>=2))ans+=1;
+            else if(grp[i]>=2 && (i+1<grp.size()))ans+=2;
+            // else if(i+1<grp.size())ans+=2;
             
         }
-    }
-
+        cout<<ans<<endl;
 }
 
 

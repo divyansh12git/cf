@@ -1,0 +1,1 @@
+{"name":"Local: 1948C","url":"d:\\vs code\\codeforces\\0arandom\\1300\\1948C.cpp","tests":[{"id":1735831734576,"input":"4\n4\n>><<\n>>><\n2\n><\n><\n4\n>>><\n>><<\n6\n>><<><\n><>>><\n","output":"YES\nYES\nNO\nYES\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0arandom\\1300\\1948C.cpp","group":"local","local":true}

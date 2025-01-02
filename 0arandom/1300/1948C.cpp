@@ -121,34 +121,32 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+bool traverse(pii pos,vector<string>&grid,int n, vvi &dp){
+    if(pos.F==1 && pos.S==n-1)return 1;
+    bool ans=0;
+    if(dp[pos.F][pos.S]!=-1)return dp[pos.F][pos.S];
+    if(pos.F==0 && pos.S<n-1 && grid[pos.F+1][pos.S]=='>'){
+        ans|=traverse({pos.F+1,pos.S+1},grid,n,dp);
+    }
+    if(pos.F<n-2 && grid[pos.F][pos.S+1]=='>' ){
+        ans|=traverse({pos.F,pos.S+2},grid,n,dp);
+    }
+    if(pos.F==1 && grid[pos.F-1][pos.S]=='>'){
+        ans|=traverse({pos.F-1,pos.S+1},grid,n,dp);
+    }
+    return dp[pos.F][pos.S]=ans;
+}
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
-    fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
-    }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
-        fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
-        }
-        dis.pb(temp);
-    }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
-            
-        }
-    }
-
+    vector<string>grid(2);
+    fl(i,0,2)cin>>grid[i];
+    pii pos={0,0};
+    vector<vector<int>>dp(2,vi (n,-1));
+    bool ans=traverse({0,0},grid,n,dp);
+    tres(ans);
 }
 
 

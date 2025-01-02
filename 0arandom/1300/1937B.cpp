@@ -122,33 +122,35 @@ bool istc=1;
 bool judge=1;
 
 
+
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vpll h(n);
-    pll mini={0,0},maxi={1e9,1e9};
-    fl(i,0,n){
-        cin>>h[i].F>>h[i].S;
-        mini.F=min(mini.F,h[i].F);
-        mini.S=min(mini.S,h[i].S);
-        maxi.F=max(maxi.F,h[i].F);
-        maxi.S=max(maxi.S,h[i].S);
-    }
-    vll dis;
-    fl(i,0,n){
-        ll temp=0;
-        fl(j,0,n){
-            temp+=abs(h[i].F-h[j].F)+abs(h[i].S-h[j].S);
-        }
-        dis.pb(temp);
-    }
-    fl(i,mini.F,maxi.F){
-        fl(j,maxi.F,maxi.S){
-            
+    vector<string>grid(2);
+    cin>>grid[0]>>grid[1];
+    int maxi=n-1,mini=0;
+    int dwn=n;
+    fl(i,0,n-1){
+        if(grid[0][i+1]=='1' && grid[1][i]=='0'){
+            dwn=i+1;break;
         }
     }
+    string str="";
+    fl(i,0,dwn){
+        str+=grid[0][i];
+    }
+    fl(i,dwn-1,n){
+        str+=grid[1][i];
+    }
+    ll ans=0;
+    frl(i,dwn-2,0){
+        if(grid[0][i+1]==grid[1][i])ans++;
+        else break;
+    }
+    cout<<str<<endl<<ans+1<<endl;
 
+   
 }
 
 

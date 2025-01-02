@@ -121,51 +121,22 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=0;
 bool judge=1;
 
-
+const int MOD=MOD1;
 void solve(){
+    //code here...
     int n;
-    cin>>n;
- 
-    string s;
-    cin>>s;
- 
-    int plus = count(all(s), '+');
-    int minus = count(all(s), '-');
- 
-    int q;
-    cin>>q;
-    while(q--){
-        int a,b;
-        cin>>a>>b;
-        if(a==b){
-            if(plus == minus){
-                cout<<"YES\n";
+    cin>>n;    
+    ll dp[n+1];
+    dp[0]=1;
+    fl(i,1,n+1){
+        dp[i]=0;
+        fl(j,1,7){
+            if(i>=j){
+                dp[i]=(dp[i]+dp[i-j])%MOD;
             }
-            else{
-                cout<<"NO\n";
-            }
-            continue;
-        }
-        if((b * (minus - plus)) % (a-b) !=0 ){
-            cout<<"NO\n";
-            continue;
-        }
- 
-        int l = (b * (minus - plus)) / (a-b);
-        int pmin = l;
-        int pmax = l+minus;
- 
-        if(plus < l || pmax < 0){
-            cout<<"NO\n";
-        }
-        else{
-            cout<<"YES\n";
-        }
+        }   
     }
- 
- 
- 
- 
+    cout<<dp[n]<<endl;
 }
 
 
