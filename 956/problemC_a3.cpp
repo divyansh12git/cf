@@ -121,21 +121,23 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
-pll traverse(ll tar,int n,vll a,vll b,vll c){
-    ll p=n;
+pll traverse(ll tar,int n,vll &a,vll &b,vll &c){
+    ll p=n-1;
     fl(i,0,n){
         if(tar<=a[i+1]){
             p=i;
             break;
         }
     }
-    ll q=n;
+    ll q=n-1;
     fl(i,p+1,n){
         if(b[i+1]-b[p+1]>=tar){
             q=i;break;
         }
     }
-    if(c[n+1]-c[q+1]>=tar){
+    // _print(a);_print(b);_print(c);cerr<<tar<<endl;
+    // cerr<<p<<" "<<q<<" "<<c[n]-c[q+1]<<endl;
+    if(c[n]-c[q+1]>=tar){
         return {p+1,q+1}; 
     }
     return {-1,-1};

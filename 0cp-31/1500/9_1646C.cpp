@@ -121,39 +121,44 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+bool traverse(ll i,ll tar,ll s,vll & v){
+    if(i==v.size()){
+        return (s==0 && tar==0);
+    }
+    if(s==0 && tar==0){
+        return 1;
+    }
+    if(tar==0 && s!=0)return 0;
+    if(s==0 && tar!=0)return 0;
+    bool ans=0;
+    traverse(i+1,tar,s,v);
+    if(tar>=v[i]){
+        traverse(i,tar-v[i],s++,v);
+    }
+}
 
+
+
+
+const ll mm=1e12;
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
-    vpll st;
-    fl(i,0,n){
-        pll q;
-        cin>>q.F>>q.S;
-        st.pb(q);
-
+    ll q=1;
+    vll v;
+    while(q<=mm){
+        v.pb(q);
+        q<<=1;
     }
-    vll x,y;
-    ll sx=0,sy=0;
-    for(auto it:st){
-        x.pb(it.F);sx+=it.F;
-        y.pb(it.S);sy+=it.S;
+    // _print(v);
+    q=4;
+    ll fact=6;
+    while(fact<=mm){
+        v.pb(fact);
+        fact*=q;
+        q++;
     }
-    int tot1=x.size();
-    int tot2=y.size();
-    vsort(x);vsort(y);
-    ll ans1=x[((tot1+2)/2)-1]-x[((tot1+1)/2)-1]+1;
-    ll ans2=y[((tot2+2)/2)-1]-y[((tot2+1)/2)-1]+1;
-    // _print(x);_print(y);
-    cout<<ans1*ans2<<endl;
-    
-   
-
-    
-
-
-    
-    
 
 }
 

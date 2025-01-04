@@ -118,7 +118,7 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
@@ -126,35 +126,24 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vpll st;
-    fl(i,0,n){
-        pll q;
-        cin>>q.F>>q.S;
-        st.pb(q);
-
+    vll dp(n+1);
+    dp[0]=0;
+    fl(i,1,n+1){
+        vi digits;
+        int n=i;
+        while(n){
+            digits.pb(n%10);
+            n/=10;
+        }
+        dp[i]=1e9;
+        for(auto d:digits){
+            if(i>=d){
+                dp[i]=min(dp[i],dp[i-d]);
+            }
+        }
+        dp[i]++;
     }
-    vll x,y;
-    ll sx=0,sy=0;
-    for(auto it:st){
-        x.pb(it.F);sx+=it.F;
-        y.pb(it.S);sy+=it.S;
-    }
-    int tot1=x.size();
-    int tot2=y.size();
-    vsort(x);vsort(y);
-    ll ans1=x[((tot1+2)/2)-1]-x[((tot1+1)/2)-1]+1;
-    ll ans2=y[((tot2+2)/2)-1]-y[((tot2+1)/2)-1]+1;
-    // _print(x);_print(y);
-    cout<<ans1*ans2<<endl;
-    
-   
-
-    
-
-
-    
-    
-
+    cout<<dp[n]<<endl;
 }
 
 

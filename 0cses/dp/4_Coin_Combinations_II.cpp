@@ -118,42 +118,27 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
-
+const int MOD=MOD1;
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vpll st;
+    int n,x;
+    cin>>n>>x;
+    vll c(n);
+    fl(i,0,n)cin>>c[i];
+    vll dp(x+1,0);
+    dp[0]=1;
     fl(i,0,n){
-        pll q;
-        cin>>q.F>>q.S;
-        st.pb(q);
-
-    }
-    vll x,y;
-    ll sx=0,sy=0;
-    for(auto it:st){
-        x.pb(it.F);sx+=it.F;
-        y.pb(it.S);sy+=it.S;
-    }
-    int tot1=x.size();
-    int tot2=y.size();
-    vsort(x);vsort(y);
-    ll ans1=x[((tot1+2)/2)-1]-x[((tot1+1)/2)-1]+1;
-    ll ans2=y[((tot2+2)/2)-1]-y[((tot2+1)/2)-1]+1;
-    // _print(x);_print(y);
-    cout<<ans1*ans2<<endl;
-    
-   
-
-    
-
-
-    
-    
+        fl(j,1,x+1){
+            if(j>=c[i]){
+                dp[j]=(dp[j]+dp[j-c[i]])%MOD;
+            }
+        }
+    }    
+    // _print(dp);
+    cout<<dp[x]<<endl;
 
 }
 

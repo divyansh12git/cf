@@ -118,42 +118,29 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vpll st;
-    fl(i,0,n){
-        pll q;
-        cin>>q.F>>q.S;
-        st.pb(q);
-
+    int n,x;
+    cin>>n>>x;
+    vll h(n),s(n);
+    fl(i,0,n)cin>>h[i];
+    fl(i,0,n)cin>>s[i];
+    vvll dp(x+1,vll (n+1));
+    fl(i,0,n+1)dp[0][i]=0;
+    fl(j,1,x+1){
+        dp[j][0]=0;
+        fl(i,1,n+1){
+            dp[j][i]=dp[j][i-1];
+            if(j>=h[i-1]){
+                dp[j][i]=max(dp[j][i],s[i-1]+dp[j-h[i-1]][i-1]);
+            }
+        }
     }
-    vll x,y;
-    ll sx=0,sy=0;
-    for(auto it:st){
-        x.pb(it.F);sx+=it.F;
-        y.pb(it.S);sy+=it.S;
-    }
-    int tot1=x.size();
-    int tot2=y.size();
-    vsort(x);vsort(y);
-    ll ans1=x[((tot1+2)/2)-1]-x[((tot1+1)/2)-1]+1;
-    ll ans2=y[((tot2+2)/2)-1]-y[((tot2+1)/2)-1]+1;
-    // _print(x);_print(y);
-    cout<<ans1*ans2<<endl;
-    
-   
-
-    
-
-
-    
-    
+    cout<<dp[x][n]<<endl;
 
 }
 

@@ -124,7 +124,35 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    
+    int n;
+    cin>>n;
+    vector<int>adj[n+1];
+    vll wt(n+1);
+    fl(i,1,n+1)cin>>wt[i];
+    fl(i,0,n-1){
+        int u,v;
+        cin>>u>>v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    priority_queue<pll>pq;
+    fl(i,1,n+1){
+        if(adj[i].size()>1){
+            pq.push({wt[i],adj[i].size()});
+        }
+    }
+    vll ans;
+    ll sm=0;
+    fl(i,1,n+1)sm+=wt[i];
+    ans.pb(sm);
+    while(!pq.empty()){
+        pll f=pq.top();
+        pq.pop();
+        ans.pb(ans.back()+f.F);
+        f.S--;
+        if(f.S>1)pq.push(f);
+    }
+    for(auto it:ans)cout<<it<<" ";cout<<endl;
 }
 
 

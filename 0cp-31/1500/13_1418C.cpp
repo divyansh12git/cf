@@ -126,35 +126,14 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vpll st;
-    fl(i,0,n){
-        pll q;
-        cin>>q.F>>q.S;
-        st.pb(q);
-
+    vi a(n);
+    fl(i,0,n)cin>>a[i];
+    if(n==1){
+        cout<<a[0]<<endl;return;
     }
-    vll x,y;
-    ll sx=0,sy=0;
-    for(auto it:st){
-        x.pb(it.F);sx+=it.F;
-        y.pb(it.S);sy+=it.S;
-    }
-    int tot1=x.size();
-    int tot2=y.size();
-    vsort(x);vsort(y);
-    ll ans1=x[((tot1+2)/2)-1]-x[((tot1+1)/2)-1]+1;
-    ll ans2=y[((tot2+2)/2)-1]-y[((tot2+1)/2)-1]+1;
-    // _print(x);_print(y);
-    cout<<ans1*ans2<<endl;
-    
-   
-
-    
-
-
-    
-    
-
+    vvll dp(2,vll(n,1e9));
+    //0-->my turn ...1--->friend turn;;;
+    dp[0][]
 }
 
 
