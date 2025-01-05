@@ -124,28 +124,52 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n,x;
-    cin>>n>>x;
-    vi h(n+1),s(n+1);
-    fl(i,1,n+1)cin>>h[i];
-    fl(i,1,n+1)cin>>s[i];
-    int dp[n+1][x+1];
-    fl(i,0,n+1){
-        fl(j,0,x+1){
-            if(i==0 || j==0){
-                dp[i][j]=0;
-            }else{
-                dp[i][j]=dp[i-1][j];
-                if(j>=h[i]){
-                    dp[i][j]=max(dp[i][j],s[i]+dp[i-1][j-h[i]]);
+    int n,m;
+    cin>>n>>m;
+    vll x(n);
+    fl(i,0,n)cin>>x[i];
+    ll ans=1;
+    fl(i,0,n){
+        if(x[i]==0){
+            int mini=-1,maxi=-1;
+            if(i>0){
+                mini=x[i-1];
+            }
+            if(i<n-1 && x[i+1]!=0){
+                maxi=x[i+1];
+            }
+            ll q=0;
+            if(mini==-1 && maxi==-1){
+                q=3;
+            }
+            if(mini==-1 && maxi!=-1){
+                if(maxi==m){
+                    q=2;
+                }else{
+                    q=3;
                 }
             }
-            // cerr<<dp[i][j]<<endl;
+            if(mini!=-1 && maxi==-1){
+                if(mini==1)q=2;
+                else q=3;
+                if(mini==0){
+                    mini=max(1,maxi-2);
+                }
+            }
+            if(mini!=-1 && maxi!=-1){
+                q=3-abs(maxi-mini);
+                if(mini==0){
+                    mini=max(1,maxi-2);
+                }
+            }
+            if(q==2)ans=ans*2+2;
+            else{
+                ans*=q;
+            }
+
         }
     }
-    
-    cout<<dp[n][x]<<endl;
-
+    cout<<ans<<endl;
 }
 
 

@@ -118,34 +118,38 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=0;
+bool istc=1;
 bool judge=1;
 
 
 void solve(){
     //code here...    
-    int n,x;
-    cin>>n>>x;
-    vi h(n+1),s(n+1);
-    fl(i,1,n+1)cin>>h[i];
-    fl(i,1,n+1)cin>>s[i];
-    int dp[n+1][x+1];
-    fl(i,0,n+1){
-        fl(j,0,x+1){
-            if(i==0 || j==0){
-                dp[i][j]=0;
-            }else{
-                dp[i][j]=dp[i-1][j];
-                if(j>=h[i]){
-                    dp[i][j]=max(dp[i][j],s[i]+dp[i-1][j-h[i]]);
-                }
-            }
-            // cerr<<dp[i][j]<<endl;
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    vi quant(n,0);
+    vpll b;
+    fl(i,0,n)b.pb({a[i],i});
+    vsort(b);
+    fl(i,0,n){
+        if(k>=m){
+            quant[b[i].S]=m;
+            k-=m;
+        }else{
+            quant[b[i].S]=k;
+            k=0;break;
         }
     }
-    
-    cout<<dp[n][x]<<endl;
-
+    ll ans=0;
+    ll bou=0;
+    fl(i,0,n){
+        if(quant[i]>0){
+            ans+=(a[i]+bou)*quant[i];
+            bou+=quant[i];
+        }
+    }
+    cout<<ans<<endl;
 }
 
 

@@ -124,28 +124,26 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n,x;
-    cin>>n>>x;
-    vi h(n+1),s(n+1);
-    fl(i,1,n+1)cin>>h[i];
-    fl(i,1,n+1)cin>>s[i];
-    int dp[n+1][x+1];
+    string a,b;
+    cin>>a>>b;
+    int n=a.length(),m=b.length();
+    int dp[n+1][m+1];
     fl(i,0,n+1){
-        fl(j,0,x+1){
-            if(i==0 || j==0){
-                dp[i][j]=0;
-            }else{
-                dp[i][j]=dp[i-1][j];
-                if(j>=h[i]){
-                    dp[i][j]=max(dp[i][j],s[i]+dp[i-1][j-h[i]]);
-                }
+        fl(j,0,m+1){
+            if(i==0){
+                dp[i][j]=j;
             }
-            // cerr<<dp[i][j]<<endl;
+            else if(j==0){
+                dp[i][j]=i;
+            }
+            else if(a[i-1]==b[j-1]){
+                dp[i][j]=dp[i-1][j-1];
+            }else{
+                dp[i][j]=1+min({dp[i-1][j-1],dp[i-1][j],dp[i][j-1]});
+            }
         }
     }
-    
-    cout<<dp[n][x]<<endl;
-
+    cout<<dp[n][m]<<endl;
 }
 
 
