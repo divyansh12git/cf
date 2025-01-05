@@ -124,31 +124,33 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vi a(n);
-    fl(i,0,n)cin>>a[i];
-    vvll dp(n+1,vll(2,1e9));
-    //0-->my turn ...1--->friend turn;;;
-    if(n==1){
-        cout<<a[0]<<endl;return;
-    }
-    dp[0][1]=0;
-    fl(i,0,n){
-        fl(turn,0,2){
-            fl(k,0,2){
-                // cerr<<i<<" "<<turn<<" "<<k<<endl;      
-                int cnt=a[i];
-                // if(i+1<n)cnt+=a[i+1];
-                if(k==1 && i+k<n)cnt+=a[i+k];
-                if(i+k+1<=n){
-                    dp[i+k+1][!turn]=min(dp[i+k+1][!turn],cnt*turn+dp[i][turn]);
+    int n,k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    bool canwe=1;
+    int z=0,o=0,q=0;
+    fl(i,0,k){
+        int temp=-1;
+        for(int j=i;j<n;j+=k){
+            if(s[j]=='?')continue;
+            if(temp==-1){
+                temp=s[j]-'0';
+            }
+            else if(temp!=-1){
+                if(s[j]-'0'!=temp){
+                    canwe=0;
+                    break;
                 }
             }
         }
+        if(!canwe)break;
+        if(temp==1)o++;
+        else if(temp==0)z++;
+        else q++;
     }
-    // _print(dp);
-    cout<<min(dp[n][0],dp[n][1])<<endl;
+    if(abs(o-z)>q)canwe=0;
+    tres(canwe);
 }
 
 

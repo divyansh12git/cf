@@ -124,31 +124,47 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
     vi a(n);
     fl(i,0,n)cin>>a[i];
-    vvll dp(n+1,vll(2,1e9));
-    //0-->my turn ...1--->friend turn;;;
-    if(n==1){
-        cout<<a[0]<<endl;return;
-    }
-    dp[0][1]=0;
+    map<int,vi>mp;
     fl(i,0,n){
-        fl(turn,0,2){
-            fl(k,0,2){
-                // cerr<<i<<" "<<turn<<" "<<k<<endl;      
-                int cnt=a[i];
-                // if(i+1<n)cnt+=a[i+1];
-                if(k==1 && i+k<n)cnt+=a[i+k];
-                if(i+k+1<=n){
-                    dp[i+k+1][!turn]=min(dp[i+k+1][!turn],cnt*turn+dp[i][turn]);
-                }
-            }
+        if(mp.find(a[i])==mp.end()){
+            mp[a[i]].pb(0);
+        }
+        mp[a[i]].pb(i+1);
+    }
+    for(auto &it:mp){
+        it.S.pb(n+1);
+    }
+    // _print(mp);
+    vi ans(n+1,-1);
+    for(auto it:mp){
+        int temp=0;
+        for(int i=0;i<it.S.size()-1;i++){
+            temp=max(temp,it.S[i+1]-it.S[i]);
+        }
+        if(ans[temp]==-1){
+            ans[temp]=it.F;
+        }else{
+            ans[temp]=min(ans[temp],it.F);
         }
     }
-    // _print(dp);
-    cout<<min(dp[n][0],dp[n][1])<<endl;
+    int q=-1;
+    // _print(ans);
+    fl(i,1,n+1){
+        if(ans[i]==-1)ans[i]=q;
+        if(q==-1 && ans[i]!=-1){
+            q=ans[i];
+        }
+        else{
+            q=min(q,ans[i]);
+            ans[i]=q;
+        }
+        cout<<ans[i]<<" ";
+    }
+    cout<<endl;
 }
 
 

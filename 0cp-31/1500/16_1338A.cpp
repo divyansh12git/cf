@@ -126,29 +126,31 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
+    vll a(n);
     fl(i,0,n)cin>>a[i];
-    vvll dp(n+1,vll(2,1e9));
-    //0-->my turn ...1--->friend turn;;;
-    if(n==1){
-        cout<<a[0]<<endl;return;
-    }
-    dp[0][1]=0;
+    ll T=0;
+    vi premax(n),suffmin(n);
+    int maxi=-1e9,mini=1e9;
     fl(i,0,n){
-        fl(turn,0,2){
-            fl(k,0,2){
-                // cerr<<i<<" "<<turn<<" "<<k<<endl;      
-                int cnt=a[i];
-                // if(i+1<n)cnt+=a[i+1];
-                if(k==1 && i+k<n)cnt+=a[i+k];
-                if(i+k+1<=n){
-                    dp[i+k+1][!turn]=min(dp[i+k+1][!turn],cnt*turn+dp[i][turn]);
-                }
-            }
+        maxi=max(maxi*1LL,a[i]);
+        premax[i]=maxi;
+    }
+    frl(i,n-1,0){
+        mini=min(mini*1LL,a[i]);
+        suffmin[i]=mini;
+    }
+    ll sm=0;
+    // _print(premax);_print(suffmin);
+    fl(i,0,n){
+        ll cmp=max(abs(premax[i]-a[i]),abs(suffmin[i]-a[i]));
+        // cerr<<sm<<" "<<cmp<<endl;
+        while(sm<cmp){
+            sm+=(1LL<<T);
+            T++;
         }
     }
-    // _print(dp);
-    cout<<min(dp[n][0],dp[n][1])<<endl;
+    cout<<T<<endl;
+
 }
 
 
