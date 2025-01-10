@@ -121,48 +121,39 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=0;
 bool judge=1;
 
-
+bool cmp(pair<pll,int>a,pair<pll,int>b){
+    if(a.F.F!=b.F.F){
+        return a.F.F<b.F.F;
+    }
+    
+    return a.F.S>b.F.S;
+    
+}
 
 void solve(){
     //code here...    
     int n;
     cin>>n;
-    vector<int>adj[n+1];
-    vpii edges;
-    map<pii,int>mp;
-    fl(i,0,n-1){
-        int u,v;
-        cin>>u>>v;
-        adj[u].pb(v);
-        adj[v].pb(u);
-        edges.pb({u,v});
-        mp[edges.back()]=-1;
+    vector<pair<pll,int>>seg(n);
+    fl(i,0,n){
+        cin>>seg[i].F.F>>seg[i].F.S;
+        seg[i].S=i+1;
     }
-    int label=0;
-    for(int i=1;i<n+1;i++){
-        if(adj[i].size()>2){
-            for(auto nei:adj[i]){
-                if(mp.find({i,nei})!=mp.end()){
-                    mp[{i,nei}]=label;
-                }else{
-                    if(mp.find({nei,i})!=mp.end()){
-                        mp[{nei,i}]=label;  
-                    }
-                }
-                label++;
-            }
-            break;
+    sort(all(seg),cmp);
+    // for(int i=0;i<n;i++){
+    //     cout<<seg[i].F.F<<" "<<seg[i].F.S<<" "<<seg[i].S<<endl;
+    // }
+    // pii maxi={seg[0].F.S,1};
+    fl(i,1,n){
+        if(seg[i-1].F.S>=seg[i].F.S){
+            cout<<seg[i].S<<" "<<seg[i-1].S<<endl;return;
         }
+        // if(seg[i].F.S>maxi.F){
+        //     maxi={seg[i].F.S,seg[i].S};
+        // }
+        
     }
-    for(auto &it:mp){
-        if(it.S==-1){
-            it.S=label;
-            label++;
-        }
-    }
-    for(auto it:edges){
-        cout<<mp[it]<<endl;
-    }
+    cout<<-1<<" "<<-1<<endl;
 }
 
 

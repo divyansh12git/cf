@@ -121,21 +121,6 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
-bool traverse(ll i,ll tar,ll s,vll & v){
-    if(i==v.size()){
-        return (s==0 && tar==0);
-    }
-    if(s==0 && tar==0){
-        return 1;
-    }
-    if(tar==0 && s!=0)return 0;
-    if(s==0 && tar!=0)return 0;
-    bool ans=0;
-    traverse(i+1,tar,s,v);
-    if(tar>=v[i]){
-        traverse(i,tar-v[i],s++,v);
-    }
-}
 
 
 
@@ -151,7 +136,7 @@ void solve(){
         v.pb(q);
         q<<=1;
     }
-    // _print(v);
+    _print(v);
     q=4;
     ll fact=6;
     while(fact<=mm){
@@ -159,6 +144,7 @@ void solve(){
         fact*=q;
         q++;
     }
+    cerr<<v.size();
 
 }
 

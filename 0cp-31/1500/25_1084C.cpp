@@ -119,50 +119,33 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 bool istc=0;
-bool judge=1;
+bool judge=0;
 
+const ll MOD=MOD1;
 
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    vector<int>adj[n+1];
-    vpii edges;
-    map<pii,int>mp;
-    fl(i,0,n-1){
-        int u,v;
-        cin>>u>>v;
-        adj[u].pb(v);
-        adj[v].pb(u);
-        edges.pb({u,v});
-        mp[edges.back()]=-1;
-    }
-    int label=0;
-    for(int i=1;i<n+1;i++){
-        if(adj[i].size()>2){
-            for(auto nei:adj[i]){
-                if(mp.find({i,nei})!=mp.end()){
-                    mp[{i,nei}]=label;
-                }else{
-                    if(mp.find({nei,i})!=mp.end()){
-                        mp[{nei,i}]=label;  
-                    }
-                }
-                label++;
-            }
-            break;
+    string s;
+    cin>>s;
+    ll n=s.length();
+    vi a;
+    int curr=0;
+    fl(i,0,n){
+        if(s[i]=='a')curr++;
+        if(s[i]=='b' && curr>0){
+            a.pb(curr);curr=0;
         }
     }
-    for(auto &it:mp){
-        if(it.S==-1){
-            it.S=label;
-            label++;
-        }
+    if(curr>0)a.pb(curr);
+    ll ans=1;
+    fl(i,0,a.size()){
+        ans=(ans*1LL*(a[i]+1))%MOD;
     }
-    for(auto it:edges){
-        cout<<mp[it]<<endl;
-    }
+
+    
+    cout<<ans-1<<endl;
+
 }
 
 
