@@ -132,32 +132,31 @@ void solve(){
     int k=k1+k2;
     // pqmax pq;
     vll diff;
+    pqmaxll pq;
     fl(i,0,n){
         diff.push_back(abs(a[i]-b[i]));
+        if(diff.back()>0)pq.push(diff.back());
     }
-    vsort(diff);
-    reverse(all(diff));
-    int curr=0;
-    fl(i,0,n-1){
-        int d=diff[i+1]-diff[i];
-        if(k>=d*(i+1)){
-            k-=d*(i+1);
-            curr++;
-        }else{
-            break;
-        }
+    while(!pq.empty() && k>0){
+        int fr=pq.top();
+        pq.pop();
+        k--;
+        fr--;
+        if(fr>0)pq.push(fr);
     }
     ll ans=0;
-    if(k>=(curr+1)*diff[curr]){
-        int q=k/(curr+1);
-        k-=q*(curr+1);
-        ans+=(diff[curr]-1-q)*(diff[curr]-1-q)*k+(curr+1-k)*(diff[curr]-q)*(diff[curr]-q);
-        fl(i,curr+1,n)ans+=diff[i]*diff[i];
-
+    // cerr<<k<<endl;
+    if(k>0){
+        if(k&1)ans+=1;
     }else{
-        int q=k/(curr+1);
-        k-=q*(curr+1);
+        while(!pq.empty()){
+            ll fr=pq.top();
+            pq.pop();
+            ans+=fr*fr;
+        }
     }
+    cout<<ans<<endl;
+    
 
 }
 

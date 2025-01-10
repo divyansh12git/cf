@@ -92,7 +92,7 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
 bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
-bool isSorted(vector<ll> v) {llfl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
+bool isSorted(vector<ll> v) {fl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
@@ -122,54 +122,44 @@ bool istc=0;
 bool judge=1;
 
 const int MOD=MOD1;
+
+int dfs(int node,int par,int k,vi adj[],vi& vis,ll &ans,map<pii,int>&edges){
+    vis[node]=1;
+    int rd=1;
+    for(auto nei:adj[node]){
+        if(vis[nei])continue;
+        rd+=dfs(nei,node,k,adj,vis,ans,edges);
+        // if(!edges[{node,nei}])rd++;
+    }
+    if(node!=1 && !edges[{node,par}])return rd;
+    ll cal=expo(rd,k,MOD);
+    // cerr<<rd<<" "<<cal<<" "<<k<<endl;
+    ans=mod_add(cal,ans,MOD);
+    return 0;
+}
+
+
 void solve(){
     //code here...    
-    int n,m;
-    cin>>n>>m;
-    vi x(n);
-    fl(i,0,n)cin>>x[i];
-    // int dp[n+1][m+1];
-    vvi dp(n,vi(m+1,0));
-    if(x[0]==0){
-        for(int j=0;j<m+1;j++){
-            dp[0][j]=1;
-        }
-    }else{
-        dp[0][x[0]]=1;
+    int n,k;
+    cin>>n>>k;
+    vector<int>adj[n+1];
+    map<pii,int>edges;
+    fl(i,0,n-1){
+        int u,v,x;
+        cin>>u>>v>>x;
+        adj[u].pb(v);
+        adj[v].pb(u);
+        edges[{u,v}]=x;
+        edges[{v,u}]=x;
     }
-    // cerr<<"yo";
-    for(int i=1;i<n;i++){
-        if(x[i]==0){
-            for(int j=1;j<m+1;j++){
-                int ans=dp[i-1][j];
-                if(j>1){
-                    ans=(ans+dp[i-1][j-1])%MOD;
-                }
-                if(j<m){
-                    ans=(ans+dp[i-1][j+1])%MOD;
-                }
-                dp[i][j]=ans;
-            }
-        }
-        else{
-            int ans=dp[i-1][x[i]];
-            if(x[i]>1){
-                ans=(ans+dp[i-1][x[i]-1])%MOD;
-            }
-            if(x[i]<m){
-                ans=(ans+dp[i-1][x[i]+1])%MOD;
-            }
-            dp[i][x[i]]=ans;
-        }
-    }
-    // _print(dp);
-    int ans=0;
-    for(int i=1;i<m+1;i++){
-        ans=(ans+dp[n-1][i])%MOD;
-    }
-    cout<<ans<<endl;
-    
-    
+    vi vis(n+1,0);
+    ll ans=0;
+    dfs(1,-1,k,adj,vis,ans,edges);
+    ll tot=expo(n,k,MOD);
+    // cerr<<n<<k<<tot<<endl;
+    // cerr<<tot<<" "<<ans<<endl;
+    cout<<(tot-ans+MOD)%MOD<<endl;
 }
 
 
