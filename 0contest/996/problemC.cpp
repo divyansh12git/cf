@@ -92,7 +92,7 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
 bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
-bool isSorted(vector<ll> v) {llfl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
+bool isSorted(vector<ll> v) {fl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
 ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
 void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
 ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
@@ -121,52 +121,70 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
-int get_first_bit(long long n){
-	return 63 - __builtin_clzll(n);
-}
 
-int get_bit_count(long long n){
-	return __builtin_popcountll(n);
-}
-
-int bits(ll n){
-    int ans=0;
-    while(n>0){
-        if(n&1)ans++;
-        n>>=1;
-    }
-    return ans;
-}
-const ll maximal=1e12+1;
-vll fact;
 void solve(){
     //code here...    
-    ll n;
-    cin>>n;
-    
-    
-    // _print(fact);
-    // vpll dp(1LL<<fact.size());
-    // dp[0]={0,0};
-    ll ans=bits(n);
-    int siz=1<<fact.size();
-    // cerr<<ans<<endl;
-    for(int mask=1;mask<(siz);mask++){
-        ll sum=0;
-        ll cnt=0;
-        for(int i=0;i<fact.size();i++){
-            if(mask&(1<<i)){
-                // cerr<<i<<endl;
-                sum+=fact[i];
-                cnt++;
-            }
-        }
-        // cerr<<sum<<endl;
-        if(sum<=n){
-            ans=min(ans,cnt+(bits(n-sum)));
+    int n,m;
+    cin>>n>>m;
+    string path;cin>>path;
+    vvll al(n,vll(m));
+    ll tot=0;
+    fl(i,0,n){
+        fl(j,0,m){
+            cin>>al[i][j];
+            tot+=al[i][j];
         }
     }
-    cout<<ans<<endl;
+    ll s1=0;
+    vll rows(n),cols(m);
+    fl(i,0,n){
+        ll s=0;
+        fl(j,0,m){
+            s+=al[i][j];
+        }
+        rows[i]=s;
+    }
+    fl(i,0,m){
+        ll s=0;
+        fl(j,0,n){
+            s+=al[j][i];
+        }
+        cols[i]=s;
+    }
+    // _print(rows);_print(cols);
+    pii pos={0,0};
+    ll sm=0;
+    ll cnt=0;
+    char l=path[0];
+     ll temp=0;
+    if(path[0]=='D'){
+        temp+=rows[pos.F];
+        pos.F++;
+    }else{
+        temp+=cols[pos.S];
+        pos.S++;
+    }
+    
+    ll x=0;
+    pos={0,0};
+    for(int i=0;i<path.length();i++){
+        // cerr<<pos.F<<" "<<pos.S<<endl;
+        if(path[i]=='D'){
+            al[pos.F][pos.S]=x-rows[pos.F];
+            cols[pos.S]+=al[pos.F][pos.S];
+            pos.F++;
+        }else{
+            al[pos.F][pos.S]=x-cols[pos.S];
+            rows[pos.F]+=al[pos.F][pos.S];
+            pos.S++;
+        }
+    }
+    al[n-1][m-1]=x-cols[m-1];
+    // _print(rows);_print(cols);
+    fl(i,0,n){
+        fl(j,0,m)cout<<al[i][j]<<" ";
+        cout<<endl;
+    }
 
 }
 
@@ -180,12 +198,6 @@ int main(){
             freopen("output.txt","w",stdout);
             freopen("Error.txt", "w", stderr);
         #endif
-    }
-    ll x=4,fc=6;
-    while(fc<=maximal){
-        fact.pb(fc);
-        fc*=x;
-        x++;
     }
     ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
