@@ -124,68 +124,45 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,m;
-    cin>>n>>m;
-    map<int,int>mp;
-    ll maxi=0;
-    ll np=0;
-    fl(i,0,n){
-        ll len;
-        cin>>len;
-        set<ll>temp;
-        fl(i,0,len){
-            ll x;
-            cin>>x;
-            temp.insert(x);
+    string s;
+    cin>>s;
+    ll pos;cin>>pos;pos--;
+    int p1=0;
+    ll len=s.length(),n=s.length();
+    stack<char>st;
+    st.push(s[0]);
+    p1++;
+    while(p1<n){
+        while(p1<n && (st.empty() || st.top()<=s[p1])){
+            st.push(s[p1]);p1++;
         }
-        vll mex;
-        ll p=0;
-        int ind=0;
-        vll v;
-        while(mex.size()!=2){
-            if(temp.find(p)==temp.end()){
-                mex.pb(p);
+        if(p1==n)break;
+        // cerr<<st.top()<<" "<<p1<<endl;
+        if(pos<len){
+            if(pos<st.size()){
+                int ex=st.size()-(pos+1);
+                while(ex--)st.pop();
+                cout<<st.top();
+            }else{
+                pos-=st.size();
+                cout<<s[pos+p1];
             }
-            p++;
-        }
-        
-        // if(mex.size()==1){
-        //     mex.pb(*(--temp.end())+1);
-        // }else if(mex.size()==0){
-        //     mex.pb(*(--temp.end())+1);
-        //     mex.pb(*(--temp.end())+2);
-        // }   
-        // _print(mex);
-        mp[mex[0]]=mex[1];
-        maxi=max({maxi,mex[0],mex.back()});
-        np=max(np,mex[0]);
+            return;
+        }else{
+            st.pop();
+            pos-=len;
+            len--;
+        } 
     }
-    ll ans=0;
-    if(maxi<=m){
-        ans=((m*(m+1))/2)-((maxi*(maxi+1))/2);
+    while(!st.empty() && pos>=st.size()){
+        st.pop();
+        pos-=len;
+        len--;
     }
-    set<ll>st;
-    // _print(mp);cerr<<maxi<<endl;cerr<<ans<<endl<<np<<endl;
-    // fl(i,0,maxi){
-    //     if(st.find(i)!=st.end())continue;
-    //     if(mp.find(i)==mp.end()){
-    //         ans+=maxi;
-    //         continue;
-    //     }
-    //     int cnt=0;
-    //     ll el=i;
-    //     while(mp.find(el)!=mp.end()){
-    //         st.insert(el);
-    //         el=mp[el];
-    //         cnt++;
-    //     }
-    //     cerr<<cnt<<" "<<el<<endl;
-    //     ans+=max({cnt*np,cnt*el,maxi*cnt});
-    // }
-    fl(i,0,min(maxi+1,m+1)){
-        ans+=maxi;
-    }
-    cout<<ans<<endl;
+    int ex=st.size()-(pos+1);
+    while(ex--)st.pop();
+    cout<<st.top();
+
 }
 
 

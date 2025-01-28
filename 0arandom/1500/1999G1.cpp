@@ -119,73 +119,30 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 bool istc=1;
-bool judge=1;
+bool judge=0;
 
+void query(int a,int b){
+    cout<<"? "<<a<<" "<<b<<endl;
+}
 
 void solve(){
     //code here...    
-    ll n,m;
-    cin>>n>>m;
-    map<int,int>mp;
-    ll maxi=0;
-    ll np=0;
-    fl(i,0,n){
-        ll len;
-        cin>>len;
-        set<ll>temp;
-        fl(i,0,len){
-            ll x;
-            cin>>x;
-            temp.insert(x);
+    int l=1;
+    int r=999;
+    int fa=-1;
+    while(l<=r){
+        int mid=(l+r)>>1;
+        query(1,mid);
+        int ans;
+        cin>>ans;
+        if(ans==mid){
+            l=mid+1;
+        }else{
+            r=mid-1;
+            fa=mid;
         }
-        vll mex;
-        ll p=0;
-        int ind=0;
-        vll v;
-        while(mex.size()!=2){
-            if(temp.find(p)==temp.end()){
-                mex.pb(p);
-            }
-            p++;
-        }
-        
-        // if(mex.size()==1){
-        //     mex.pb(*(--temp.end())+1);
-        // }else if(mex.size()==0){
-        //     mex.pb(*(--temp.end())+1);
-        //     mex.pb(*(--temp.end())+2);
-        // }   
-        // _print(mex);
-        mp[mex[0]]=mex[1];
-        maxi=max({maxi,mex[0],mex.back()});
-        np=max(np,mex[0]);
     }
-    ll ans=0;
-    if(maxi<=m){
-        ans=((m*(m+1))/2)-((maxi*(maxi+1))/2);
-    }
-    set<ll>st;
-    // _print(mp);cerr<<maxi<<endl;cerr<<ans<<endl<<np<<endl;
-    // fl(i,0,maxi){
-    //     if(st.find(i)!=st.end())continue;
-    //     if(mp.find(i)==mp.end()){
-    //         ans+=maxi;
-    //         continue;
-    //     }
-    //     int cnt=0;
-    //     ll el=i;
-    //     while(mp.find(el)!=mp.end()){
-    //         st.insert(el);
-    //         el=mp[el];
-    //         cnt++;
-    //     }
-    //     cerr<<cnt<<" "<<el<<endl;
-    //     ans+=max({cnt*np,cnt*el,maxi*cnt});
-    // }
-    fl(i,0,min(maxi+1,m+1)){
-        ans+=maxi;
-    }
-    cout<<ans<<endl;
+    cout<<"! "<<fa<<endl;
 }
 
 

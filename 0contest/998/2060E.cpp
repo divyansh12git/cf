@@ -122,70 +122,87 @@ bool istc=1;
 bool judge=1;
 
 
+
+int findParent(int u,vector<int>&parent){
+    if(parent[u]==u) return u;
+    return parent[u] = findParent(parent[u],parent);
+}
+
+void joinByRank(int u,int v,vector<int>&parent,vector<int>&rankVec){
+    int pu=findParent(u,parent);
+    int pv=findParent(v,parent);
+    if(pu==pv){
+        rankVec[pu]+=1;
+    }else if(rankVec[pu]>rankVec[pv]){
+        parent[pv]=pu;
+        rankVec[pu]++;
+    }else{
+        parent[pu]=pv;
+        rankVec[pv]++;
+    }
+}
+
 void solve(){
     //code here...    
-    ll n,m;
-    cin>>n>>m;
-    map<int,int>mp;
-    ll maxi=0;
-    ll np=0;
-    fl(i,0,n){
-        ll len;
-        cin>>len;
-        set<ll>temp;
-        fl(i,0,len){
-            ll x;
-            cin>>x;
-            temp.insert(x);
+    int n,m1,m2;
+    cin>>n>>m1>>m2;
+    vpii graph1;
+    fl(i,0,m1){
+        int u,v;
+        cin>>u>>v;
+        graph1.pb({u,v});
+    }
+    vector<int>graph2[n+1];
+    fl(i,0,m2){
+        int u,v;
+        cin>>u>>v;
+        graph2[u].pb(v);
+        graph2[v].pb(u);
+    }
+    vi parent(n+1);
+    fl(i,0,n+1)parent[i]=i;
+    vi rankVec(n+1,0);
+    fl(i,1,n+1){
+        for(auto it:graph2[i]){
+            joinByRank(i,it,parent,rankVec);
         }
-        vll mex;
-        ll p=0;
-        int ind=0;
-        vll v;
-        while(mex.size()!=2){
-            if(temp.find(p)==temp.end()){
-                mex.pb(p);
-            }
-            p++;
-        }
-        
-        // if(mex.size()==1){
-        //     mex.pb(*(--temp.end())+1);
-        // }else if(mex.size()==0){
-        //     mex.pb(*(--temp.end())+1);
-        //     mex.pb(*(--temp.end())+2);
-        // }   
-        // _print(mex);
-        mp[mex[0]]=mex[1];
-        maxi=max({maxi,mex[0],mex.back()});
-        np=max(np,mex[0]);
     }
-    ll ans=0;
-    if(maxi<=m){
-        ans=((m*(m+1))/2)-((maxi*(maxi+1))/2);
+    int ans=0;
+    vpii newEdges;
+    fl(i,0,graph1.size()){
+        int p1=findParent(graph1[i].F,parent);
+        int p2=findParent(graph1[i].S,parent);
+        if(p1!=p2){
+            ans++;
+        }else newEdges.pb(graph1[i]);
     }
-    set<ll>st;
-    // _print(mp);cerr<<maxi<<endl;cerr<<ans<<endl<<np<<endl;
-    // fl(i,0,maxi){
-    //     if(st.find(i)!=st.end())continue;
-    //     if(mp.find(i)==mp.end()){
-    //         ans+=maxi;
-    //         continue;
-    //     }
-    //     int cnt=0;
-    //     ll el=i;
-    //     while(mp.find(el)!=mp.end()){
-    //         st.insert(el);
-    //         el=mp[el];
-    //         cnt++;
-    //     }
-    //     cerr<<cnt<<" "<<el<<endl;
-    //     ans+=max({cnt*np,cnt*el,maxi*cnt});
-    // }
-    fl(i,0,min(maxi+1,m+1)){
-        ans+=maxi;
+
+
+    //creating the dsu for first;
+    vi parent1(n+1),rankVec1(n+1,0);
+    fl(i,0,n+1)parent1[i]=i;
+    for(auto it:newEdges){
+        joinByRank(it.F,it.S,parent1,rankVec1);
     }
+    set<int>st1,st2;
+    fl(i,1,n+1){
+        int p1=findParent(i,parent);
+        int p2=findParent(i,parent1);
+        // cerr<<i<<" "<<p1<<" "<<p2<<endl;
+        st1.insert(p1);
+        st2.insert(p2);
+    }
+    // cerr<<ans<<" "<<(set1.size())-(set2.size())<<endl;
+    int x=st1.size();
+    int y=st2.size();
+    // _print(parent1);_print(parent);
+    ans+=abs(x-y);
+
+
+
+
     cout<<ans<<endl;
+
 }
 
 

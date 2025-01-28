@@ -124,68 +124,70 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,m;
-    cin>>n>>m;
-    map<int,int>mp;
-    ll maxi=0;
-    ll np=0;
-    fl(i,0,n){
-        ll len;
-        cin>>len;
-        set<ll>temp;
-        fl(i,0,len){
-            ll x;
-            cin>>x;
-            temp.insert(x);
+    int n;
+    cin>>n;
+    vector<int>adj[n+1];
+    vll deg(n+1);
+    fl(i,0,n-1){
+        int u,v;
+        cin>>u>>v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+        deg[u]++;
+        deg[v]++;
+    }
+    ll ans=0;   
+    multiset<pair<int,int>,greater<pair<int,int>>>mul;
+    vpii vec;
+    fl(i,1,n+1){
+        mul.insert({deg[i],i});
+        vec.pb({deg[i],i});
+    }
+    sort(all(vec));
+    reverse(all(vec));
+    auto it=mul.begin();
+        // _print(vec);
+    
+    if(vec[0].F!=vec[1].F){
+        //1 element
+        mul.erase(vec[0]);
+        for(auto it:adj[vec[0].S]){
+            mul.erase({deg[it],it});
+            deg[it]--;
+            mul.insert({deg[it],it});
         }
-        vll mex;
-        ll p=0;
-        int ind=0;
-        vll v;
-        while(mex.size()!=2){
-            if(temp.find(p)==temp.end()){
-                mex.pb(p);
-            }
-            p++;
+        ans=deg[vec[0].S]+mul.begin()->F-1;
+    }else{
+        for(int i=0;i<vec.size()-1 && vec[i].F==vec[0].F;i++){
+            mul.erase(mul.find({vec[i]}));
+            
+                for(auto it:adj[vec[i].S]){
+                    mul.erase(mul.find({deg[it],it}));
+                    deg[it]--;
+                    mul.insert({deg[it],it});
+                }
+                // for(auto q:mul){
+                //     cerr<<q.F<<" "<<q.S<<endl;
+                // }
+                ans=max(ans,1LL*(vec[i].F+mul.begin()->F-1));
+                for(auto it:adj[vec[i].S]){
+                    mul.erase(mul.find({deg[it],it}));
+                    deg[it]++;
+                    mul.insert({deg[it],it});
+                }
+            mul.insert(vec[i]);
+            // cerr<<ans<<endl;
         }
-        
-        // if(mex.size()==1){
-        //     mex.pb(*(--temp.end())+1);
-        // }else if(mex.size()==0){
-        //     mex.pb(*(--temp.end())+1);
-        //     mex.pb(*(--temp.end())+2);
-        // }   
-        // _print(mex);
-        mp[mex[0]]=mex[1];
-        maxi=max({maxi,mex[0],mex.back()});
-        np=max(np,mex[0]);
+
+
+
     }
-    ll ans=0;
-    if(maxi<=m){
-        ans=((m*(m+1))/2)-((maxi*(maxi+1))/2);
-    }
-    set<ll>st;
-    // _print(mp);cerr<<maxi<<endl;cerr<<ans<<endl<<np<<endl;
-    // fl(i,0,maxi){
-    //     if(st.find(i)!=st.end())continue;
-    //     if(mp.find(i)==mp.end()){
-    //         ans+=maxi;
-    //         continue;
-    //     }
-    //     int cnt=0;
-    //     ll el=i;
-    //     while(mp.find(el)!=mp.end()){
-    //         st.insert(el);
-    //         el=mp[el];
-    //         cnt++;
-    //     }
-    //     cerr<<cnt<<" "<<el<<endl;
-    //     ans+=max({cnt*np,cnt*el,maxi*cnt});
-    // }
-    fl(i,0,min(maxi+1,m+1)){
-        ans+=maxi;
-    }
+    
+    
     cout<<ans<<endl;
+
+
+
 }
 
 

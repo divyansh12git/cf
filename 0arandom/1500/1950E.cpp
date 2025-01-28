@@ -1,18 +1,5 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -124,68 +111,18 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    ll n,m;
-    cin>>n>>m;
-    map<int,int>mp;
-    ll maxi=0;
-    ll np=0;
-    fl(i,0,n){
-        ll len;
-        cin>>len;
-        set<ll>temp;
-        fl(i,0,len){
-            ll x;
-            cin>>x;
-            temp.insert(x);
-        }
-        vll mex;
-        ll p=0;
-        int ind=0;
-        vll v;
-        while(mex.size()!=2){
-            if(temp.find(p)==temp.end()){
-                mex.pb(p);
-            }
-            p++;
-        }
-        
-        // if(mex.size()==1){
-        //     mex.pb(*(--temp.end())+1);
-        // }else if(mex.size()==0){
-        //     mex.pb(*(--temp.end())+1);
-        //     mex.pb(*(--temp.end())+2);
-        // }   
-        // _print(mex);
-        mp[mex[0]]=mex[1];
-        maxi=max({maxi,mex[0],mex.back()});
-        np=max(np,mex[0]);
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    map<char,int>mp;
+    for(auto it:s)mp[it]++;
+    vector<pair<int,char>>v;
+    for(auto it:mp){
+        v.pb({it.S,it.F});
     }
-    ll ans=0;
-    if(maxi<=m){
-        ans=((m*(m+1))/2)-((maxi*(maxi+1))/2);
-    }
-    set<ll>st;
-    // _print(mp);cerr<<maxi<<endl;cerr<<ans<<endl<<np<<endl;
-    // fl(i,0,maxi){
-    //     if(st.find(i)!=st.end())continue;
-    //     if(mp.find(i)==mp.end()){
-    //         ans+=maxi;
-    //         continue;
-    //     }
-    //     int cnt=0;
-    //     ll el=i;
-    //     while(mp.find(el)!=mp.end()){
-    //         st.insert(el);
-    //         el=mp[el];
-    //         cnt++;
-    //     }
-    //     cerr<<cnt<<" "<<el<<endl;
-    //     ans+=max({cnt*np,cnt*el,maxi*cnt});
-    // }
-    fl(i,0,min(maxi+1,m+1)){
-        ans+=maxi;
-    }
-    cout<<ans<<endl;
+    reverse(all(v));
+    
 }
 
 

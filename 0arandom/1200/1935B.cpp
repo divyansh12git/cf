@@ -124,7 +124,51 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    
+    int n;
+    cin>>n;
+    vi a(n);
+    fl(i,0,n)cin>>a[i];
+    // vpii ans;
+    int mex=-1;
+    int p=0;
+    set<int>st;
+    int maxi=*max_element(all(a));
+    map<int,int>mp;
+    fl(i,0,n){
+        mp[a[i]]++;
+        st.insert(a[i]);
+    }
+    int mex1=n+1;
+    fl(i,0,n+1){
+        if(st.find(i)==st.end()){
+            mex1=i;break;
+        }
+    }
+    set<int>st2;
+    int mex2=0;
+    int ans=-1;
+    // cerr<<mex1<<endl;
+    frl(i,n-1,1){
+        mp[a[i]]--;
+        if(a[i]<mex1 && mp[a[i]]==0){
+            mex1=a[i];
+        }
+        st2.insert(a[i]);
+        if(mex2==a[i]){
+            while(st2.find(mex2)!=st2.end())mex2++;
+        }
+        // cerr<<i<<" "<<mex1<<" "<<mex2<<endl;
+        if(mex1==mex2){
+            ans=i;break;
+        }
+    }
+    if(ans!=-1){
+        cout<<2<<endl;
+        cout<<1<<" "<<ans<<endl<<ans+1<<" "<<n<<endl;
+    }
+    else cout<<-1<<endl;
+
+
 }
 
 
