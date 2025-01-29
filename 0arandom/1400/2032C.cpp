@@ -124,7 +124,21 @@ bool judge=1;
 
 void solve(){
     //code here...    
+    int n;
+    cin>>n;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    vsort(a);
+    int ans=n-2;
+    int p1=0,p2=2;
+    while(p2<n){
+        while((p2-p1)>=2 && a[p1]+a[p1+1]<=a[p2])p1++;
+        // cerr<<p1<<" "<<p2<<endl;
+        ans=min(ans,n-(p2-p1+1));
+        p2++;
+    }
     
+    cout<<ans<<endl;
 }
 
 
