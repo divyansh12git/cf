@@ -124,9 +124,12 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    
+    int n,k;
+    cin>>n>>k;
+    string a,b;
+    cin>>a>>b;
+    set<char>diff;
+
 }
 
 
