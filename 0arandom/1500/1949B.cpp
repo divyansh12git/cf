@@ -1,5 +1,18 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-#include<bits/stdc++.h>
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<queue>
+#include<deque>
+#include<stack>
+#include<string.h>
+#include<cmath>
+#include<limits.h>
+#include<algorithm>
+#include<time.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -113,45 +126,22 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    int ans=n;
-    fl(len,1,n+1){
-        if(n%len!=0)continue;
-        bool check=1;
-        bool valid=1;
-        for(int i=0;i<len;i++){
-            // cerr<<len<<" "<<i<<" "<<check<<" "<<valid<<endl; 
-            vi elem(26,0);
-            for(int j=i;j<n;j+=len){
-                elem[s[j]-'a']++;
-            }
-            int gre=0;
-            ll sm=0;
-            fl(i,0,26){
-                gre=max(gre,elem[i]);
-                sm+=elem[i];
-            }
-            // cerr<<gre<<" "<<sm<<endl;
-            if(sm-gre>1){
-                check=0;
-                valid=0;
-                break;
-            }else if(sm-gre==1){
-                if(check)check=0;
-                else {
-                    valid=0;
-                    break;
-                }
-            }
+    vll a(n),b(n);
+    fl(i,0,n)cin>>a[i];
+    fl(i,0,n)cin>>b[i];
+    vsort(b);
+    vsort(a);
+    ll ans=-1e9;
+    fl(gap,0,n){
+        ll mini=1e9;
+        fl(i,0,n){
+            ll diff=abs(a[i]-b[(i+gap)%n]);
+            mini=min(mini,diff);
         }
-        if(valid){
-            ans=len;
-            break;
-        }
+        ans=max(ans,mini);
     }
     cout<<ans<<endl;
-    
+
 }
 
 

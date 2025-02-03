@@ -1,5 +1,18 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-#include<bits/stdc++.h>
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<queue>
+#include<deque>
+#include<stack>
+#include<string.h>
+#include<cmath>
+#include<limits.h>
+#include<algorithm>
+#include<time.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -106,52 +119,33 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 bool istc=1;
-bool judge=1;
+bool judge=0;
 
+void query(int a,int b){
+    cout<<"? "<<a<<" "<<b<<endl;
+}
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    int ans=n;
-    fl(len,1,n+1){
-        if(n%len!=0)continue;
-        bool check=1;
-        bool valid=1;
-        for(int i=0;i<len;i++){
-            // cerr<<len<<" "<<i<<" "<<check<<" "<<valid<<endl; 
-            vi elem(26,0);
-            for(int j=i;j<n;j+=len){
-                elem[s[j]-'a']++;
-            }
-            int gre=0;
-            ll sm=0;
-            fl(i,0,26){
-                gre=max(gre,elem[i]);
-                sm+=elem[i];
-            }
-            // cerr<<gre<<" "<<sm<<endl;
-            if(sm-gre>1){
-                check=0;
-                valid=0;
-                break;
-            }else if(sm-gre==1){
-                if(check)check=0;
-                else {
-                    valid=0;
-                    break;
-                }
-            }
+    int lb=1,ub=1000;
+    ll ans=0;
+    while(ub-lb>1){
+        int mid1=(2*lb+ub)/3;
+        int mid2=(lb+2*ub)/3;
+        query(mid1,mid2);
+        int op;
+        cin>>op;
+        if((mid2+1)*(mid1+1)==op){
+            ub=mid1;
+        }else if((mid1)*(mid2)==op){
+            lb=mid2;
+        }else if((mid1)*(mid2+1)==op){
+            lb=mid1;
+            ub=mid2;
         }
-        if(valid){
-            ans=len;
-            break;
-        }
+        // cout<<lb<<" "<<ub<<endl;
     }
-    cout<<ans<<endl;
-    
+    cout<<"! "<<ub<<endl;
 }
 
 

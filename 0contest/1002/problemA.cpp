@@ -1,4 +1,5 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
+
 #include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
@@ -113,45 +114,23 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    int ans=n;
-    fl(len,1,n+1){
-        if(n%len!=0)continue;
-        bool check=1;
-        bool valid=1;
-        for(int i=0;i<len;i++){
-            // cerr<<len<<" "<<i<<" "<<check<<" "<<valid<<endl; 
-            vi elem(26,0);
-            for(int j=i;j<n;j+=len){
-                elem[s[j]-'a']++;
-            }
-            int gre=0;
-            ll sm=0;
-            fl(i,0,26){
-                gre=max(gre,elem[i]);
-                sm+=elem[i];
-            }
-            // cerr<<gre<<" "<<sm<<endl;
-            if(sm-gre>1){
-                check=0;
-                valid=0;
-                break;
-            }else if(sm-gre==1){
-                if(check)check=0;
-                else {
-                    valid=0;
-                    break;
-                }
-            }
-        }
-        if(valid){
-            ans=len;
-            break;
-        }
+    set<int>st1,st2;
+    fl(i,0,n){
+        int x;
+        cin>>x;
+        st1.insert(x);
     }
-    cout<<ans<<endl;
-    
+    fl(i,0,n){
+        int x;
+        cin>>x;
+        st2.insert(x);
+    }
+    if(st1.size()>2 || st2.size()>2 ){
+        tres(1);
+    }else{
+        if((st1.size()>=2 && st2.size()>=2))tres(1);
+        else tres(0);
+    }
 }
 
 

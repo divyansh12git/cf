@@ -1,5 +1,18 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-#include<bits/stdc++.h>
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<queue>
+#include<deque>
+#include<stack>
+#include<string.h>
+#include<cmath>
+#include<limits.h>
+#include<algorithm>
+#include<time.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -111,47 +124,35 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    int ans=n;
-    fl(len,1,n+1){
-        if(n%len!=0)continue;
-        bool check=1;
-        bool valid=1;
-        for(int i=0;i<len;i++){
-            // cerr<<len<<" "<<i<<" "<<check<<" "<<valid<<endl; 
-            vi elem(26,0);
-            for(int j=i;j<n;j+=len){
-                elem[s[j]-'a']++;
-            }
-            int gre=0;
-            ll sm=0;
-            fl(i,0,26){
-                gre=max(gre,elem[i]);
-                sm+=elem[i];
-            }
-            // cerr<<gre<<" "<<sm<<endl;
-            if(sm-gre>1){
-                check=0;
-                valid=0;
+    ll n,k;
+    cin>>n>>k;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    //check1:
+    ll ex=n-k;
+    int p1=0;
+    while(a[p1]==1)p1++;
+    if(ex==0){
+        p1=1;
+        int ind=1;
+        while(p1<n){
+            if(ind!=a[p1]){
                 break;
-            }else if(sm-gre==1){
-                if(check)check=0;
-                else {
-                    valid=0;
-                    break;
-                }
+            }else{
+                ind++;
+            }
+            p1+=2;
+        }
+        cout<<ind<<endl;
+    }
+    else{
+        for(int i=1;i<=ex+1;i++){
+            if(a[i]!=1){
+                cout<<1<<endl;return;
             }
         }
-        if(valid){
-            ans=len;
-            break;
-        }
+        cout<<2<<endl;
     }
-    cout<<ans<<endl;
-    
 }
 
 

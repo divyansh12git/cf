@@ -1,5 +1,5 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-
+#include<bits/stdc++.h>>
 #include<iostream>
 #include<vector>
 #include<unordered_map>
@@ -121,6 +121,50 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+int findDigits(int k){
+    int tot=0;
+    fl(i,0,31){
+        if(k&(1<<i))tot++;
+    }
+    return tot;
+}
+//using backtracking:
+ll cntans(string a,string b,vi& mark){
+    ll cnt=0;
+    ll sm=0;
+    fl(i,0,a.length()){
+        if(a[i]==b[i] || mark[a[i]-'a']){
+            cnt++;
+        }else{
+            sm+=(cnt*(cnt+1))>>1;
+            cnt=0;
+        }
+    }
+    sm+=(cnt*(cnt+1))>>1;
+    return sm;
+}
+
+void visit(int pos,int cnt,int k, vector<char> &char_list,vi mark,string& a,string & b,ll &ans){
+    if(cnt>k)return ;
+    // cerr<<pos<<" "<<cnt<<endl;
+
+    if(pos==char_list.size()){
+        if(cnt==k){
+            ll temp=cntans(a,b,mark);
+            // _print(mark);
+            ans=max(ans,temp);
+        }
+        return;
+    }
+    visit(pos+1,cnt,k,char_list,mark,a,b,ans);
+    mark[char_list[pos]-'a']=1;
+    visit(pos+1,cnt+1,k,char_list,mark,a,b,ans);
+    mark[char_list[pos]-'a']=0;
+
+}
+
+
+
 
 void solve(){
     //code here...    
@@ -128,8 +172,54 @@ void solve(){
     cin>>n>>k;
     string a,b;
     cin>>a>>b;
-    set<char>diff;
+    set<char>st;
+    fl(i,0,n)st.insert(a[i]);
+    vector<char>uni(all(st));
+    // _print(uni);
+    vector<vector<char>>vec;
+    int need=min(k,int(st.size()));
+    //I need to find all possible combinations of  char set;
+    //using bitmasking
+    for(int i=0;i<(1<<st.size());i++){
+        int digits=findDigits(i);
+        // cerr<<digits<<" - "<<i<<endl;
+        if(digits!=need)continue;
+        vector<char>temp(26,0);
+        fl(j,0,st.size()){
+            if(i&(1<<j)){
+                temp[uni[j]-'a']=1;
+            }
+        }
+        // _print(temp);
+        vec.pb(temp);    
+    }
+    // for(auto it:vec){
+    //     for(auto j:it){
+    //         cerr<<j<<" ";
+    //     }cerr<<endl;
+    // }
+    ll ans=0;
+    for(auto q:vec){
+        ll cnt=0;
+        ll sm=0;
+        fl(i,0,n){
+            if(a[i]==b[i] || q[a[i]-'a']){
+                cnt++;
+            }else{
+                sm+=(cnt*(cnt+1))>>1;
+                cnt=0;
+            }
+        }
+        sm+=(cnt*(cnt+1))>>1;
+        ans=max(ans,sm);
 
+    }
+    // ll ans=0;
+    // vi mark(26,0);
+    // visit(0,0,need,uni,mark,a,b,ans);
+
+    cout<<ans<<endl;
+    
 }
 
 

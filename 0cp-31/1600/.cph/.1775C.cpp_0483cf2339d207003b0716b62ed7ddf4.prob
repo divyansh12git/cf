@@ -1,0 +1,1 @@
+{"name":"Local: 1775C","url":"d:\\vs code\\codeforces\\0cp-31\\1600\\1775C.cpp","tests":[{"id":1738323287722,"input":"5\n10 8\n10 10\n10 42\n20 16\n1000000000000000000 0\n","output":"12\n10\n-1\n24\n1152921504606846976\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cp-31\\1600\\1775C.cpp","group":"local","local":true}

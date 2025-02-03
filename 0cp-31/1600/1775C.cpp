@@ -1,5 +1,18 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-#include<bits/stdc++.h>
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<map>
+#include<set>
+#include<queue>
+#include<deque>
+#include<stack>
+#include<string.h>
+#include<cmath>
+#include<limits.h>
+#include<algorithm>
+#include<time.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -111,47 +124,41 @@ bool judge=1;
 
 void solve(){
     //code here...    
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    int ans=n;
-    fl(len,1,n+1){
-        if(n%len!=0)continue;
-        bool check=1;
-        bool valid=1;
-        for(int i=0;i<len;i++){
-            // cerr<<len<<" "<<i<<" "<<check<<" "<<valid<<endl; 
-            vi elem(26,0);
-            for(int j=i;j<n;j+=len){
-                elem[s[j]-'a']++;
-            }
-            int gre=0;
-            ll sm=0;
-            fl(i,0,26){
-                gre=max(gre,elem[i]);
-                sm+=elem[i];
-            }
-            // cerr<<gre<<" "<<sm<<endl;
-            if(sm-gre>1){
-                check=0;
-                valid=0;
-                break;
-            }else if(sm-gre==1){
-                if(check)check=0;
-                else {
-                    valid=0;
-                    break;
-                }
-            }
+    ll n,x;
+    cin>>n>>x;
+    if(x>n){
+        cout<<-1<<endl;return;
+    }
+    bool ans=1;
+    bool gottcha=0;
+    ll temp=0;
+    for(int i=61;i>=0;i--){
+        bool bit_n=n&(1LL<<i);
+        bool bit_x=x&(1LL<<i);
+        // cerr<<bit_n<<" "<<bit_x<<" "<<temp<<endl;
+        if(gottcha ){
+            if(bit_x==1){ans=0;break;}
+            continue;
         }
-        if(valid){
-            ans=len;
-            break;
+        if(bit_n==bit_x){
+            if(bit_x)temp^=(1LL<<i);
+            continue;
+        }
+        else if(bit_n==0 && bit_x==1){
+            ans=0;break;
+        }else{
+            bool prev_bit=(1LL<<(i+1))&n;
+            if(prev_bit){
+                ans=0;
+                break;
+            }
+            temp^=(1LL<<(i+1));
+            gottcha=1;
         }
     }
-    cout<<ans<<endl;
-    
+    if(!ans){
+        cout<<-1<<endl;
+    }else cout<<temp<<endl;
 }
 
 
