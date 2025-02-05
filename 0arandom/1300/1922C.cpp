@@ -114,25 +114,50 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
-    map<int,int>mp;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    set<pii>closest;
     fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    }
-    ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+        if(i==0){
+            closest.insert({i,i+1});
+        }
+        else if(i==n-1){
+            closest.insert({i,i-1});
+        }else{
+            if(a[i]-a[i-1]>a[i+1]-a[i]){
+                closest.insert({i,i+1});
+            }else{
+                closest.insert({i,i-1});
+            }
+        }
+    } 
+    vll dist1(n,0),dist2(n,0);
+    fl(i,1,n){
+        if(closest.find({i-1,i})!=closest.end()){
+            dist1[i]=dist1[i-1]+1;
+        }else{
+            dist1[i]=dist1[i-1]+(a[i]-a[i-1]);
         }
     }
-    for(auto it:mp)ans+=it.S;
-    cout<<ans<<endl;
+    frl(i,n-2,0){
+        if(closest.find({i+1,i})!=closest.end()){
+            dist2[i]=dist2[i+1]+1;
+        }else{
+            dist2[i]=dist2[i+1]+(a[i+1]-a[i]);
+        }
+    }
+    int q;
+    cin>>q;
+    while(q--){
+        int x,y;
+        cin>>(x)>>(y);x--;y--;
+        if(x<y){
+            cout<<dist1[y]-dist1[x]<<endl;
+        }else{
+            cout<<dist2[y]-dist2[x]<<endl;
+        }
+    }
+
 }
 
 

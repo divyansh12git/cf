@@ -106,33 +106,43 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
-
-void solve(){
+const int MOD=MOD1;
+void divyansh_8(){
     //code here...    
-    int n;
-    cin>>n;
-    vi a(n);
-    map<int,int>mp;
-    fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    }
-    ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+    int n,x;
+    cin>>n>>x;
+    vll h(n),s(n);
+    fl(i,0,n)cin>>h[i];
+    fl(i,0,n)cin>>s[i];
+
+    ll dp[n+1][x+1];
+    //dp[i][j] denotes the maximum no of pages can be buy from 0...i
+    //using j amount of money...
+    //dp[i][j]=max(dp[i-1][j],s[i]+dp[i-1][j-h[i]]);;
+    //
+    for(int i=0;i<n+1;i++){
+        for(int j=0;j<x+1;j++){
+            if(i==0 || j==0){
+                dp[i][j]=0;
+                continue;
+            }
+            //not buy:
+            int op1=dp[i-1][j];
+            //buy:
+            int op2=0;
+            if(j>=h[i]){
+                op2=s[i-1]+dp[i-1][j-h[i-1]];
+            }
+            // cerr<<op1<<" "<<op2<<endl;
+            dp[i][j]=max(op1,op2);
         }
     }
-    for(auto it:mp)ans+=it.S;
-    cout<<ans<<endl;
+    cout<<dp[n][x]<<endl;
+
+
 }
 
 
@@ -146,6 +156,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }

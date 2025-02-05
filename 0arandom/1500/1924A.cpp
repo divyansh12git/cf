@@ -110,29 +110,45 @@ bool istc=1;
 bool judge=1;
 
 
+
 void solve(){
-    //code here...    
-    int n;
-    cin>>n;
-    vi a(n);
-    map<int,int>mp;
-    fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    }
-    ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+    //code here...
+    int n,k,m;
+    cin>>n>>k>>m;
+    string s;
+    cin>>s;
+    vector<bool>vec(k,0);
+    int blocks=0;
+    int cnt=0;
+    string q="";
+    fl(i,0,m){
+        int ind=s[i]-'a';
+        if(ind<k && !vec[ind]){
+            vec[ind]=1;
+            cnt++;
+        }
+        // _print(vec);
+        if(cnt==k){
+            // cerr<<"yp"<<endl;
+            q+=s[i];
+            cnt=0;
+            blocks++;
+            vec.clear();
+            vec.resize(k,0);
         }
     }
-    for(auto it:mp)ans+=it.S;
-    cout<<ans<<endl;
+    // cerr<<blocks<<endl;
+    if(blocks>=n){
+        tres(1);return;
+    }
+    fl(i,0,k){
+        if(!vec[i]){
+            while(q.length()<n)q+=(char)('a'+i);
+        }
+    }
+    tres(0);
+    cout<<q<<endl;
+
 }
 
 

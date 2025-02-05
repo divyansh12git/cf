@@ -110,29 +110,24 @@ bool istc=1;
 bool judge=1;
 
 
-void solve(){
+void divyansh_8(){
     //code here...    
-    int n;
-    cin>>n;
-    vi a(n);
-    map<int,int>mp;
-    fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    }
+    ll a,b,l;
+    cin>>a>>b>>l;
     ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+    ll prod1=1;
+    set<int>st;
+    while(prod1<=l){
+        ll prod2=1;
+        while(prod1*prod2<=l){
+            if(l%(prod1*prod2)==0){
+                st.insert(l/(prod1*prod2));
+            }
+            prod2*=b;
         }
+        prod1*=a;
     }
-    for(auto it:mp)ans+=it.S;
-    cout<<ans<<endl;
+    cout<<st.size()<<endl;
 }
 
 
@@ -146,6 +141,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }

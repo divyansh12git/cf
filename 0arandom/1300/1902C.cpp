@@ -114,24 +114,33 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
-    map<int,int>mp;
-    fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    vll diff;
+    vsort(a);
+    if(n==1){
+        cout<<1<<endl;
+        return;
     }
+    fl(i,1,n){
+        diff.pb(a[i]-a[i-1]);
+    }
+    ll gcd=0;
+    for(auto it:diff)gcd=__gcd(gcd,it);
     ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+    bool doni=0;
+    ll sp=0;
+    frl(i,diff.size()-1,0){
+        if(diff[i]>gcd && !doni){
+            ans+=sp+1;
+            doni=1;
         }
+        sp+=diff[i]/gcd;
+        ans+=sp;
     }
-    for(auto it:mp)ans+=it.S;
+    if(!doni){
+        ans+=sp+1;
+    }
     cout<<ans<<endl;
 }
 

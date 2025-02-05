@@ -1,0 +1,1 @@
+{"name":"Local: random","url":"d:\\vs code\\codeforces\\0cses\\random.cpp","tests":[{"id":1738737222839,"input":"4 10\n4 8 5 3\n5 12 8 1","output":"13\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cses\\random.cpp","group":"local","local":true}

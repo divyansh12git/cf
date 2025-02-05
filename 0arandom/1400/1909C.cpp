@@ -110,28 +110,41 @@ bool istc=1;
 bool judge=1;
 
 
-void solve(){
+void divyansh_8(){
     //code here...    
     int n;
     cin>>n;
-    vi a(n);
-    map<int,int>mp;
+    vll l(n),r(n),c(n);
+    fl(i,0,n)cin>>l[i];
+    fl(i,0,n)cin>>r[i];
+    fl(i,0,n)cin>>c[i];
+    vpll vec;
     fl(i,0,n){
-        cin>>a[i];
-        mp[a[i]]++;
+        vec.pb({l[i],0});
+        vec.pb({r[i],1});
     }
+    vsort(vec);
+    vsort(c);
+    
+    stack<ll>st;
+    int p=n-1;
     ll ans=0;
-    // _print(st);
-    fl(i,0,n){
-        int x=a[i],y=((~a[i])^(1<<31));
-            // cerr<<a[i]<<" "<<(y)<<endl;
-        if(mp.find(x)!=mp.end() && mp.find(y)!=mp.end() && mp[x]>0 && mp[y]>0){
-            ans++;
-            mp[x]--;
-            mp[y]--;
+    vector<ll>diff;
+    for(auto it:vec){
+        // cout<<it.F<<" "<<it.S<<endl;
+        if(it.S==0){
+            st.push(it.F);
+        }else{
+            ll a=st.top();
+            st.pop();
+            ll b=it.F;
+            diff.pb(b-a);
         }
     }
-    for(auto it:mp)ans+=it.S;
+    vsort(diff);
+    fl(i,0,n){
+        ans+=diff[i]*c[n-i-1];
+    }
     cout<<ans<<endl;
 }
 
@@ -146,6 +159,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }
