@@ -1,18 +1,6 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -121,42 +109,51 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+int dfs(int u,vi graph[],vi &vis){
+    // cerr<<u<<endl;
+    vis[u]=1;
+    int si=1;
+    for(auto it:graph[u]){
+        if(!vis[it]){
+            si+=dfs(it,graph,vis);
+        }
+    }
+    return si;
+}
 
-
-void solve(){
+void divyansh_8(){
     //code here...    
     int n;
     cin>>n;
-    vll x(n);
-    fl(i,0,n)cin>>x[i];
-    vll time(n);
-    fl(i,0,n)cin>>time[i];
-    vll bef(n+1,0),aft(n+1,0);
-    ll sm=time[0];
-    bef[0]=sm;
-    fl(i,1,n+1){
-        sm+=(x[i]-x[i-1])*i+time[i];
-        bef[i]=sm;
-    }
-    sm=time.back();
-    aft[n-1]=sm;
-    frl(i,n-2,0){
-        sm+=(x[i+1]-x[i])*(n-i-1)+time[i];
-        aft[i]=sm;
-    }
-    pll ans={1e18,0};
-    fl(i,0,n-1){
-        int l=x[i],r=x[i+1];
+    vi graph[n+1];
+    vi vis(n+1,0);
 
-        while(l<r){
-            int mid=(l+r)>>1;
-            ll cmp1=0
+    bool check=0;
+    fl(i,0,n){
+        int u,v;
+        cin>>u>>v;
+        graph[u].pb(v);
+        graph[v].pb(u);
+        if(u==v || graph[u].size()>2 || graph[v].size()>2){
+            // cerr<<u<<" "<<v<<endl;
+            check=1;
         }
-
-
     }
-
-
+    if(check){
+        tres(0);return;
+    }
+    // _print(graph);
+    // _print(vis);
+    fl(i,1,n+1){
+        if(!vis[i]){
+            int si=dfs(i,graph,vis);
+            if(si&1){
+                tres(0);return;
+            }
+        }
+    }
+    tres(1);
+    
 }
 
 
@@ -170,6 +167,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }

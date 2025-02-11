@@ -1,18 +1,6 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -121,42 +109,43 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+bool custom_greater(vll a,vll b ){
+    int cnt=0;
+    fl(i,0,a.size()){
+        if(a[i]<b[i])cnt++;
+    }
+    return cnt>=3;
+}
 
-
-void solve(){
-    //code here...    
-    int n;
+void divyansh_8(){
+    //code here... 
+    ll n;
     cin>>n;
-    vll x(n);
-    fl(i,0,n)cin>>x[i];
-    vll time(n);
-    fl(i,0,n)cin>>time[i];
-    vll bef(n+1,0),aft(n+1,0);
-    ll sm=time[0];
-    bef[0]=sm;
-    fl(i,1,n+1){
-        sm+=(x[i]-x[i-1])*i+time[i];
-        bef[i]=sm;
-    }
-    sm=time.back();
-    aft[n-1]=sm;
-    frl(i,n-2,0){
-        sm+=(x[i+1]-x[i])*(n-i-1)+time[i];
-        aft[i]=sm;
-    }
-    pll ans={1e18,0};
-    fl(i,0,n-1){
-        int l=x[i],r=x[i+1];
-
-        while(l<r){
-            int mid=(l+r)>>1;
-            ll cmp1=0
+    vvll ranks(n,vll(5));
+    fl(i,0,n){
+        fl(j,0,5){
+            cin>>ranks[i][j];
         }
-
-
+    }   
+    int gold=0;
+    fl(i,1,n){
+        if(custom_greater(ranks[i],ranks[gold])){
+            gold=i;
+        }   
     }
 
-
+    fl(i,0,n){
+        if(i==gold){
+            continue;
+        }
+        if(custom_greater(ranks[i],ranks[gold])){
+            cout<<-1<<endl;return;
+        }
+    }
+    cout<<gold+1<<endl;
+    
+    
+    
 }
 
 
@@ -170,6 +159,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }

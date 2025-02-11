@@ -1,18 +1,6 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -122,40 +110,35 @@ bool istc=1;
 bool judge=1;
 
 
-
-void solve(){
+void divyansh_8(){
     //code here...    
     int n;
     cin>>n;
-    vll x(n);
-    fl(i,0,n)cin>>x[i];
-    vll time(n);
-    fl(i,0,n)cin>>time[i];
-    vll bef(n+1,0),aft(n+1,0);
-    ll sm=time[0];
-    bef[0]=sm;
-    fl(i,1,n+1){
-        sm+=(x[i]-x[i-1])*i+time[i];
-        bef[i]=sm;
-    }
-    sm=time.back();
-    aft[n-1]=sm;
-    frl(i,n-2,0){
-        sm+=(x[i+1]-x[i])*(n-i-1)+time[i];
-        aft[i]=sm;
-    }
-    pll ans={1e18,0};
-    fl(i,0,n-1){
-        int l=x[i],r=x[i+1];
-
-        while(l<r){
-            int mid=(l+r)>>1;
-            ll cmp1=0
+    vi rd(n);
+    fl(i,0,n)cin>>rd[i];
+    if(rd[0]==1){
+        cout<<n+1<<" ";
+        fl(i,0,n)cout<<i+1<<" ";cout<<endl;
+    }else if(rd.back()==0){
+        fl(i,0,n+1)cout<<i+1<<" ";cout<<endl;
+    }else{
+        bool fn=0;
+        fl(i,0,n-1){
+            if(rd[i]==0 && rd[i+1]==1){
+                fn=1;
+                fl(j,0,i+1){
+                    cout<<j+1<<" ";
+                }cout<<n+1<<" ";
+                fl(j,i+1,n){
+                    cout<<j+1<<" ";
+                }cout<<endl;
+                break;
+            }
         }
-
-
+        if(!fn){
+            cout<<-1<<endl;
+        }
     }
-
 
 }
 
@@ -170,6 +153,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }

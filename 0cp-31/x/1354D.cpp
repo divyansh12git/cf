@@ -1,18 +1,6 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -118,45 +106,36 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-bool istc=1;
+bool istc=0;
 bool judge=1;
 
 
-
-void solve(){
+void divyansh_8(){
     //code here...    
-    int n;
-    cin>>n;
-    vll x(n);
-    fl(i,0,n)cin>>x[i];
-    vll time(n);
-    fl(i,0,n)cin>>time[i];
-    vll bef(n+1,0),aft(n+1,0);
-    ll sm=time[0];
-    bef[0]=sm;
-    fl(i,1,n+1){
-        sm+=(x[i]-x[i-1])*i+time[i];
-        bef[i]=sm;
+    int n,q;
+    cin>>n>>q;
+    vi a(n);
+    pbds pst;
+    fl(i,0,n){
+        cin>>a[i];
+        pst.insert(a[i]);
     }
-    sm=time.back();
-    aft[n-1]=sm;
-    frl(i,n-2,0){
-        sm+=(x[i+1]-x[i])*(n-i-1)+time[i];
-        aft[i]=sm;
-    }
-    pll ans={1e18,0};
-    fl(i,0,n-1){
-        int l=x[i],r=x[i+1];
-
-        while(l<r){
-            int mid=(l+r)>>1;
-            ll cmp1=0
+    while(q--){
+        int k;
+        cin>>k;
+        if(k>0){
+            pst.insert(k);
+        }else{
+            if(end(pst)!=pst.find_by_order(abs(k)-1)){
+                pst.erase(*pst.find_by_order(abs(k)-1));
+            }
         }
-
-
     }
-
-
+    if(pst.size()==0){
+        cout<<0<<endl;
+    }else{
+        cout<<*pst.begin()<<endl;
+    }
 }
 
 
@@ -170,6 +149,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
+    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
  
 }
