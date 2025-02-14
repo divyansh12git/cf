@@ -1,0 +1,10 @@
+        Lab-4
+Perform preprocessing of any two datasets and demonstrate the visualization and Transformation.
+
+1. Substitute the missing values class wise using any 3 methods(red).
+2. Perform data balancing using any 3 methods (blue).
+3. Perform data smoothing using any 2 methods(green) .
+4. Compute the statistical measures of the datasets and show them.
+5. Select the important attributes from the datasets using any 2 methods 
+    1. Pearson, chi-square
+    2. Decision Tree(CART)
