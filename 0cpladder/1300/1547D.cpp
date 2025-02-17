@@ -113,27 +113,26 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
-    }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
+    int n;
+    cin>>n;
+    vi x(n);
+    fl(i,0,n)cin>>x[i];
+    vi ans;
+    ans.pb(0);
+    fl(i,0,n-1){
+        int temp=0;
+        fl(bit,0,30){
+            bool b1=((x[i]&(1<<bit)));
+            bool b2=((x[i+1]&(1<<bit)));
+            if(b1 && !b2 ){
+                // cerr<<i<<" "<<bit<<endl;
+                temp^=(1<<bit);
+                x[i+1]^=(1<<bit);
+            }
         }
+        ans.pb(temp);
     }
-    if(p2>=0){
-        tres(0);
-    }
-    else tres(1);
-
+    for(auto & it:ans)cout<<it<<" ";cout<<endl;
 }
 
 

@@ -110,29 +110,48 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+int getMaxiLen(char c, vector<string>& words){
+    priority_queue<pair<int,pii>> pq;
+    // cerr<<c<<endl;
+    for(auto &it:words){
+        int ch=0;
+        int rem=0;
+        fl(i,0,it.length()){
+            if(it[i]==c)ch++;
+            else rem++;
+        }
+        pq.push({ch-rem,{ch,rem}});
+    }
+    int ans=0;
+    int ch=0,rem=0;
+    int cnt=0;
+    while(!pq.empty()){
+        auto f=pq.top();
+        // cerr<<f.F<<" "<<f.S.F<<" "<<f.S.S<<endl;
+        pq.pop();
+        ch+=f.S.F;rem+=f.S.S;
+        // cerr<<ch<<rem<<endl;
+        cnt++;
+        if(ch>rem){
+            ans=cnt;    
+        }
+    }
+    return ans;
+}
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
+    int n;
+    cin>>n;
+    vector<string>words(n);
+    fl(i,0,n)cin>>words[i];
+    
+    int ans=0;
+    fl(i,0,5){
+        ans=max(ans,getMaxiLen('a'+i,words));
     }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
-        }
-    }
-    if(p2>=0){
-        tres(0);
-    }
-    else tres(1);
+    cout<<ans<<endl;
+    
 
 }
 

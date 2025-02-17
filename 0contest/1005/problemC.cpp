@@ -113,27 +113,42 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
-    }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
+    int n;
+    cin>>n;
+    vll a(n);
+    fl(i,0,n)cin>>a[i];
+    ll ans=0;
+    //starting se pos
+    ll sc1=0;
+    fl(i,0,n){
+        if(a[i]>=0)sc1+=a[i];
+        else{
+            ans=max(ans,sc1+abs(a[i]));
         }
     }
-    if(p2>=0){
-        tres(0);
+    int p1=n-1;
+    while(p1>=0){
+        if(a[p1]<0)sc1+=abs(a[p1]);
+        else break;
+        p1--;
     }
-    else tres(1);
-
+    ans=max(ans,sc1);
+    ll sc2=0;
+    frl(i,n-1,0){
+        if(a[i]<0)sc2+=abs(a[i]);
+        else{
+            ans=max(ans,sc2+a[i]);
+        }
+    }
+    p1=0;
+    while(p1<n){
+        if(a[p1]>=0)sc2+=a[p1];
+        else break;
+        p1++;
+    }
+    ans=max(ans,sc2);
+    cout<<ans<<endl;
+    
 }
 
 

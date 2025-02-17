@@ -1,0 +1,1 @@
+{"name":"Local: 1627B","url":"d:\\vs code\\codeforces\\0cpladder\\1300\\1627B.cpp","tests":[{"id":1739618156171,"input":"2\n4 3\n1 2\n","output":"3 3 4 4 4 4 4 4 5 5 5 5 \n1 1 \n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cpladder\\1300\\1627B.cpp","group":"local","local":true}

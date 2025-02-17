@@ -113,27 +113,45 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
+    int n;
+    cin>>n;
+    vll a(n);
+    fl(i,0,n){
+        cin>>a[i];
     }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
+    vll prepos(n+1,0);
+    vll suffneg(n+1,0);
+    fl(i,0,n){
+        prepos[i+1]=prepos[i];
+        if(a[i]>=0)prepos[i+1]+=a[i];
+    }
+    frl(i,n-1,0){
+        suffneg[i]=suffneg[i+1];
+        if(a[i]<0)suffneg[i]+=abs(a[i]);
+    }
+    // _print(prepos);_print(suffneg);
+    ll ans=0;
+    //from initial :
+    ll sc1=0;
+    fl(i,0,n){
+        if(a[i]>=0){
+            sc1+=a[i];
+            ans=max(ans,sc1+suffneg[i]);
+            // debug(i,sc1,suffneg[i]);
         }
     }
-    if(p2>=0){
-        tres(0);
+    ans=max(ans,sc1);
+    //neg from rev:
+    ll sc2=0;
+    frl(i,n-1,0){
+        if(a[i]<0){
+            sc2+=abs(a[i]);
+            ans=max(ans,sc2+prepos[i+1]);
+            // debug(i,sc2,prepos[i+1]);
+        }
     }
-    else tres(1);
-
+    ans=max(ans,sc2);
+    cout<<ans<<endl;
 }
 
 

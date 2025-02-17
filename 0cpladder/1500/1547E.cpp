@@ -1,42 +1,42 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-
+ 
 #include<bits/stdc++.h>
-
+ 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
-
+ 
 using namespace std;
 using namespace __gnu_pbds;
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 #define     F                       first
 #define     S                       second
-
+ 
 #define     INF                     1e18
 #define     PI                      3.141592653589793238462
 #define     MOD1                    1e9+7
 #define     MOD2                    1e9+9
 #define     MOD3                    998244353
-
+ 
 #define     llfl(i,s,e)             for(long long i=s;i<e;i++)
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
 #define     fa(i,z)                 for(auto i:z)
-
+ 
 #define     frl(i,s,e)              for(int i=s;i>=e;i--)
-
+ 
 #define     pb                      push_back
 #define     pf                      push_front
 #define     ppb                     pop_back
-
+ 
 #define     all(x)                  (x).begin(), (x).end()
-
+ 
 #define     vsort(v)                sort(v.begin(),v.end())
 #define     vreverse(v)             reverse(v.begin(),v.end())
-
+ 
 #define     mapit(it,d1,d2,map)     unordered_map<d1,d2>::iterator it=map.begin()
 #define     vecit(it,dt,vec)        vector<dt>:: iterator it=vec.begin();
-
+ 
 typedef long long ll;
 typedef long double lld;
 typedef unsigned long long ull;
@@ -55,29 +55,29 @@ typedef priority_queue<ll> pqmaxll;
 typedef priority_queue<int,vector<int>,greater<int>> pqmin;
 typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key//ordered set
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 void _print(int t) {cerr << t;}
 void _print(string t) {cerr << t;}
 void _print(char t) {cerr << t;}
 void _print(lld t) {cerr << t;}
 void _print(double t) {cerr << t;}
 void _print(ll t) {cerr << t;}
-
+ 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
 template <class T> void _print(set <T> v);
 template <class T, class V> void _print(map <T, V> v);
 template <class T> void _print(multiset <T> v);
-
+ 
 template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
 template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
 bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
 bool isSorted(vector<ll> v) {fl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
@@ -97,49 +97,62 @@ ll mod_inverse(ll a,ll M){return expo(a,M-2,M);}
 // ll ncr(ll n,ll r){if(r>n)return 0;ll numo=fact[n];ll invdeno=(modinv[r]*modinv[n-r])%mod;ll ans=(numo*invdeno)%mod;return ans;}
 ll ncr2(ll n,ll r){if(n<r)return 0;ll ans=1;fl(i,0,r){ans=(ans*(n-i))/(i+1);}return ans;}
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 void debug(){ cerr << " ]" << " " << endl; }
 template<class T,class ...U> void debug(const T&t,const U&... u){cerr<<t; if (sizeof...(u))cerr << ", ";debug(u...); }
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 bool istc=1;
 bool judge=1;
-
-
+ 
+ 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
-    }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
+    int n,k;
+    cin>>n>>k;
+    vi a(k),t(k);
+    fl(i,0,k)cin>>a[i];
+    fl(i,0,k)cin>>t[i];
+    vpii ac;
+    fl(i,0,k)ac.pb({a[i],t[i]});
+    vsort(ac);
+    set<pii>st;
+    // _print(a);_print(t);
+    fl(i,0,k)st.insert({ac[i].S+ac[i].F,ac[i].F});
+    int prev=-1;
+    // for(auto it:st)cerr<<it.F<<" "<<it.S<<" , ";
+    vi ans(n+1);
+    int p=0;
+    // cerr<<n<<endl;
+    fl(i,1,n+1){
+        // cerr<<i<<" ";
+        // cerr<<prev<<endl;
+        if(!st.empty()){
+            if(prev==-1){
+                ans[i]=((st.begin()->F))-i;
+            }
+            else ans[i]=min(prev,((st.begin()->F))-i);
+        }else ans[i]=prev;
+        if(p<ac.size() && i==ac[p].F){
+            st.erase({ac[p].F+ac[p].S,ac[p].F});
+            if(prev!=-1)prev=min(prev,ac[p].S);
+            else prev=ac[p].S;
+            p++;
         }
+        if(prev!=-1)prev++;
     }
-    if(p2>=0){
-        tres(0);
-    }
-    else tres(1);
-
+    fl(i,1,ans.size())cout<<ans[i]<<" ";cout<<endl;
 }
-
-
+ 
+ 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-
+ 
     if(judge){
         #ifndef ONLINE_JUDGE
             freopen("input.txt","r",stdin);

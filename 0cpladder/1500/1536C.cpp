@@ -110,29 +110,25 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+pii getRatio(int a,int b){
+    int gc=__gcd(a,b);
+    return {a/gc,b/gc};
+}
+
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
-    }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
-        }
-    }
-    if(p2>=0){
-        tres(0);
-    }
-    else tres(1);
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    map<pii,int>mp;
+    int d=0,k=0;
+    for(auto c:s){
+        if(c=='D')d++;
+        else k++;
+        cout<<++mp[getRatio(d,k)]<<" ";
+    }cout<<endl;
 
 }
 

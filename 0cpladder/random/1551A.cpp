@@ -113,27 +113,13 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    string s,t;
-    cin>>s>>t;
-    int n=s.length(),m=t.length();
-    if(t.length()>s.length()){
-        tres(0);return;
-    }
-    int p1=n-1,p2=m-1;
-
-    while(p1>=0 && p2>=0){
-        // debug(s[p1],t[p2]);
-        if(s[p1]==t[p2]){
-            p1--;p2--;
-        }else{
-            p1-=2;
-        }
-    }
-    if(p2>=0){
-        tres(0);
-    }
-    else tres(1);
-
+    int n;
+    cin>>n;
+    int c1=0,c2=0;
+    if(n%3==1)c1++;
+    else if(n%3==2) c2++;
+    n-=n%3;
+    cout<<((n/3)+c1)<<" "<<((n/3)+c2)<<endl;
 }
 
 
