@@ -113,38 +113,15 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    int n;
-    cin>>n;
-    vll a(n);
-    set<int>st;
-    fl(i,1,n+1)st.insert(i);
-    vll rem;
-    fl(i,0,n){
-        int x;
-        cin>>x;
-        if(st.find(x)!=st.end()){
-            st.erase(x);    
-        }else{
-            rem.pb(x);
-        }
-    }
-    //i have a rem array which have all the values i can change to make
-    // st values
-    vsort(rem);
-    reverse(all(rem));
-    // _print(rem);
+    ll n,d;
+    cin>>n>>d;
+    vi ans;ans.pb(1);
+    if(n>=3 || d%3==0)ans.pb(3);
+    if(d==5)ans.pb(5);
+    if(n>=3 || d==7){ans.pb(7);}
+    if(n>=6 || d==9 || (d%3==0 && n>=3))ans.pb(9);
+    for(auto it:ans)cout<<it<<" ";cout<<endl;
 
-    for(ll & x:rem){
-        ll elem=*(--st.end());
-        st.erase(elem);
-        // cerr<<elem<<" "<<x<<endl;
-        if(elem>((x-1)/2)){
-            cout<<-1<<endl;return;
-        }
-
-    }
-    cout<<rem.size()<<endl;
-    
 }
 
 

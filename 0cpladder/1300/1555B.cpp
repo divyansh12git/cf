@@ -113,44 +113,28 @@ bool judge=1;
 
 void divyansh_8(){
     //code here...    
-    int wr,hr;
-    cin>>wr>>hr;
-    pii c1,c2;
-    cin>>c1.F>>c1.S>>c2.F>>c2.S;
-    int w,h;
-    cin>>w>>h;
-    int remw=wr-c2.F+c1.F;
-    int remh=hr-c2.S+c1.F;
-    if(remw<w || remh<h){
-        cout<<-1<<endl;return;
+   int wr,hr;
+   cin>>wr>>hr;
+   pii c1,c2;
+   cin>>c1.F>>c1.S>>c2.F>>c2.S;
+   int w,h;
+   cin>>w>>h;
+    //shift up:
+    int versp=hr-(c2.S-c1.S);
+    int horsp=wr-(c2.F-c1.F);
+    int ans=1e9;
+    if(versp>=h){
+        //up:
+        int up=h-c1.S;
+        int dwn=c2.S-(hr-h);
+        ans=min(ans,min(max(0,up),max(0,dwn)));
     }
-    int dist=0;
-    pii mov={1e9,1e9};
-    //x-corrd
-    //side 1:
-    int rx1=wr-c2.F;
-    int reqx1=w-rx1;
-    if(reqx1<=c1.F){
-        mov.F=min(mov.F,max(0,reqx1));
+    if(horsp>=w){
+        int lft=w-c1.F;
+        int rght=c2.F-(wr-w);
+        ans=min(ans,min(max(0,lft),max(0,rght)));
     }
-    //side 2:
-    int reqx2=w-c1.F;
-    if(reqx2<=rx1){
-        mov.F=min(mov.F,max(0,reqx2));
-    }
-    //y-cord:
-    //side 1:
-    int ry1=hr-c2.S;
-    int reqy1=h-ry1;
-    if(reqy1<c1.S){
-        mov.S=min(mov.S,max(0,reqy1));
-    }
-    //side 2:
-    int reqy2=h-c1.S;
-    if(reqy2<=ry1){
-        mov.S=min(mov.S,max(0,reqy2));
-    }
-    cout<<mov.F+mov.S<<endl;
+    cout<<(ans==1e9?-1:ans)<<endl;
 
 }
 

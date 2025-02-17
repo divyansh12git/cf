@@ -110,41 +110,75 @@ void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
 bool istc=1;
 bool judge=1;
 
+pll range(int x,int y,vll a){
+    ll sm=0;
+    pll ran={0,0};
+    fl(i,x,y+1){
+        sm+=a[i];
+        if(sm<0){
+            sm=0;
+        }
+        ran.S=max((ran.S)*1LL,sm);
+    }
+    sm=0;
+    fl(i,x,y+1){
+        sm+=a[i];
+        if(sm>0)sm=0;
+        ran.F=min((ran.F)*1LL,sm);
+    }
+    return ran;
+}
 
 void divyansh_8(){
     //code here...    
-    int n;
+    ll n;
     cin>>n;
     vll a(n);
-    set<int>st;
-    fl(i,1,n+1)st.insert(i);
-    vll rem;
-    fl(i,0,n){
-        int x;
-        cin>>x;
-        if(st.find(x)!=st.end()){
-            st.erase(x);    
-        }else{
-            rem.pb(x);
+    fl(i,0,n)cin>>a[i];
+    set<ll>ans;
+    int p=0;
+    while(p<n && (a[p]==-1 || a[p]==1))p++;
+    if(p<n){
+        pll ran1=range(0,p-1,a);
+        pll ran2=range(p+1,n-1,a);
+        set<ll>left;
+        ll sm=0;
+        int q=p;
+        while(q>=0){
+            sm+=a[q];
+            left.insert(sm);
+            q--;
         }
-    }
-    //i have a rem array which have all the values i can change to make
-    // st values
-    vsort(rem);
-    reverse(all(rem));
-    // _print(rem);
-
-    for(ll & x:rem){
-        ll elem=*(--st.end());
-        st.erase(elem);
-        // cerr<<elem<<" "<<x<<endl;
-        if(elem>((x-1)/2)){
-            cout<<-1<<endl;return;
+        pll r={*left.begin(),*(--left.end())};
+        for(auto & it:left)ans.insert(it);
+        q=p+1;
+        sm=0;
+        pll ranri={0,0};
+        while(q<n){
+            sm+=a[q];
+            ranri.F=min((ranri.F)*1LL,sm);
+            ranri.S=max((ranri.S)*1LL,sm);
+            q++;
         }
-
+        fl(i,ranri.F,ranri.S+1){
+            ans.insert(i+r.F);
+            ans.insert(i+r.S);
+        }
+        // fl(i,0,ranri.S+1){
+        //     ans.insert(i+r.S);
+        //     ans.insert(i+r.F);
+        // }
+        fl(i,min(ran1.F,ran2.F),max(ran1.S,ran2.S)+1)ans.insert(i);
+    }else{
+        pll ran=range(0,n-1,a);
+        cout<<ran.S-ran.F+1<<endl;
+        fl(i,ran.F,ran.S+1)cout<<i<<" ";cout<<endl;
+        return;
     }
-    cout<<rem.size()<<endl;
-    
+    ans.insert(0);
+    // ans.insert(a[p]);
+    cout<<ans.size()<<endl;
+    for(auto & it:ans)cout<<it<<" ";cout<<endl;
 }
 
 

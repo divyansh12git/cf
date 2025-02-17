@@ -1,42 +1,42 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
-
+ 
 #include<bits/stdc++.h>
-
+ 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
-
+ 
 using namespace std;
 using namespace __gnu_pbds;
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 #define     F                       first
 #define     S                       second
-
+ 
 #define     INF                     1e18
 #define     PI                      3.141592653589793238462
 #define     MOD1                    1e9+7
 #define     MOD2                    1e9+9
 #define     MOD3                    998244353
-
+ 
 #define     llfl(i,s,e)             for(long long i=s;i<e;i++)
 #define     fl(i,s,e)               for(int i=s;i<e;i++)
 #define     fa(i,z)                 for(auto i:z)
-
+ 
 #define     frl(i,s,e)              for(int i=s;i>=e;i--)
-
+ 
 #define     pb                      push_back
 #define     pf                      push_front
 #define     ppb                     pop_back
-
+ 
 #define     all(x)                  (x).begin(), (x).end()
-
+ 
 #define     vsort(v)                sort(v.begin(),v.end())
 #define     vreverse(v)             reverse(v.begin(),v.end())
-
+ 
 #define     mapit(it,d1,d2,map)     unordered_map<d1,d2>::iterator it=map.begin()
 #define     vecit(it,dt,vec)        vector<dt>:: iterator it=vec.begin();
-
+ 
 typedef long long ll;
 typedef long double lld;
 typedef unsigned long long ull;
@@ -55,29 +55,29 @@ typedef priority_queue<ll> pqmaxll;
 typedef priority_queue<int,vector<int>,greater<int>> pqmin;
 typedef priority_queue<ll,vector<ll>,greater<ll>> pqminll;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds; // find_by_order, order_of_key//ordered set
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 void _print(int t) {cerr << t;}
 void _print(string t) {cerr << t;}
 void _print(char t) {cerr << t;}
 void _print(lld t) {cerr << t;}
 void _print(double t) {cerr << t;}
 void _print(ll t) {cerr << t;}
-
+ 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
 template <class T> void _print(set <T> v);
 template <class T, class V> void _print(map <T, V> v);
 template <class T> void _print(multiset <T> v);
-
+ 
 template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
 template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 ll gcd(ll a, ll b) {if (b == 0) {return a;}return gcd(b, a % b);} //m
 bool isPrime(ll n) {if (n == 2) return true;if (n < 2) return false;for (int i = 2; i * i <= n; i++)if (n % i == 0) return false;return true;}
 bool isSorted(vector<ll> v) {fl(i,0,v.size() - 1) {if (v[i] > v[i + 1])return 0;}return 1;}
@@ -97,60 +97,77 @@ ll mod_inverse(ll a,ll M){return expo(a,M-2,M);}
 // ll ncr(ll n,ll r){if(r>n)return 0;ll numo=fact[n];ll invdeno=(modinv[r]*modinv[n-r])%mod;ll ans=(numo*invdeno)%mod;return ans;}
 ll ncr2(ll n,ll r){if(n<r)return 0;ll ans=1;fl(i,0,r){ans=(ans*(n-i))/(i+1);}return ans;}
 ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
-void debug(){ cerr << " ]" << " " << endl; }
-template<class T,class ...U> void debug(const T&t,const U&... u){cerr<<t; if (sizeof...(u))cerr << ", ";debug(u...); }
+ 
+void debug(int t=1) {cout << "Case #" << t << ": ";}
 void tres(bool t){ t?cout<<"YES":cout<<"NO";cout<<endl; }
 void alice(bool t=1){t?cout<<"Alice":cout<<"Bob";cout<<endl;}
-
+ 
 /*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
-
+ 
 bool istc=1;
 bool judge=1;
-
-
-void divyansh_8(){
+ 
+ 
+ 
+void solve(){
     //code here...    
     int n;
     cin>>n;
-    vll a(n);
-    set<int>st;
-    fl(i,1,n+1)st.insert(i);
-    vll rem;
+    vll pos(n);
+    vll ti(n);
+    fl(i,0,n)cin>>pos[i];
+    fl(i,0,n)cin>>ti[i];
+    // _print(pos);_print(ti);
+    vpll per;
+    fl(i,0,n)per.pb({pos[i],ti[i]});
+    vsort(per);
+    // for(auto it:per)cout<<it.F<<" "<<it.S<<" , ";cout<<endl;
+    vll pre(n,0);
+    vll suff(n,0);
     fl(i,0,n){
-        int x;
-        cin>>x;
-        if(st.find(x)!=st.end()){
-            st.erase(x);    
+        if(i==0){
+            pre[i]=per[0].S;
         }else{
-            rem.pb(x);
+            pre[i]=max(pre[i-1]+per[i].F-per[i-1].F,(per[i].S)*1LL);
         }
     }
-    //i have a rem array which have all the values i can change to make
-    // st values
-    vsort(rem);
-    reverse(all(rem));
-    // _print(rem);
-
-    for(ll & x:rem){
-        ll elem=*(--st.end());
-        st.erase(elem);
-        // cerr<<elem<<" "<<x<<endl;
-        if(elem>((x-1)/2)){
-            cout<<-1<<endl;return;
+    frl(i,n-1,0){
+        if(i==n-1){
+            suff[i]=per[i].S;
+        }else{
+            suff[i]=max(suff[i+1]+per[i+1].F-per[i].F,(per[i].S)*1LL);
         }
-
     }
-    cout<<rem.size()<<endl;
-    
+    // _print(pre);_print(suff);
+    lld l=per[0].F,r=per.back().F;
+    // cerr<<l<<" "<<r<<endl;
+    while(r-l>=1e-10){
+        lld mid=(l+r)/2;
+        // cerr<<mid<<endl;
+        int p=0;
+        while(p+1<n && per[p+1].F<=mid)p++;
+        // cerr<<p<<endl;
+        lld t1=pre[p]+(mid-per[p].F);
+        lld t2=suff[p+1]+(per[p+1].F-mid);
+        // cerr<<t1<<" "<<t2<<endl;
+        if(t1>=t2){
+            r=mid;
+        }else{
+            l=mid;
+        }
+    }
+    // cout<<std::fixed<<setprecision(6)<<r<<endl;
+    cout<<r<<endl;
+ 
+ 
 }
-
-
+ 
+ 
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-
+ 
     if(judge){
         #ifndef ONLINE_JUDGE
             freopen("input.txt","r",stdin);
@@ -158,6 +175,6 @@ int main(){
             freopen("Error.txt", "w", stderr);
         #endif
     }
-    ll t; if(istc)cin>>t;else t=1; while(t--)divyansh_8();
+    ll t; if(istc)cin>>t;else t=1; while(t--)solve();
  
 }

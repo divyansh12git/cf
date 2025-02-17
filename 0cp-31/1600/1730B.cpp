@@ -1,18 +1,6 @@
 // Author: *   Divyansh Gupta ( divyansh_8 )   *
 
-#include<iostream>
-#include<vector>
-#include<unordered_map>
-#include<map>
-#include<set>
-#include<queue>
-#include<deque>
-#include<stack>
-#include<string.h>
-#include<cmath>
-#include<limits.h>
-#include<algorithm>
-#include<time.h>
+#include<bits/stdc++.h>
 
 #include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
@@ -127,34 +115,35 @@ void solve(){
     //code here...    
     int n;
     cin>>n;
-    vll x(n);
-    fl(i,0,n)cin>>x[i];
-    vll time(n);
-    fl(i,0,n)cin>>time[i];
-    vll bef(n+1,0),aft(n+1,0);
-    ll sm=time[0];
-    bef[0]=sm;
-    fl(i,1,n+1){
-        sm+=(x[i]-x[i-1])*i+time[i];
-        bef[i]=sm;
-    }
-    sm=time.back();
-    aft[n-1]=sm;
-    frl(i,n-2,0){
-        sm+=(x[i+1]-x[i])*(n-i-1)+time[i];
-        aft[i]=sm;
-    }
-    pll ans={1e18,0};
-    fl(i,0,n-1){
-        int l=x[i],r=x[i+1];
-
-        while(l<r){
-            int mid=(l+r)>>1;
-            ll cmp1=0
+    vll pos(n);
+    vll ti(n);
+    fl(i,0,n)cin>>pos[i];
+    fl(i,0,n)cin>>ti[i];
+    lld l=0,r=1e9+7;
+    
+    while(r-l>=1e-6){
+        lld mid=(l+r)/2;
+        pair<lld,lld> ran={0,1e18};
+        fl(i,0,n){
+            if(ti[i]>mid){
+                ran.F=1e18;ran.S=-1e18;
+            }else{
+                ran.F=max(ran.F,pos[i]*1.0-(mid-ti[i]));
+                ran.S=min(ran.S,pos[i]*1.0+(mid-ti[i]));
+            }
         }
-
-
+        if(ran.F<=ran.S){
+            r=mid;
+        }else{
+            l=mid;
+        }
     }
+    pair<lld,lld> ran={0,1e18};
+    fl(i,0,n){
+        ran.F=max(ran.F,pos[i]*1.0-(r-ti[i]));
+        ran.S=min(ran.S,pos[i]*1.0+(r-ti[i]));   
+    }
+    cout<<fixed<<setprecision(6)<<ran.F<<endl;
 
 
 }
