@@ -1,0 +1,1 @@
+{"name":"Local: 2009E","url":"d:\\vs code\\codeforces\\0random-2\\1400\\2009E.cpp","tests":[{"id":1746691222829,"input":"4\n2 2\n7 2\n5 3\n1000000000 1000000000\n","output":"1\n5\n1\n347369930\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0random-2\\1400\\2009E.cpp","group":"local","local":true}

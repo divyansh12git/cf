@@ -1,0 +1,1 @@
+{"name":"Local: 2041B","url":"d:\\vs code\\codeforces\\0random-2\\1200\\2041B.cpp","tests":[{"id":1746550446115,"input":"4\n1 2\n3 2\n3 3\n12 0\n","output":"2\n2\n3\n4\n"},{"id":1746551549757,"input":"1\n2 4","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0random-2\\1200\\2041B.cpp","group":"local","local":true}

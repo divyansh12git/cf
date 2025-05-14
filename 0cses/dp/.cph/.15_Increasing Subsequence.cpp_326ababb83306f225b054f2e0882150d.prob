@@ -1,0 +1,1 @@
+{"name":"Local: 15_Increasing Subsequence","url":"d:\\vs code\\codeforces\\0cses\\dp\\15_Increasing Subsequence.cpp","tests":[{"id":1740291514419,"input":"8\n7 3 5 3 6 2 9 8","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\vs code\\codeforces\\0cses\\dp\\15_Increasing Subsequence.cpp","group":"local","local":true}
